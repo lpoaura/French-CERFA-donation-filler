@@ -1,0 +1,12 @@
+Ce projet a pour finalité de générer et d'envoyer des reçus de dons en utilisant le formulaire cerfa N°11580*04 (https://www.service-public.fr/particuliers/vosdroits/R17454).
+
+Pour fonctionner, ce projet à besoin de:
+- inkscape (pour la conversion svg vers pdf)
+- pdftk (pour la fusion de pdf)
+
+Il vous faudra:
+   - complèter le fichier `data/data.py`;
+   - ajouter un fichier `signature.png`;
+   - mettre en place l'API Gmail depuis le compte qui enverra les mails (voir: https://developers.google.com/gmail/api/quickstart/python?hl=fr).
+
+Il vous sera sans doute nécessaire de modifier le fichier `edit.py` afin de changer le nom des colones du fichier `csv`.
