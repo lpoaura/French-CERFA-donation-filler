@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 i18n %}
+
+{% block title %}Companies List{% endblock %}
+
+{% block content %}
+    <h2 class="m-3">Companies</h2>
+    <a href="{%url 'cerfa_filler:companies-create' %}" >Plus</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Order number</th>
+                <th>Label</th>
+                <th>Legal Status</th>
+                <th>Postal Code</th>
+                <th>Total donation</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for company in companies %}
+            <tr>
+                <td>{{ company.year }}</td>
+                <td>{{ company.order_number }}</td>
+                <td>{{ company.label }}</td>
+                <td>{{ company.get_legal_status_display }}</td>
+                <td>{{ company.postal_code }}</td>
+                <td>{{ company.total_donation }} €</td>
+                <td>
+                    <a href="{% url 'cerfa_filler:companies-update' company.uuid %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'cerfa_filler:companies-cerfa-pdf' company.uuid %}" class="btn btn-success">Cerfa</a>
+                    <button class="btn btn-info" onclick="downloadAndEmail('{{ company.label }}', '{% url 'cerfa_filler:companies-cerfa-pdf' company.uuid %}')">Download & Email</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a id="mailtoLink"  class="btn btn-info" href="#" style="display:none;">Send Email</a>
+
+    <script>
+        function downloadAndEmail(companyLabel, pdfUrl) {
+            const fileName = `${companyLabel}.pdf`;
+
+            fetch(pdfUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = fileName;
+                    link.click();
+
+                    // Create mailto link
+                    const mailtoLink = document.getElementById('mailtoLink');
+                    mailtoLink.href = `mailto:example@example.com?subject=Document for ${companyLabel}&body=Please find the attached document for ${companyLabel}.`;
+                    mailtoLink.style.display = 'inline';
+                })
+                .catch(error => console.error('Error downloading the file:', error));
+        }
+    </script>
+{% endblock %}

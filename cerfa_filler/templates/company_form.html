@@ -1,0 +1,23 @@
+<!-- company_form.html -->
+{% extends 'base.html' %}
+{% load django_bootstrap5 i18n %}
+
+{% block title %}{% if object %}Edit{% else %}Create{% endif %} Company{% endblock %}
+
+{% block content %}
+    <h2 class="m-3">{% if object %}{% translate 'Edit' %}{% else %}{% translate 'Create' %}{% endif %} Company</h2>
+    <div class="container">
+    {% bootstrap_messages %}
+    <form method="post">
+        {% csrf_token %}
+
+    {% bootstrap_form form %}
+
+    {% bootstrap_button button_type="submit" content="OK" %}
+        {% comment %} <button type="submit" class="btn btn-success">Save</button> {% endcomment %}
+        <a href="{% url 'cerfa_filler:companies-list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+    <div class="container-fluid">
+
+    </div>
+{% endblock %}

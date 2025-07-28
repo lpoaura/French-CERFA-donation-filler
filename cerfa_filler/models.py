@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils.timezone import now
 from num2words import num2words
-from datetime import datetime
 from uuid import uuid4
 
 # Create your models here.
@@ -14,7 +14,7 @@ LEGAL_STATUSES = {
 }
 
 PAYMENT = {
-    "Cash": _("Cahs"),
+    "Cash": _("Cash"),
     "Cheque": _("Cheque"),
     "Bank transfer": _("Bank transfer"),
     "Other": _("Other"),
@@ -22,9 +22,18 @@ PAYMENT = {
 
 
 class Companies(models.Model):
-    uuid = models.UUIDField(default=uuid4())
+    uuid = models.UUIDField(default=uuid4(), unique=True, primary_key=True)
+    order = models.IntegerField(
+        verbose_name=_("Order number"),
+        max_length=50,
+        editable=False,
+        blank=True,
+        null=True,
+    )
     label = models.CharField(max_length=200, verbose_name=_("Label"))
-    legal_status = models.CharField(models.CharField, choices=LEGAL_STATUSES)
+    legal_status = models.CharField(
+        choices=LEGAL_STATUSES, verbose_name=_("Legal status")
+    )
     repository_code = models.CharField(max_length=20, verbose_name=_("repository_code"))
     street_number = models.CharField(
         max_length=20, verbose_name=_("Street number"), blank=True, null=True
@@ -52,8 +61,8 @@ class Companies(models.Model):
         null=True,
     )
     cash_payment_type = models.CharField(choices=PAYMENT, blank=True, null=True)
-    date_start = models.DateField(default=datetime.now())
-    end_date = models.DateField(default=datetime.now())
+    date_start = models.DateField(default=now)
+    end_date = models.DateField(default=now, null=True, blank=True)
     export_date = models.DateField(null=True, blank=True)
     # cerfa_file = models.FileField(upload_to='exports')
 
@@ -77,6 +86,25 @@ class Companies(models.Model):
     def total_donation(self):
         return (self.inkind_donation or 0) + (self.cash_donation or 0)
 
+    @property
+    def year(self):
+        return self.date_start.year
+    
+    @property
+    def order_number(self):
+        return f'{self.year}-PM-{self.order}'
+
     def __str__(self):
         return f"{self.label} - {self.date_start} - {self.total_donation}"
+    
+    def save(self, *args, **kwargs):
+        if not self.order:
+            latest_record= Companies.objects.filter(date_start__year = self.year).order_by('order').last()
+            self.order = latest_record.order+1 if latest_record else 1
+        if not self.end_date:
+            self.end_date= self.date_start.replace(month=12, day=31)
+        super().save(*args, **kwargs)
 
+    class Meta:
+        verbose_name = _("Company")
+        verbose_name_plural = _("Companies")

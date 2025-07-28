@@ -1,0 +1,78 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-28 08:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: cerfa_filler/models.py:13
+msgid "Association"
+msgstr ""
+
+#: cerfa_filler/models.py:14
+msgid "Individual company"
+msgstr "Entreprise individuelle"
+
+#: cerfa_filler/models.py:18
+msgid "Cash"
+msgstr "Espèce"
+
+#: cerfa_filler/models.py:19
+msgid "Cheque"
+msgstr "Chèque"
+
+#: cerfa_filler/models.py:20
+msgid "Bank transfer"
+msgstr "Virement bancaire"
+
+#: cerfa_filler/models.py:21
+msgid "Other"
+msgstr "Autre"
+
+#: cerfa_filler/models.py:27
+msgid "Label"
+msgstr "Nom"
+
+#: cerfa_filler/models.py:29
+msgid "Legal status"
+msgstr "Statut légal"
+
+#: cerfa_filler/models.py:31
+msgid "repository_code"
+msgstr "SIRET"
+
+#: cerfa_filler/models.py:33
+msgid "Street number"
+msgstr "Numéro"
+
+#: cerfa_filler/models.py:36
+msgid "Street"
+msgstr "Rue"
+
+#: cerfa_filler/models.py:38
+msgid "Postal code"
+msgstr "Code postal"
+
+#: cerfa_filler/models.py:39
+msgid "Municipality"
+msgstr "Commune"
+
+#: cerfa_filler/models.py:43
+msgid "In-kind Donation"
+msgstr "Don en nature"
+
+#: cerfa_filler/models.py:53
+msgid "Cash Donation"
+msgstr "Don en numéraire"
