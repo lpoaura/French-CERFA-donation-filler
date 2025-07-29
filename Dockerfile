@@ -11,7 +11,7 @@ ENV PYTHONUNBUFFERED=1
 
 # Install pip requirements
 RUN apt-get update && apt-get install -y \
-    gettext libpq-dev gcc && \
+    gettext libpq-dev gcc weasyprint && \
     apt-get clean autoclean && \
     apt-get autoremove --yes && \
     rm -rf /var/lib/{apt,dpkg,cache,log}/

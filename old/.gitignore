@@ -1,8 +1,0 @@
-signature.png
-mails/client_secret_*
-data/data.py
-__pycache__/
-*.csv
-*~
-venv/
-*.json
