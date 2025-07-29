@@ -1,20 +1,24 @@
 from django.contrib import admin
-from .models import Companies
+from .models import Companies, BeneficiaryOrganization
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
+
 
 # Register your models here.
 
 
-class BookResource(resources.ModelResource):
+class CompaniesResource(resources.ModelResource):
 
     class Meta:
         model = Companies
 
-@admin.register(Companies)
-class BookAdmin(ImportExportModelAdmin):
-    resource_classes = [BookResource]
 
-# admin.site.register(Companies, admin.ModelAdmin)
+admin.site.register(BeneficiaryOrganization, admin.ModelAdmin)
+
+@admin.register(Companies)
+class CompaniesAdmin(ImportExportModelAdmin):
+    resource_classes = [CompaniesResource]
+
+
 
 

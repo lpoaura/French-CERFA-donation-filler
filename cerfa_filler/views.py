@@ -1,18 +1,21 @@
 from django.views.generic import DetailView
 from django.template.loader import render_to_string
 from django.http import HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from weasyprint import HTML
 from pypdf import PdfReader, PdfWriter
 import io
 from django.views.generic import ListView, CreateView, UpdateView, TemplateView
 from django.urls import reverse_lazy
-from .models import Companies
+from .models import Companies, BeneficiaryOrganization
 from .forms import CompaniesForm
 
 from .models import Companies
 
+
 class Home(TemplateView):
-    template_name= 'home.html'
+    template_name = "home.html"
+
 
 class CompaniesCerfa(DetailView):
     template_name = "companies_cerfa.svg"
@@ -25,7 +28,8 @@ class CompaniesCerfaToPdf(DetailView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        context = self.get_context_data(object=self.object)
+        company = BeneficiaryOrganization.objects.first()
+        context = self.get_context_data(object=self.object, company=company)
 
         # Generate PDF files from SVG templates
         pdfs = []
@@ -45,9 +49,10 @@ class CompaniesCerfaToPdf(DetailView):
             for page in reader.pages:
                 writer.add_page(page)
 
+        filename = f"recu_fiscal_don-{self.object.order_number}.pdf"
         # Create a response with the merged PDF
         response = HttpResponse(content_type="application/pdf")
-        response["Content-Disposition"] = 'attachment; filename="output.pdf"'
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
 
         # Write the merged PDF to the response
         output_pdf = io.BytesIO()  # Create a BytesIO object for the output
@@ -62,20 +67,21 @@ class CompaniesCerfaToPdf(DetailView):
 # views.py
 
 
-class CompaniesListView(ListView):
+class CompaniesListView(LoginRequiredMixin, ListView):
     model = Companies
-    template_name = 'company_list.html'
-    context_object_name = 'companies'
+    template_name = "company_list.html"
+    context_object_name = "companies"
 
 
-class CompaniesCreateView(CreateView):
-    model = Companies
-    form_class = CompaniesForm
-    template_name = 'company_form.html'
-    success_url = reverse_lazy('cerfa_filler:companies-list')
-
-class CompaniesUpdateView(UpdateView):
+class CompaniesCreateView(LoginRequiredMixin, CreateView):
     model = Companies
     form_class = CompaniesForm
-    template_name = 'company_form.html'
-    success_url = reverse_lazy('cerfa_filler:companies-list') 
+    template_name = "company_form.html"
+    success_url = reverse_lazy("cerfa_filler:companies-list")
+
+
+class CompaniesUpdateView(LoginRequiredMixin, UpdateView):
+    model = Companies
+    form_class = CompaniesForm
+    template_name = "company_form.html"
+    success_url = reverse_lazy("cerfa_filler:companies-list")

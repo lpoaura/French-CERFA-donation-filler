@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-28 08:34+0000\n"
+"POT-Creation-Date: 2025-07-29 14:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,62 +17,195 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-#: cerfa_filler/models.py:13
-msgid "Association"
-msgstr ""
 
-#: cerfa_filler/models.py:14
+#: cerfa_filler/forms.py:17
+msgid "Start date"
+msgstr "Date de début"
+
+#: cerfa_filler/forms.py:18
+msgid "End date"
+msgstr "Date de fin"
+
+#: cerfa_filler/models.py:15
+msgid "Association"
+msgstr "Association"
+
+#: cerfa_filler/models.py:16
 msgid "Individual company"
 msgstr "Entreprise individuelle"
 
-#: cerfa_filler/models.py:18
+#: cerfa_filler/models.py:20
 msgid "Cash"
 msgstr "Espèce"
 
-#: cerfa_filler/models.py:19
+#: cerfa_filler/models.py:21
 msgid "Cheque"
 msgstr "Chèque"
 
-#: cerfa_filler/models.py:20
+#: cerfa_filler/models.py:22
 msgid "Bank transfer"
 msgstr "Virement bancaire"
 
-#: cerfa_filler/models.py:21
+#: cerfa_filler/models.py:23
 msgid "Other"
 msgstr "Autre"
 
-#: cerfa_filler/models.py:27
+#: cerfa_filler/models.py:29 cerfa_filler/templates/company_list.html:25
 msgid "Label"
 msgstr "Nom"
 
-#: cerfa_filler/models.py:29
+#: cerfa_filler/models.py:32
 msgid "Legal status"
 msgstr "Statut légal"
 
-#: cerfa_filler/models.py:31
-msgid "repository_code"
+#: cerfa_filler/models.py:34
+#, fuzzy
+#| msgid "repository_code"
+msgid "Repository code"
 msgstr "SIRET"
 
-#: cerfa_filler/models.py:33
+#: cerfa_filler/models.py:36
+msgid "Additional address"
+msgstr ""
+
+#: cerfa_filler/models.py:39
 msgid "Street number"
 msgstr "Numéro"
 
-#: cerfa_filler/models.py:36
+#: cerfa_filler/models.py:42
 msgid "Street"
 msgstr "Rue"
 
-#: cerfa_filler/models.py:38
+#: cerfa_filler/models.py:44
 msgid "Postal code"
 msgstr "Code postal"
 
-#: cerfa_filler/models.py:39
+#: cerfa_filler/models.py:45
 msgid "Municipality"
 msgstr "Commune"
 
-#: cerfa_filler/models.py:43
+#: cerfa_filler/models.py:53
+msgid "Object"
+msgstr ""
+
+#: cerfa_filler/models.py:57 cerfa_filler/models.py:58
+msgid "Beneficiary organization"
+msgstr ""
+
+#: cerfa_filler/models.py:66 cerfa_filler/templates/company_list.html:24
+#, fuzzy
+#| msgid "Street number"
+msgid "Order number"
+msgstr "Numéro"
+
+#: cerfa_filler/models.py:74
 msgid "In-kind Donation"
 msgstr "Don en nature"
 
-#: cerfa_filler/models.py:53
+#: cerfa_filler/models.py:82
+#, fuzzy
+#| msgid "In-kind Donation"
+msgid "In-kind Donation description"
+msgstr "Don en nature"
+
+#: cerfa_filler/models.py:87
 msgid "Cash Donation"
 msgstr "Don en numéraire"
+
+#: cerfa_filler/models.py:92
+msgid "Cash payment type"
+msgstr ""
+
+#: cerfa_filler/models.py:94
+msgid "Date initiale du don"
+msgstr ""
+
+#: cerfa_filler/models.py:95
+msgid "Date de fin"
+msgstr ""
+
+#: cerfa_filler/models.py:96
+msgid "Valide"
+msgstr ""
+
+#: cerfa_filler/models.py:154
+msgid "Company"
+msgstr "Personne morale"
+
+#: cerfa_filler/models.py:155 cerfa_filler/templates/company_list.html:14
+#: cerfa_filler/templates/home.html:16
+msgid "Companies"
+msgstr "Personnes morales"
+
+#: cerfa_filler/templates/base.html:14 cerfa_filler/templates/base.html:19
+#: cerfa_filler/templates/home.html:10
+msgid "Cerfa filler"
+msgstr "Générateur de CERFA"
+
+#: cerfa_filler/templates/company_form.html:9
+msgid "Edit"
+msgstr "Editer"
+
+#: cerfa_filler/templates/company_form.html:9
+msgid "Create"
+msgstr "Créer"
+
+#: cerfa_filler/templates/company_list.html:23
+msgid "Year"
+msgstr "Année"
+
+#: cerfa_filler/templates/company_list.html:26
+#, fuzzy
+#| msgid "Legal status"
+msgid "Legal Status"
+msgstr "Statut légal"
+
+#: cerfa_filler/templates/company_list.html:27
+#, fuzzy
+#| msgid "Postal code"
+msgid "Postal Code"
+msgstr "Code postal"
+
+#: cerfa_filler/templates/company_list.html:28
+#, fuzzy
+#| msgid "Cash Donation"
+msgid "Total donation"
+msgstr "Don en numéraire"
+
+#: cerfa_filler/templates/company_list.html:29
+msgid "Status"
+msgstr "Validation"
+
+#: cerfa_filler/templates/company_list.html:30
+#, fuzzy
+#| msgid "Association"
+msgid "Actions"
+msgstr "Association"
+
+#: cerfa_filler/templates/company_list.html:60
+msgid "`Tax receipt for your donation`"
+msgstr "`Votre reçu fiscal de donation`"
+
+#: cerfa_filler/templates/company_list.html:61
+#, python-brace-format
+msgid ""
+"`Hello,\\nPlease find below a link to download your tax receipt for your "
+"donation.\\n${formattedPdfUrl}`"
+msgstr "`Bonjour,\\nVeuillez trouver ci-dessous un lien de téléchargement de votre "
+"reçu fiscal pour votre don.\\n${formattedPdfUrl}`"
+
+#: cerfa_filler/templates/home.html:17
+msgid "Companies List"
+msgstr "Liste des personnes morales"
+
+#: cerfa_filler/templates/home.html:25
+#, fuzzy
+#| msgid "Individual company"
+msgid "Individuals"
+msgstr "Entreprise individuelle"
+
+#: cerfa_filler/templates/home.html:26
+#, fuzzy
+#| msgid "Individual company"
+msgid "Individuals List"
+msgstr "Entreprise individuelle"

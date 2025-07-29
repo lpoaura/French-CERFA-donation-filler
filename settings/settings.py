@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from import_export.formats.base_formats import CSV, XLSX
-
+from decouple import Csv, config
+from dj_database_url import parse as db_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,13 +23,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-8ge&8xlof1xfjkz&_6%=6bcxz4coc4efugax-79-+&=d5(pm@p"
+SECRET_KEY = config('DJ_SECRET_KEY')
+
+#"django-insecure-8ge&8xlof1xfjkz&_6%=6bcxz4coc4efugax-79-+&=d5(pm@p"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DJ_DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('DJ_ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
 
+SITE = config('DJ_SITE')
+SITE_NAME = config("DJ_SITE_NAME", default="Bus scolaire de Chazeaux")
 
 # Application definition
 
@@ -44,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 INSTALLED_APPS += [
+    'accounts',
     "cerfa_filler",
 ]
 
@@ -81,11 +87,11 @@ WSGI_APPLICATION = "settings.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": config(
+        "DATABASE_URL", default="sqlite:///db.sqlite3", cast=db_url
+    )
 }
+
 
 
 # Password validation
@@ -110,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "fr-FR"
 
 TIME_ZONE = "UTC"
 
@@ -131,3 +137,26 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 IMPORT_EXPORT_FORMATS = [XLSX, CSV]
+
+LOGIN_URL = "accounts:login"
+LOGIN_REDIRECT_URL = "cerfa_filler:home"
+LOGOUT_REDIRECT_URL = LOGIN_URL
+
+# if not DEBUG:
+# SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = config(
+    "CSRF_TRUSTED_ORIGINS", default="http://127.0.0.1:8000", cast=Csv()
+)
+
+
+EMAIL_HOST = config("EMAIL_HOST", default="localhost")
+EMAIL_USE_SSL = config("EMAIL_USE_SSL", default=False, cast=bool)
+EMAIL_PORT = config("EMAIL_PORT", default=587, cast=int)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="emaileuser")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="emailpassword")
+EMAIL_SUBJECT_PREFIX = config("EMAIL_SUBJECT_PREFIX", default=SITE_NAME)
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=EMAIL_HOST_USER)
+SERVER_EMAIL = config("SERVER_EMAIL", default=EMAIL_HOST_USER)
+PDF_EMAILS = config("PDF_EMAILS", default=EMAIL_HOST_USER, cast=Csv())
+

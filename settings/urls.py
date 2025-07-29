@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
+from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include("cerfa_filler.urls"))
+    path('', include('accounts.urls', namespace='accounts')),
+    path('donation/',include("cerfa_filler.urls"))
 ]

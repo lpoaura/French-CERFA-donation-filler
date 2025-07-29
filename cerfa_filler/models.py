@@ -3,6 +3,9 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.timezone import now
 from num2words import num2words
 from uuid import uuid4
+from django.urls import reverse
+import urllib.parse
+from django.conf import settings
 
 # Create your models here.
 
@@ -21,20 +24,17 @@ PAYMENT = {
 }
 
 
-class Companies(models.Model):
+class BaseOrganization(models.Model):
     uuid = models.UUIDField(default=uuid4(), unique=True, primary_key=True)
-    order = models.IntegerField(
-        verbose_name=_("Order number"),
-        max_length=50,
-        editable=False,
-        blank=True,
-        null=True,
-    )
     label = models.CharField(max_length=200, verbose_name=_("Label"))
+    email = models.EmailField()
     legal_status = models.CharField(
         choices=LEGAL_STATUSES, verbose_name=_("Legal status")
     )
-    repository_code = models.CharField(max_length=20, verbose_name=_("repository_code"))
+    repository_code = models.CharField(max_length=20, verbose_name=_("Repository code"))
+    additional_address = models.CharField(
+        max_length=200, verbose_name=_("Additional address"), blank=True, null=True
+    )
     street_number = models.CharField(
         max_length=20, verbose_name=_("Street number"), blank=True, null=True
     )
@@ -43,6 +43,31 @@ class Companies(models.Model):
     )
     postal_code = models.CharField(max_length=10, verbose_name=_("Postal code"))
     municipality = models.CharField(max_length=200, verbose_name=_("Municipality"))
+
+    class Meta:
+        abstract = True
+
+
+class BeneficiaryOrganization(BaseOrganization):
+    object_description = models.CharField(
+        max_length=200, verbose_name=_("Object"), default="", blank=True
+    )
+
+    class Meta:
+        verbose_name = _("Beneficiary organization")
+        verbose_name_plural = _("Beneficiary organization")
+
+    def __str__(self):
+        return self.label
+
+
+class Companies(BaseOrganization):
+    order = models.IntegerField(
+        verbose_name=_("Order number"),
+        editable=False,
+        blank=True,
+        null=True,
+    )
     inkind_donation = models.DecimalField(
         max_digits=12,
         decimal_places=2,
@@ -51,7 +76,10 @@ class Companies(models.Model):
         null=True,
     )
     inkind_donation_description = models.TextField(
-        max_length=500, blank=True, default=""
+        max_length=500,
+        blank=True,
+        default="",
+        verbose_name=_("In-kind Donation description"),
     )
     cash_donation = models.DecimalField(
         max_digits=12,
@@ -60,10 +88,13 @@ class Companies(models.Model):
         blank=True,
         null=True,
     )
-    cash_payment_type = models.CharField(choices=PAYMENT, blank=True, null=True)
-    date_start = models.DateField(default=now)
-    end_date = models.DateField(default=now, null=True, blank=True)
-    export_date = models.DateField(null=True, blank=True)
+    cash_payment_type = models.CharField(
+        choices=PAYMENT, blank=True, null=True, verbose_name=_("Cash payment type")
+    )
+    date_start = models.DateField(default=now, verbose_name=_("Date initiale du don"))
+    date_end = models.DateField(null=True, blank=True, verbose_name=_("Date de fin"))
+    valid = models.BooleanField(default=False, verbose_name=_("Valide"))
+    # export_date = models.DateField(null=True, blank=True, verbose_name=_("Date d'export"))
     # cerfa_file = models.FileField(upload_to='exports')
 
     @property
@@ -89,20 +120,34 @@ class Companies(models.Model):
     @property
     def year(self):
         return self.date_start.year
-    
+
     @property
     def order_number(self):
-        return f'{self.year}-PM-{self.order}'
+        return f"{self.year}-PM-{self.order}"
+
+    @property
+    def mailto(self):
+        formattedUrl = settings.SITE + reverse(
+            "cerfa_filler:companies-cerfa-pdf", kwargs={"pk": self.uuid}
+        )
+        formattedBody = f"Hello,\n\nPlease find below a link to download your tax receipt for your donation.\n\n{formattedUrl}\n\nSincerely"
+        formattedSubject = "Tax receipt for your donation"
+        mailto = f"mailto:{self.email}?subject={formattedSubject}&body={urllib.parse.quote(formattedBody)}"
+        return mailto
 
     def __str__(self):
         return f"{self.label} - {self.date_start} - {self.total_donation}"
-    
+
     def save(self, *args, **kwargs):
         if not self.order:
-            latest_record= Companies.objects.filter(date_start__year = self.year).order_by('order').last()
-            self.order = latest_record.order+1 if latest_record else 1
+            latest_record = (
+                Companies.objects.filter(date_start__year=self.year)
+                .order_by("order")
+                .last()
+            )
+            self.order = latest_record.order + 1 if latest_record else 1
         if not self.end_date:
-            self.end_date= self.date_start.replace(month=12, day=31)
+            self.end_date = self.date_start.replace(month=12, day=31)
         super().save(*args, **kwargs)
 
     class Meta:

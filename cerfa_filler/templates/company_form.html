@@ -5,8 +5,9 @@
 {% block title %}{% if object %}Edit{% else %}Create{% endif %} Company{% endblock %}
 
 {% block content %}
-    <h2 class="m-3">{% if object %}{% translate 'Edit' %}{% else %}{% translate 'Create' %}{% endif %} Company</h2>
-    <div class="container">
+<div class="container">
+    <h2>{% if object %}{% translate 'Edit' %}{% else %}{% translate 'Create' %}{% endif %} Company</h2>
+    
     {% bootstrap_messages %}
     <form method="post">
         {% csrf_token %}
@@ -17,7 +18,5 @@
         {% comment %} <button type="submit" class="btn btn-success">Save</button> {% endcomment %}
         <a href="{% url 'cerfa_filler:companies-list' %}" class="btn btn-secondary">Cancel</a>
     </form>
-    <div class="container-fluid">
 
-    </div>
 {% endblock %}
