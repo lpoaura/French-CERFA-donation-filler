@@ -24,19 +24,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config("DJ_SECRET_KEY")
+SECRET_KEY = config("SECRET_KEY")
 
 # "django-insecure-8ge&8xlof1xfjkz&_6%=6bcxz4coc4efugax-79-+&=d5(pm@p"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config("DJ_DEBUG", default=False, cast=bool)
+DEBUG = config("DEBUG", default=False, cast=bool)
 
 ALLOWED_HOSTS = config(
-    "DJ_ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.split(",")]
+    "ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.split(",")]
 )
 
-SITE = config("DJ_SITE")
-SITE_NAME = config("DJ_SITE_NAME", default="Bus scolaire de Chazeaux")
+SITE = config("SITE")
+SITE_NAME = config("SITE_NAME", default="Bus scolaire de Chazeaux")
 
 # Application definition
 
@@ -90,7 +90,7 @@ WSGI_APPLICATION = "settings.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default": config("DJ_DATABASE_URL", default="sqlite:///db.sqlite3", cast=db_url)
+    "default": config("DATABASE_URL", default="sqlite:///db.sqlite3", cast=db_url)
 }
 
 
