@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-   <style>
+      <style>
 @page {
         size: A4; /* Change from the default size of A4 */
         margin: 0mm; /* Set margin on each page */
@@ -19,7 +19,6 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
-
   <sodipodi:namedview
      id="namedview4215"
      pagecolor="#ffffff"
@@ -35152,7 +35151,7 @@
        id="tspan4216"
        x="663.09021"
        y="170.47198"
-       style="font-weight:bold;text-align:center;text-anchor:middle;stroke-width:76.9975">{{ object.order_number }}</tspan></text>
+       style="font-weight:bold;text-align:center;text-anchor:middle;stroke-width:76.9975">{{ object.order_number}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:18.1086px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:76.9975;stroke-linecap:round"
@@ -35185,7 +35184,7 @@
        id="tspan4216-5-1-0"
        x="59.517666"
        y="302.10223"
-       style="font-weight:bold;font-size:14.487px;text-align:start;text-anchor:start;stroke-width:76.9975">{{ company.street_number}}</tspan></text>
+       style="font-weight:bold;font-size:14.487px;text-align:start;text-anchor:start;stroke-width:76.9975">{{ company.street_number|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.487px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:76.9975;stroke-linecap:round"
@@ -35207,7 +35206,7 @@
        id="tspan4216-5-1-0-2"
        x="202.13069"
        y="302.96014"
-       style="font-weight:bold;font-size:14.487px;text-align:start;text-anchor:start;stroke-width:76.9975">{{ company.street}}</tspan></text>
+       style="font-weight:bold;font-size:14.487px;text-align:start;text-anchor:start;stroke-width:76.9975">{{ company.street|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.487px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:76.9975;stroke-linecap:round"
@@ -35218,7 +35217,7 @@
        id="tspan4216-5-1-0-8"
        x="118.92769"
        y="318.87262"
-       style="font-weight:bold;font-size:14.487px;text-align:start;text-anchor:start;stroke-width:76.9975">{{ company.postal_code}}</tspan></text>
+       style="font-weight:bold;font-size:14.487px;text-align:start;text-anchor:start;stroke-width:76.9975">{{ company.postal_code|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.487px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:76.9975;stroke-linecap:round"
@@ -35229,7 +35228,7 @@
        id="tspan4216-5-1-0-20"
        x="311.13998"
        y="319.1485"
-       style="font-weight:bold;font-size:14.487px;text-align:start;text-anchor:start;stroke-width:76.9975">{{ company.municipality}}</tspan></text>
+       style="font-weight:bold;font-size:14.487px;text-align:start;text-anchor:start;stroke-width:76.9975">{{ company.municipality|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.487px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:76.9975;stroke-linecap:round"
@@ -35251,7 +35250,7 @@
        id="tspan4216-5-1-0-28-3"
        x="87.611031"
        y="350.84354"
-       style="font-weight:bold;font-size:14.487px;text-align:start;text-anchor:start;stroke-width:76.9975">{{ company.object_description}}</tspan></text>
+       style="font-weight:bold;font-size:14.487px;text-align:start;text-anchor:start;stroke-width:76.9975">{{ company.object_description|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.487px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:76.9975;stroke-linecap:round"

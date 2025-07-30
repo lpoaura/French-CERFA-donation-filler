@@ -8,6 +8,7 @@ cd /app
 python3 -m manage compilemessages
 python3 -m manage migrate
 python3 -m manage collectstatic --noinput
+python3 -m manage loaddata legal_forms.json
 
 if [ $DEBUG = true ]
 then

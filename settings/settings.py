@@ -88,7 +88,7 @@ WSGI_APPLICATION = "settings.wsgi.application"
 
 DATABASES = {
     "default": config(
-        "DATABASE_URL", default="sqlite:///db.sqlite3", cast=db_url
+        "DJ_DATABASE_URL", default="sqlite:///db.sqlite3", cast=db_url
     )
 }
 

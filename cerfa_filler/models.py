@@ -6,6 +6,7 @@ from uuid import uuid4
 from django.urls import reverse
 import urllib.parse
 from django.conf import settings
+from typing import Optional
 
 # Create your models here.
 
@@ -24,12 +25,29 @@ PAYMENT = {
 }
 
 
+class CompanyLegalForms(models.Model):
+    code = models.CharField(max_length=4, verbose_name=_("Label"), unique=True)
+    label = models.CharField(max_length=200, verbose_name=_("Label"), unique=True)
+
+    class Meta:
+        verbose_name = _("Legal form")
+        verbose_name_plural = _("Legal forms")
+        ordering = ("label",)
+
+    def __str__(self):
+        return self.label
+
+
 class BaseOrganization(models.Model):
     uuid = models.UUIDField(default=uuid4(), unique=True, primary_key=True)
     label = models.CharField(max_length=200, verbose_name=_("Label"))
     email = models.EmailField()
-    legal_status = models.CharField(
-        choices=LEGAL_STATUSES, verbose_name=_("Legal status")
+    legal_status = models.ForeignKey(
+        CompanyLegalForms,
+        verbose_name=_("Legal status"),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
     )
     repository_code = models.CharField(max_length=20, verbose_name=_("Repository code"))
     additional_address = models.CharField(
@@ -91,19 +109,23 @@ class Companies(BaseOrganization):
     cash_payment_type = models.CharField(
         choices=PAYMENT, blank=True, null=True, verbose_name=_("Cash payment type")
     )
-    date_start = models.DateField(default=now, verbose_name=_("Date initiale du don"))
-    date_end = models.DateField(null=True, blank=True, verbose_name=_("Date de fin"))
-    valid = models.BooleanField(default=False, verbose_name=_("Valide"))
+    date_start = models.DateField(default=now, verbose_name=_("Initial donation date"))
+    date_end = models.DateField(null=True, blank=True, verbose_name=_("End date"))
+    valid_date = models.DateField(
+        null=True, blank=True, verbose_name=_("Validation date")
+    )
     # export_date = models.DateField(null=True, blank=True, verbose_name=_("Date d'export"))
     # cerfa_file = models.FileField(upload_to='exports')
 
     @property
-    def inkind_donation_as_text(self):
-        return num2words(self.inkind_donation or 0, lang="fr", to="currency")
+    def inkind_donation_as_text(self) -> Optional[str]:
+        if self.cash_donation:
+            return num2words(self.cash_donation, lang="fr", to="currency")
 
     @property
-    def cash_donation_as_text(self):
-        return num2words(self.cash_donation or 0, lang="fr", to="currency")
+    def cash_donation_as_text(self) -> Optional[str]:
+        if self.inkind_donation:
+            return num2words(self.inkind_donation, lang="fr", to="currency")
 
     @property
     def total_donation_as_text(self):

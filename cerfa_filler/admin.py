@@ -1,12 +1,15 @@
 from django.contrib import admin
-from .models import Companies, BeneficiaryOrganization
+from .models import Companies, BeneficiaryOrganization, CompanyLegalForms
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
 
 # Register your models here.
 
+class CompanyLegalFormsResource(resources.ModelResource):
 
+    class Meta:
+        model = CompanyLegalForms
 class CompaniesResource(resources.ModelResource):
 
     class Meta:
@@ -18,6 +21,10 @@ admin.site.register(BeneficiaryOrganization, admin.ModelAdmin)
 @admin.register(Companies)
 class CompaniesAdmin(ImportExportModelAdmin):
     resource_classes = [CompaniesResource]
+
+@admin.register(CompanyLegalForms)
+class CompanyLegalFormsAdmin(ImportExportModelAdmin):
+    resource_classes = [CompanyLegalFormsResource]
 
 
 

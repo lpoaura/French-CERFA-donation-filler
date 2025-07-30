@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-29 14:39+0000\n"
+"POT-Creation-Date: 2025-07-30 07:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Start date"
 msgstr "Date de début"
 
-#: cerfa_filler/forms.py:18
+#: cerfa_filler/forms.py:18 cerfa_filler/models.py:111
 msgid "End date"
 msgstr "Date de fin"
 
@@ -50,89 +50,96 @@ msgstr "Virement bancaire"
 msgid "Other"
 msgstr "Autre"
 
-#: cerfa_filler/models.py:29 cerfa_filler/templates/company_list.html:25
+#: cerfa_filler/models.py:28 cerfa_filler/models.py:29
+#: cerfa_filler/models.py:41 cerfa_filler/templates/company_list.html:25
 msgid "Label"
 msgstr "Nom"
 
 #: cerfa_filler/models.py:32
-msgid "Legal status"
-msgstr "Statut légal"
+msgid "Legal form"
+msgstr "Forme juridique"
 
-#: cerfa_filler/models.py:34
+#: cerfa_filler/models.py:33
 #, fuzzy
-#| msgid "repository_code"
+#| msgid "Legal status"
+msgid "Legal forms"
+msgstr "Formes juridiques"
+
+#: cerfa_filler/models.py:45
+msgid "Legal status"
+msgstr "Forme juridique"
+
+#: cerfa_filler/models.py:50
 msgid "Repository code"
 msgstr "SIRET"
 
-#: cerfa_filler/models.py:36
+#: cerfa_filler/models.py:52
 msgid "Additional address"
-msgstr ""
+msgstr "Complément d'adresse"
 
-#: cerfa_filler/models.py:39
+#: cerfa_filler/models.py:55
 msgid "Street number"
 msgstr "Numéro"
 
-#: cerfa_filler/models.py:42
+#: cerfa_filler/models.py:58
 msgid "Street"
 msgstr "Rue"
 
-#: cerfa_filler/models.py:44
+#: cerfa_filler/models.py:60
 msgid "Postal code"
 msgstr "Code postal"
 
-#: cerfa_filler/models.py:45
+#: cerfa_filler/models.py:61
 msgid "Municipality"
 msgstr "Commune"
 
-#: cerfa_filler/models.py:53
+#: cerfa_filler/models.py:69
 msgid "Object"
-msgstr ""
+msgstr "Objet"
 
-#: cerfa_filler/models.py:57 cerfa_filler/models.py:58
+#: cerfa_filler/models.py:73 cerfa_filler/models.py:74
 msgid "Beneficiary organization"
-msgstr ""
+msgstr "Organisme bénéficiaire"
 
-#: cerfa_filler/models.py:66 cerfa_filler/templates/company_list.html:24
+#: cerfa_filler/models.py:82 cerfa_filler/templates/company_list.html:24
 #, fuzzy
 #| msgid "Street number"
 msgid "Order number"
 msgstr "Numéro"
 
-#: cerfa_filler/models.py:74
+#: cerfa_filler/models.py:90
 msgid "In-kind Donation"
 msgstr "Don en nature"
 
-#: cerfa_filler/models.py:82
+#: cerfa_filler/models.py:98
 #, fuzzy
 #| msgid "In-kind Donation"
 msgid "In-kind Donation description"
 msgstr "Don en nature"
 
-#: cerfa_filler/models.py:87
+#: cerfa_filler/models.py:103
 msgid "Cash Donation"
 msgstr "Don en numéraire"
 
-#: cerfa_filler/models.py:92
+#: cerfa_filler/models.py:108
 msgid "Cash payment type"
 msgstr ""
 
-#: cerfa_filler/models.py:94
-msgid "Date initiale du don"
+#: cerfa_filler/models.py:110
+#, fuzzy
+#| msgid "Cash Donation"
+msgid "Initial donation date"
+msgstr "Don en numéraire"
+
+#: cerfa_filler/models.py:112
+msgid "Validation date"
 msgstr ""
 
-#: cerfa_filler/models.py:95
-msgid "Date de fin"
-msgstr ""
-
-#: cerfa_filler/models.py:96
-msgid "Valide"
-msgstr ""
-
-#: cerfa_filler/models.py:154
+#: cerfa_filler/models.py:170
 msgid "Company"
 msgstr "Personne morale"
 
-#: cerfa_filler/models.py:155 cerfa_filler/templates/company_list.html:14
+#: cerfa_filler/models.py:171 cerfa_filler/templates/company_list.html:14
 #: cerfa_filler/templates/home.html:16
 msgid "Companies"
 msgstr "Personnes morales"
@@ -191,7 +198,8 @@ msgstr "`Votre reçu fiscal de donation`"
 msgid ""
 "`Hello,\\nPlease find below a link to download your tax receipt for your "
 "donation.\\n${formattedPdfUrl}`"
-msgstr "`Bonjour,\\nVeuillez trouver ci-dessous un lien de téléchargement de votre "
+msgstr ""
+"`Bonjour,\\nVeuillez trouver ci-dessous un lien de téléchargement de votre "
 "reçu fiscal pour votre don.\\n${formattedPdfUrl}`"
 
 #: cerfa_filler/templates/home.html:17
@@ -209,3 +217,9 @@ msgstr "Entreprise individuelle"
 #| msgid "Individual company"
 msgid "Individuals List"
 msgstr "Entreprise individuelle"
+
+#~ msgid "Date de fin"
+#~ msgstr "Date de fin"
+
+#~ msgid "Valide"
+#~ msgstr "Valide"

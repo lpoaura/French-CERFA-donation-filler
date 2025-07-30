@@ -37657,7 +37657,7 @@
        y="397.00119"
        id="tspan2"><tspan
          style="font-weight:bold"
-         id="tspan1">{{ object.inkind_donation_description}}</tspan></tspan></text>
+         id="tspan1">{{ object.inkind_donation_description|default_if_none:'-'}}</tspan></tspan></text>
   <g
      clip-path="url(#clip-4)"
      id="g4470"
@@ -37690,7 +37690,7 @@
        id="tspan4216-5-2"
        x="171.99466"
        y="294.0928"
-       style="font-weight:bold;font-size:18.3141px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.get_legal_status_display}}</tspan></text>
+       style="font-weight:bold;font-size:18.3141px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.get_legal_status_display|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:18.3141px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:105.76;stroke-linecap:round"
@@ -37701,7 +37701,7 @@
        id="tspan4216-5-1"
        x="162.68434"
        y="312.6701"
-       style="font-weight:bold;font-size:18.3141px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.repository_code}}</tspan></text>
+       style="font-weight:bold;font-size:18.3141px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.repository_code|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6513px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:105.76;stroke-linecap:round"
@@ -37712,7 +37712,7 @@
        id="tspan4216-5-1-7"
        x="108.51342"
        y="329.90799"
-       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.additional_address}}</tspan></text>
+       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.additional_address|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6513px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:105.76;stroke-linecap:round"
@@ -37723,7 +37723,7 @@
        id="tspan4216-5-1-7-6"
        x="60.608902"
        y="348.90771"
-       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.street_number}}</tspan></text>
+       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.street_number|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6513px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:105.76;stroke-linecap:round"
@@ -37734,7 +37734,7 @@
        id="tspan4216-5-1-7-63"
        x="223.24745"
        y="349.84158"
-       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.street}}</tspan></text>
+       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.street|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6513px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:105.76;stroke-linecap:round"
@@ -37745,7 +37745,7 @@
        id="tspan4216-5-1-7-63-6"
        x="122.78288"
        y="365.47192"
-       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.postal_code}}</tspan></text>
+       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.postal_code|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6513px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:105.76;stroke-linecap:round"
@@ -37756,7 +37756,7 @@
        id="tspan4216-5-1-7-63-5"
        x="308.77316"
        y="365.49011"
-       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.municipality}}</tspan></text>
+       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.municipality|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6513px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:105.76;stroke-linecap:round"
@@ -37767,7 +37767,7 @@
        id="tspan4216-5-1-7-63-65"
        x="37.737232"
        y="456.92865"
-       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.inkind_donation}}</tspan></text>
+       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.inkind_donation|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6513px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:105.76;stroke-linecap:round"
@@ -37778,7 +37778,7 @@
        id="tspan4216-5-1-7-63-65-3"
        x="38.171734"
        y="488.45999"
-       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.inkind_donation_as_text}}</tspan></text>
+       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.inkind_donation_as_text|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6513px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:105.76;stroke-linecap:round"
@@ -37800,7 +37800,7 @@
        id="tspan4216-5-1-7-63-65-3-5-4-4"
        x="38.557453"
        y="679.24683"
-       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.cash_donation_as_text}}</tspan></text>
+       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.cash_donation_as_text|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6513px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:105.76;stroke-linecap:round"
@@ -37811,7 +37811,7 @@
        id="tspan4216-5-1-7-63-65-3-5-4-4-9"
        x="93.011063"
        y="831.88397"
-       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.date_start}}</tspan></text>
+       style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.date_start|default_if_none:''}}</tspan></text>
   <text
      xml:space="preserve"
      style="font-size:14.6513px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:105.76;stroke-linecap:round"
