@@ -1,7 +1,14 @@
 from django.urls import path
 
-from .views import (CompaniesCerfa, CompaniesCerfaToPdf, CompaniesCreateView,
-                    CompaniesListView, CompaniesUpdateView, Home)
+from .views import (
+    CompaniesCerfa,
+    CompaniesCerfaToPdf,
+    CompaniesCreateView,
+    CompaniesListView,
+    CompaniesUpdateView,
+    Home,
+    CompaniesUpdateValidDateView,
+)
 
 app_name = "cerfa_filler"
 
@@ -19,5 +26,10 @@ urlpatterns = [
         "companies/update/<uuid:pk>/",
         CompaniesUpdateView.as_view(),
         name="companies-update",
+    ),
+    path(
+        "companies/update-valid-date/",
+        CompaniesUpdateValidDateView.as_view(),
+        name="update-valid-date",
     ),
 ]

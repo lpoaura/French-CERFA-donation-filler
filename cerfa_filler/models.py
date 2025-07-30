@@ -40,7 +40,7 @@ class CompanyLegalForms(models.Model):
 
 
 class BaseOrganization(models.Model):
-    uuid = models.UUIDField(default=uuid4(), unique=True, primary_key=True)
+    uuid = models.UUIDField(default=uuid4, unique=True, primary_key=True)
     label = models.CharField(max_length=200, verbose_name=_("Label"))
     email = models.EmailField()
     legal_status = models.ForeignKey(
@@ -71,6 +71,7 @@ class BeneficiaryOrganization(BaseOrganization):
     object_description = models.CharField(
         max_length=200, verbose_name=_("Object"), default="", blank=True
     )
+    sign_file = models.ImageField(verbose_name=_("Sign image file"), null=True, blank=True)
 
     class Meta:
         verbose_name = _("Beneficiary organization")
@@ -120,13 +121,13 @@ class Companies(BaseOrganization):
 
     @property
     def inkind_donation_as_text(self) -> Optional[str]:
-        if self.cash_donation:
-            return num2words(self.cash_donation, lang="fr", to="currency")
+        if self.inkind_donation:
+            return num2words(self.inkind_donation, lang="fr", to="currency")
 
     @property
     def cash_donation_as_text(self) -> Optional[str]:
-        if self.inkind_donation:
-            return num2words(self.inkind_donation, lang="fr", to="currency")
+        if self.cash_donation:
+            return num2words(self.cash_donation, lang="fr", to="currency")
 
     @property
     def total_donation_as_text(self):
@@ -176,3 +177,7 @@ class Companies(BaseOrganization):
     class Meta:
         verbose_name = _("Company")
         verbose_name_plural = _("Companies")
+        permissions = [
+            ("change_validation", "Can change the validation status"),
+            ("send_email", "Can send email"),
+        ]

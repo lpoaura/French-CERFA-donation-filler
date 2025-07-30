@@ -25,16 +25,6 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterField(
-            model_name="beneficiaryorganization",
-            name="uuid",
-            field=models.UUIDField(
-                default=uuid.UUID("04df5a18-545b-43c4-8c5e-220477aa42ae"),
-                primary_key=True,
-                serialize=False,
-                unique=True,
-            ),
-        ),
-        migrations.AlterField(
             model_name="companies",
             name="date_end",
             field=models.DateField(blank=True, null=True, verbose_name="End date"),
@@ -44,16 +34,6 @@ class Migration(migrations.Migration):
             name="date_start",
             field=models.DateField(
                 default=django.utils.timezone.now, verbose_name="Initial donation date"
-            ),
-        ),
-        migrations.AlterField(
-            model_name="companies",
-            name="uuid",
-            field=models.UUIDField(
-                default=uuid.UUID("04df5a18-545b-43c4-8c5e-220477aa42ae"),
-                primary_key=True,
-                serialize=False,
-                unique=True,
             ),
         ),
     ]

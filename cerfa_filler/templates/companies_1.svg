@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-      <style>
-@page {
-        size: A4; /* Change from the default size of A4 */
-        margin: 0mm; /* Set margin on each page */
-      }
-
-</style>
+      <style id="style1">
+      @page {
+            size: A4; 
+            margin: 0mm;
+            }
+   </style>
 <svg
    width="210mm"
    height="296mm"
@@ -19,6 +18,7 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
+
   <sodipodi:namedview
      id="namedview4215"
      pagecolor="#ffffff"
