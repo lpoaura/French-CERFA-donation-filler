@@ -56,7 +56,7 @@
                 {% if perms.cerfa_filler.change_companies %}<a
                     href="{% url 'cerfa_filler:companies-update' company.uuid %}"
                     class="btn btn-sm btn-warning">Edit</a>{%endif%}
-                {% if perms.cerfa_filler.send_email %} <a
+                {% if perms.cerfa_filler.send_email and company.valid_date %} <a
                     href="{% url 'cerfa_filler:companies-cerfa-pdf' company.uuid %}"
                     class="btn btn-sm btn-success">Cerfa</a>
                 <a class="btn btn-sm btn-info" href="{{company.mailto}}">Email</a>
