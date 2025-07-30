@@ -1,12 +1,13 @@
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-from django.utils.timezone import now
-from num2words import num2words
-from uuid import uuid4
-from django.urls import reverse
 import urllib.parse
-from django.conf import settings
 from typing import Optional
+from uuid import uuid4
+
+from django.conf import settings
+from django.db import models
+from django.urls import reverse
+from django.utils.timezone import now
+from django.utils.translation import gettext_lazy as _
+from num2words import num2words
 
 # Create your models here.
 

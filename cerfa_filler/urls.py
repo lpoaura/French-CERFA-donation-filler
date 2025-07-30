@@ -1,13 +1,7 @@
 from django.urls import path
 
-from .views import (
-    CompaniesCerfa,
-    CompaniesCerfaToPdf,
-    CompaniesListView,
-    CompaniesCreateView,
-    CompaniesUpdateView,
-    Home,
-)
+from .views import (CompaniesCerfa, CompaniesCerfaToPdf, CompaniesCreateView,
+                    CompaniesListView, CompaniesUpdateView, Home)
 
 app_name = "cerfa_filler"
 

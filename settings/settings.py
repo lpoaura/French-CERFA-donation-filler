@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from import_export.formats.base_formats import CSV, XLSX
+
 from decouple import Csv, config
 from dj_database_url import parse as db_url
+from import_export.formats.base_formats import CSV, XLSX
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,16 +24,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('DJ_SECRET_KEY')
+SECRET_KEY = config("DJ_SECRET_KEY")
 
-#"django-insecure-8ge&8xlof1xfjkz&_6%=6bcxz4coc4efugax-79-+&=d5(pm@p"
+# "django-insecure-8ge&8xlof1xfjkz&_6%=6bcxz4coc4efugax-79-+&=d5(pm@p"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DJ_DEBUG', default=False, cast=bool)
+DEBUG = config("DJ_DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = config('DJ_ALLOWED_HOSTS', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config(
+    "DJ_ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.split(",")]
+)
 
-SITE = config('DJ_SITE')
+SITE = config("DJ_SITE")
 SITE_NAME = config("DJ_SITE_NAME", default="Bus scolaire de Chazeaux")
 
 # Application definition
@@ -45,11 +48,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_bootstrap5",
-    'import_export',
+    "import_export",
 ]
 
 INSTALLED_APPS += [
-    'accounts',
+    "accounts",
     "cerfa_filler",
 ]
 
@@ -87,11 +90,8 @@ WSGI_APPLICATION = "settings.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    "default": config(
-        "DJ_DATABASE_URL", default="sqlite:///db.sqlite3", cast=db_url
-    )
+    "default": config("DJ_DATABASE_URL", default="sqlite:///db.sqlite3", cast=db_url)
 }
-
 
 
 # Password validation
@@ -159,4 +159,3 @@ EMAIL_SUBJECT_PREFIX = config("EMAIL_SUBJECT_PREFIX", default=SITE_NAME)
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=EMAIL_HOST_USER)
 SERVER_EMAIL = config("SERVER_EMAIL", default=EMAIL_HOST_USER)
 PDF_EMAILS = config("PDF_EMAILS", default=EMAIL_HOST_USER, cast=Csv())
-

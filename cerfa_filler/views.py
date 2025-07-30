@@ -1,16 +1,16 @@
-from django.views.generic import DetailView
-from django.template.loader import render_to_string
-from django.http import HttpResponse
-from django.contrib.auth.mixins import LoginRequiredMixin
-from weasyprint import HTML
-from pypdf import PdfReader, PdfWriter
 import io
-from django.views.generic import ListView, CreateView, UpdateView, TemplateView
-from django.urls import reverse_lazy
-from .models import Companies, BeneficiaryOrganization
-from .forms import CompaniesForm
 
-from .models import Companies
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
+from django.views.generic import (CreateView, DetailView, ListView,
+                                  TemplateView, UpdateView)
+from pypdf import PdfReader, PdfWriter
+from weasyprint import HTML
+
+from .forms import CompaniesForm
+from .models import BeneficiaryOrganization, Companies
 
 
 class Home(TemplateView):
