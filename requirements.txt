@@ -402,6 +402,9 @@ pillow==11.3.0 ; python_version >= "3.12" \
     --hash=sha256:f944255db153ebb2b19c51fe85dd99ef0ce494123f21b9db4877ffdfc5590c7c \
     --hash=sha256:fdae223722da47b024b867c1ea0be64e0df702c5e0a60e27daad39bf960dd1e4 \
     --hash=sha256:fe27fb049cdcca11f11a7bfda64043c37b30e6b91f10cb5bab275806c32f6ab3
+psycopg==3.2.9 ; python_version >= "3.12" \
+    --hash=sha256:01a8dadccdaac2123c916208c96e06631641c0566b22005493f09663c7a8d3b6 \
+    --hash=sha256:2fbb46fcd17bc81f993f28c47f1ebea38d66ae97cc2dbc3cad73b37cefbff700
 pycparser==2.22 ; python_version >= "3.12" \
     --hash=sha256:491c8be9c040f5390f5bf44a5b07752bd07f56edf992381b05c701439eec10f6 \
     --hash=sha256:c3702b6d3dd8c7abc1afa565d7e63d53a1d0bd86cdc24edd75470f4de499cfcc
@@ -429,6 +432,9 @@ tinycss2==1.4.0 ; python_version >= "3.12" \
 tinyhtml5==2.0.0 ; python_version >= "3.12" \
     --hash=sha256:086f998833da24c300c414d9fe81d9b368fd04cb9d2596a008421cbc705fcfcc \
     --hash=sha256:13683277c5b176d070f82d099d977194b7a1e26815b016114f581a74bbfbf47e
+typing-extensions==4.14.1 ; python_version == "3.12" \
+    --hash=sha256:38b39f4aeeab64884ce9f74c94263ef78f3c22467c8724005483154c26648d36 \
+    --hash=sha256:d1e1e3b58374dc93031d6eda2420a48ea44a36c2b4766a4fdeb3710755731d76
 tzdata==2025.2 ; python_version >= "3.12" and sys_platform == "win32" \
     --hash=sha256:1a403fada01ff9221ca8044d701868fa132215d84beb92242d9acd2147f667a8 \
     --hash=sha256:b60a638fcc0daffadf82fe0f57e53d06bdec2f36c4df66280ae79bce6bd6f2b9
