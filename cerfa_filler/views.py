@@ -16,6 +16,7 @@ from django.views import View
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import permission_required
+import base64
 
 
 class Home(TemplateView):
@@ -27,73 +28,80 @@ class CompaniesCerfa(DetailView):
     model = Companies
 
 
-# class CompaniesCerfaToPdf(DetailView):
-#     template_name = "companies_cerfa.svg"
-#     model = Companies
-
-#     def get(self, request, *args, **kwargs):
-#         self.object = self.get_object()
-#         company = BeneficiaryOrganization.objects.first()
-#         context = self.get_context_data(object=self.object, company=company)
-
-#         # Generate PDF files from SVG templates
-#         pdfs = []
-#         for template in ("companies_1.svg", "companies_2.svg"):
-#             svg_content = render_to_string(template, context)
-#             pdf_bytes = HTML(string=svg_content).write_pdf(
-#                 margin_top=0, margin_right=0, margin_bottom=0, margin_left=0
-#             )
-#             pdfs.append(
-#                 io.BytesIO(pdf_bytes)
-#             )  # Use BytesIO to create a file-like object
-
-#         # Merge the generated PDF files
-#         writer = PdfWriter()
-#         for pdf in pdfs:
-#             reader = PdfReader(pdf)
-#             for page in reader.pages:
-#                 writer.add_page(page)
-
-#         filename = f"recu_fiscal_don-{self.object.order_number}.pdf"
-#         # Create a response with the merged PDF
-#         response = HttpResponse(content_type="application/pdf")
-#         response["Content-Disposition"] = f'attachment; filename="{filename}"'
-
-#         # Write the merged PDF to the response
-#         output_pdf = io.BytesIO()  # Create a BytesIO object for the output
-#         writer.write(output_pdf)
-#         output_pdf.seek(0)  # Move to the beginning of the BytesIO stream
-
-#         response.write(output_pdf.read())  # Write the PDF content to the response
-
-#         return response
-
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-        data['company'] = BeneficiaryOrganization.objects.first()
-        return data
-
 class CompaniesCerfaToPdf(DetailView):
-    template_name = "companies_2.svg"
+    template_name = "companies_cerfa.svg"
     model = Companies
 
-    # def get(self, request, *args, **kwargs):
-    #     self.context = self.get_context_data()
-    #     company = BeneficiaryOrganization.objects.first()
-    #     context = self.get_context_data(object=self.object, company=company)
-    #     return context
-    
-    # def get_context_data(self, **kwargs):
-    #     self.object = self.get_object()
-    #     company = BeneficiaryOrganization.objects.first()
-    #     context = self.get_context_data(object=self.object, company=company)
-    #     return context
-    #     return super().get_context_data(**kwargs)
-    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data()
+
+        # Generate PDF files from SVG templates
+        pdfs = []
+        for template in ("companies_1.svg", "companies_2.svg"):
+            svg_content = render_to_string(template, context)
+            pdf_bytes = HTML(string=svg_content).write_pdf(
+                margin_top=0, margin_right=0, margin_bottom=0, margin_left=0
+            )
+            pdfs.append(
+                io.BytesIO(pdf_bytes)
+            )  # Use BytesIO to create a file-like object
+
+        # Merge the generated PDF files
+        writer = PdfWriter()
+        for pdf in pdfs:
+            reader = PdfReader(pdf)
+            for page in reader.pages:
+                writer.add_page(page)
+
+        filename = f"recu_fiscal_don-{self.object.order_number}.pdf"
+        # Create a response with the merged PDF
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = f'attachment; filename="{filename}"'
+
+        # Write the merged PDF to the response
+        output_pdf = io.BytesIO()  # Create a BytesIO object for the output
+        writer.write(output_pdf)
+        output_pdf.seek(0)  # Move to the beginning of the BytesIO stream
+
+        response.write(output_pdf.read())  # Write the PDF content to the response
+
+        return response
+
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
-        data['company'] = BeneficiaryOrganization.objects.first()
+        company = BeneficiaryOrganization.objects.first()
+        data['company'] = company
+        with open(company.sign_file.path, 'rb') as sign_file:
+            print(sign_file)
+            data['sign_file'] = base64.b64encode(sign_file.read()).decode('utf-8')
         return data
+
+# class CompaniesCerfaToPdf(DetailView):
+#     template_name = "companies_2.svg"
+#     model = Companies
+
+#     # def get(self, request, *args, **kwargs):
+#     #     self.context = self.get_context_data()
+#     #     company = BeneficiaryOrganization.objects.first()
+#     #     context = self.get_context_data(object=self.object, company=company)
+#     #     return context
+    
+#     # def get_context_data(self, **kwargs):
+#     #     self.object = self.get_object()
+#     #     company = BeneficiaryOrganization.objects.first()
+#     #     context = self.get_context_data(object=self.object, company=company)
+#     #     return context
+#     #     return super().get_context_data(**kwargs)
+    
+#     def get_context_data(self, **kwargs):
+#         data = super().get_context_data(**kwargs)
+#         company = BeneficiaryOrganization.objects.first()
+#         data['company'] = company
+#         with open(company.sign_file.path, 'rb') as sign_file:
+#             print(sign_file)
+#             data['sign_file'] = base64.b64encode(sign_file.read()).decode('utf-8')
+#         return data
 
 
 
