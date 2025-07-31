@@ -26,6 +26,18 @@ PAYMENT = {
 }
 
 
+class DeclarativeStructure(models.Model):
+    label = models.CharField(max_length=15, verbose_name=_("Label"), unique=True)
+
+    class Meta:
+        verbose_name = _("Declarative structure")
+        verbose_name_plural = _("Declarative structures")
+        ordering = ("label",)
+
+    def __str__(self):
+        return self.label
+
+
 class CompanyLegalForms(models.Model):
     code = models.CharField(max_length=4, verbose_name=_("Label"), unique=True)
     label = models.CharField(max_length=200, verbose_name=_("Label"), unique=True)
@@ -42,7 +54,7 @@ class CompanyLegalForms(models.Model):
 class BaseOrganization(models.Model):
     uuid = models.UUIDField(default=uuid4, unique=True, primary_key=True)
     label = models.CharField(max_length=200, verbose_name=_("Label"))
-    email = models.EmailField()
+    email = models.EmailField(null=True, blank=True)
     legal_status = models.ForeignKey(
         CompanyLegalForms,
         verbose_name=_("Legal status"),
@@ -71,7 +83,9 @@ class BeneficiaryOrganization(BaseOrganization):
     object_description = models.CharField(
         max_length=200, verbose_name=_("Object"), default="", blank=True
     )
-    sign_file = models.ImageField(verbose_name=_("Sign image file"), null=True, blank=True)
+    sign_file = models.ImageField(
+        verbose_name=_("Sign image file"), null=True, blank=True
+    )
 
     class Meta:
         verbose_name = _("Beneficiary organization")
@@ -87,6 +101,9 @@ class Companies(BaseOrganization):
         editable=False,
         blank=True,
         null=True,
+    )
+    donation_object = models.CharField(
+        max_length=200, verbose_name=_("Object"), null=True, blank=True
     )
     inkind_donation = models.DecimalField(
         max_digits=12,
@@ -111,13 +128,26 @@ class Companies(BaseOrganization):
     cash_payment_type = models.CharField(
         choices=PAYMENT, blank=True, null=True, verbose_name=_("Cash payment type")
     )
+    cheque_deposit_date = models.DateField(
+        null=True, blank=True, verbose_name=_("Cheque deposit date")
+    )
     date_start = models.DateField(default=now, verbose_name=_("Initial donation date"))
     date_end = models.DateField(null=True, blank=True, verbose_name=_("End date"))
     valid_date = models.DateField(
         null=True, blank=True, verbose_name=_("Validation date")
     )
-    # export_date = models.DateField(null=True, blank=True, verbose_name=_("Date d'export"))
-    # cerfa_file = models.FileField(upload_to='exports')
+    comment = models.CharField(
+        max_length=200, verbose_name=_("Comment"), null=True, blank=True
+    )
+    declarative_structure = models.ForeignKey(
+        DeclarativeStructure,
+        verbose_name=_("Declarative structure"),
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL
+    )
+    timestamp_create = models.DateTimeField(auto_now_add=True, editable=False)
+    timestamp_update = models.DateTimeField(auto_now=True, editable=False)
 
     @property
     def inkind_donation_as_text(self) -> Optional[str]:
@@ -170,8 +200,6 @@ class Companies(BaseOrganization):
                 .last()
             )
             self.order = latest_record.order + 1 if latest_record else 1
-        if not self.end_date:
-            self.end_date = self.date_start.replace(month=12, day=31)
         super().save(*args, **kwargs)
 
     class Meta:

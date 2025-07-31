@@ -2,7 +2,7 @@ from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 
-from .models import BeneficiaryOrganization, Companies, CompanyLegalForms
+from .models import BeneficiaryOrganization, Companies, CompanyLegalForms, DeclarativeStructure
 
 # Register your models here.
 
@@ -20,7 +20,7 @@ class CompaniesResource(resources.ModelResource):
 
 
 admin.site.register(BeneficiaryOrganization, admin.ModelAdmin)
-
+admin.site.register(DeclarativeStructure, admin.ModelAdmin)
 
 @admin.register(Companies)
 class CompaniesAdmin(ImportExportModelAdmin):

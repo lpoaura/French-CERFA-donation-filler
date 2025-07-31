@@ -41,12 +41,12 @@
             {% if perms.cerfa_filler.change_validation %}
                 <th><input type="checkbox" onclick="toggle(this);"></th>
             {%endif%}
-            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}1{%else%}0{%endif%})">{%translate 'Year'%}</th>
-            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}2{%else%}1{%endif%})">{%translate 'Order number'%}</th>
-            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}3{%else%}2{%endif%})">{%translate 'Label'%}</th>
-            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}4{%else%}3{%endif%})">{%translate 'Legal Status'%}</th>
-            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}5{%else%}4{%endif%})">{%translate 'Postal Code'%}</th>
-            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}6{%else%}5{%endif%})">{%translate 'Total donation'%}</th>
+            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}1{%else%}0{%endif%})">{%translate 'Declarative structure'%}</th>
+            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}2{%else%}1{%endif%})">{%translate 'Year'%}</th>
+            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}3{%else%}2{%endif%})">{%translate 'Order number'%}</th>
+            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}4{%else%}3{%endif%})">{%translate 'Label'%}</th>
+            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}5{%else%}4{%endif%})">{%translate 'Total donation'%}</th>
+            <th>{%translate 'Comment'%}</th>
             <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}7{%else%}6{%endif%})">{%translate 'Status'%}</th>
             {% if perms.cerfa_filler.change_companies or perms.cerfa_filler.send_email %}
             <th>{%translate 'Actions'%}</th>
@@ -59,12 +59,12 @@
             {% if perms.cerfa_filler.change_validation %}
                 <th><input type="checkbox" name="selected_companies" value="{{ company.uuid }}"></th>
             {% endif %}
+            <td>{{ company.declarative_structure |default_if_none:'-'}}</td>
             <td>{{ company.year }}</td>
             <td>{{ company.order_number }}</td>
             <td>{{ company.label }}</td>
-            <td>{{ company.get_legal_status_display }}</td>
-            <td>{{ company.postal_code }}</td>
             <td>{{ company.total_donation }} €</td>
+            <td>{{ company.comment|default_if_none:'' }}</td>
             <td><span class="text-{% if company.valid_date %}success{%else%}secondary{%endif%}">{% if company.valid_date %}⬤{%else%}◯{%endif%}</span>
             </td>
             {% if perms.cerfa_filler.change_companies or perms.cerfa_filler.send_email %}

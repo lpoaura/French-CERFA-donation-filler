@@ -30,13 +30,18 @@ main > .container {
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        {%if user.is_authenticated %} 
+                        {%if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="/admin" class="nav-link">✇ Admin</a>
+                        </li>
                         <li class="nav-item">
                             <form action="{% url 'accounts:logout' %}" method="post">
                                 {% csrf_token %}
                                 <input type="submit" class="nav-link" value="🔒 Logout ({{user.username}})"/>
                             </form>
+                            
                         </li>
+
                         {%endif%}
                     </ul>
                 </div>
