@@ -1,1 +1,141 @@
-[{"model": "auth.group", "fields": {"name": "Validateurs", "permissions": [["change_validation", "cerfa_filler", "companies"], ["view_companies", "cerfa_filler", "companies"]]}}, {"model": "auth.group", "fields": {"name": "Saisie", "permissions": [["add_companies", "cerfa_filler", "companies"], ["change_companies", "cerfa_filler", "companies"], ["view_companies", "cerfa_filler", "companies"]]}}, {"model": "auth.group", "fields": {"name": "Coordination et envoi", "permissions": [["add_user", "auth", "user"], ["change_user", "auth", "user"], ["delete_user", "auth", "user"], ["view_user", "auth", "user"], ["add_beneficiaryorganization", "cerfa_filler", "beneficiaryorganization"], ["change_beneficiaryorganization", "cerfa_filler", "beneficiaryorganization"], ["delete_beneficiaryorganization", "cerfa_filler", "beneficiaryorganization"], ["view_beneficiaryorganization", "cerfa_filler", "beneficiaryorganization"], ["add_companies", "cerfa_filler", "companies"], ["change_companies", "cerfa_filler", "companies"], ["change_validation", "cerfa_filler", "companies"], ["delete_companies", "cerfa_filler", "companies"], ["send_email", "cerfa_filler", "companies"], ["view_companies", "cerfa_filler", "companies"], ["add_companylegalforms", "cerfa_filler", "companylegalforms"], ["change_companylegalforms", "cerfa_filler", "companylegalforms"], ["delete_companylegalforms", "cerfa_filler", "companylegalforms"], ["view_companylegalforms", "cerfa_filler", "companylegalforms"]]}}]
+[
+    {
+        "model": "auth.group",
+        "fields": {
+            "name": "Validateurs",
+            "permissions": [
+                [
+                    "change_validation",
+                    "cerfa_filler",
+                    "companies"
+                ],
+                [
+                    "view_companies",
+                    "cerfa_filler",
+                    "companies"
+                ]
+            ]
+        }
+    },
+    {
+        "model": "auth.group",
+        "fields": {
+            "name": "Saisie",
+            "permissions": [
+                [
+                    "add_companies",
+                    "cerfa_filler",
+                    "companies"
+                ],
+                [
+                    "change_companies",
+                    "cerfa_filler",
+                    "companies"
+                ],
+                [
+                    "view_companies",
+                    "cerfa_filler",
+                    "companies"
+                ]
+            ]
+        }
+    },
+    {
+        "model": "auth.group",
+        "fields": {
+            "name": "Coordination et envoi",
+            "permissions": [
+                [
+                    "add_user",
+                    "auth",
+                    "user"
+                ],
+                [
+                    "change_user",
+                    "auth",
+                    "user"
+                ],
+                [
+                    "delete_user",
+                    "auth",
+                    "user"
+                ],
+                [
+                    "view_user",
+                    "auth",
+                    "user"
+                ],
+                [
+                    "add_beneficiaryorganization",
+                    "cerfa_filler",
+                    "beneficiaryorganization"
+                ],
+                [
+                    "change_beneficiaryorganization",
+                    "cerfa_filler",
+                    "beneficiaryorganization"
+                ],
+                [
+                    "delete_beneficiaryorganization",
+                    "cerfa_filler",
+                    "beneficiaryorganization"
+                ],
+                [
+                    "view_beneficiaryorganization",
+                    "cerfa_filler",
+                    "beneficiaryorganization"
+                ],
+                [
+                    "add_companies",
+                    "cerfa_filler",
+                    "companies"
+                ],
+                [
+                    "change_companies",
+                    "cerfa_filler",
+                    "companies"
+                ],
+                [
+                    "change_validation",
+                    "cerfa_filler",
+                    "companies"
+                ],
+                [
+                    "delete_companies",
+                    "cerfa_filler",
+                    "companies"
+                ],
+                [
+                    "send_email",
+                    "cerfa_filler",
+                    "companies"
+                ],
+                [
+                    "view_companies",
+                    "cerfa_filler",
+                    "companies"
+                ],
+                [
+                    "add_companylegalforms",
+                    "cerfa_filler",
+                    "companylegalforms"
+                ],
+                [
+                    "change_companylegalforms",
+                    "cerfa_filler",
+                    "companylegalforms"
+                ],
+                [
+                    "delete_companylegalforms",
+                    "cerfa_filler",
+                    "companylegalforms"
+                ],
+                [
+                    "view_companylegalforms",
+                    "cerfa_filler",
+                    "companylegalforms"
+                ]
+            ]
+        }
+    }
+]

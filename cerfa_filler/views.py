@@ -72,9 +72,10 @@ class CompaniesCerfaToPdf(DetailView):
         data = super().get_context_data(**kwargs)
         company = BeneficiaryOrganization.objects.first()
         data['company'] = company
-        with open(company.sign_file.path, 'rb') as sign_file:
-            print(sign_file)
-            data['sign_file'] = base64.b64encode(sign_file.read()).decode('utf-8')
+        if company.sign_file:
+            with open(company.sign_file.path, 'rb') as sign_file:
+                print(sign_file)
+                data['sign_file'] = base64.b64encode(sign_file.read()).decode('utf-8')
         return data
 
 # class CompaniesCerfaToPdf(DetailView):
