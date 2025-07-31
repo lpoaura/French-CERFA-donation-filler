@@ -20,14 +20,14 @@
 </div>
 
 
-{% comment %} 
+{% comment %}
 <div class="row">
   <div class="col">
     <input type="text" class="form-control" id="filterYear" placeholder="Filter by Year" onkeyup="filterTable()">
   </div>
   <div class="col">
     <input type="text" class="form-control" id="filterLabel" placeholder="Filter by Label" onkeyup="filterTable()">
-    
+
   </div>
   <div class="col">
   <input type="text" class="form-control" id="filterPostalCode" placeholder="Filter by Postal Code" onkeyup="filterTable()">
@@ -105,7 +105,7 @@
 
     }
 
-{% comment %} 
+{% comment %}
     function filterTable() {
         const yearInput = document.getElementById("filterYear").value.toLowerCase();
         const labelInput = document.getElementById("filterLabel").value.toLowerCase();
@@ -122,8 +122,8 @@
             const labelText = labelCell ? labelCell.textContent.toLowerCase() : "";
             const postalCodeText = postalCodeCell ? postalCodeCell.textContent.toLowerCase() : "";
 
-            rows[i].style.display = (yearText.includes(yearInput) && 
-                                    labelText.includes(labelInput) && 
+            rows[i].style.display = (yearText.includes(yearInput) &&
+                                    labelText.includes(labelInput) &&
                                     postalCodeText.includes(postalCodeInput)) ? "" : "none";
         }
     } {% endcomment %}

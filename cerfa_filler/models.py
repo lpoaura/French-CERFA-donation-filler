@@ -27,7 +27,9 @@ PAYMENT = {
 
 
 class DeclarativeStructure(models.Model):
-    label = models.CharField(max_length=15, verbose_name=_("Label"), unique=True)
+    label = models.CharField(
+        max_length=15, verbose_name=_("Label"), unique=True
+    )
 
     class Meta:
         verbose_name = _("Declarative structure")
@@ -40,7 +42,9 @@ class DeclarativeStructure(models.Model):
 
 class CompanyLegalForms(models.Model):
     code = models.CharField(max_length=4, verbose_name=_("Label"), unique=True)
-    label = models.CharField(max_length=200, verbose_name=_("Label"), unique=True)
+    label = models.CharField(
+        max_length=200, verbose_name=_("Label"), unique=True
+    )
 
     class Meta:
         verbose_name = _("Legal form")
@@ -62,9 +66,14 @@ class BaseOrganization(models.Model):
         blank=True,
         on_delete=models.SET_NULL,
     )
-    repository_code = models.CharField(max_length=20, verbose_name=_("Repository code"))
+    repository_code = models.CharField(
+        max_length=20, verbose_name=_("Repository code")
+    )
     additional_address = models.CharField(
-        max_length=200, verbose_name=_("Additional address"), blank=True, null=True
+        max_length=200,
+        verbose_name=_("Additional address"),
+        blank=True,
+        null=True,
     )
     street_number = models.CharField(
         max_length=20, verbose_name=_("Street number"), blank=True, null=True
@@ -72,8 +81,12 @@ class BaseOrganization(models.Model):
     street = models.CharField(
         max_length=200, verbose_name=_("Street"), blank=True, null=True
     )
-    postal_code = models.CharField(max_length=10, verbose_name=_("Postal code"))
-    municipality = models.CharField(max_length=200, verbose_name=_("Municipality"))
+    postal_code = models.CharField(
+        max_length=10, verbose_name=_("Postal code")
+    )
+    municipality = models.CharField(
+        max_length=200, verbose_name=_("Municipality")
+    )
 
     class Meta:
         abstract = True
@@ -126,13 +139,20 @@ class Companies(BaseOrganization):
         null=True,
     )
     cash_payment_type = models.CharField(
-        choices=PAYMENT, blank=True, null=True, verbose_name=_("Cash payment type")
+        choices=PAYMENT,
+        blank=True,
+        null=True,
+        verbose_name=_("Cash payment type"),
     )
     cheque_deposit_date = models.DateField(
         null=True, blank=True, verbose_name=_("Cheque deposit date")
     )
-    date_start = models.DateField(default=now, verbose_name=_("Initial donation date"))
-    date_end = models.DateField(null=True, blank=True, verbose_name=_("End date"))
+    date_start = models.DateField(
+        default=now, verbose_name=_("Initial donation date")
+    )
+    date_end = models.DateField(
+        null=True, blank=True, verbose_name=_("End date")
+    )
     valid_date = models.DateField(
         null=True, blank=True, verbose_name=_("Validation date")
     )
@@ -144,7 +164,7 @@ class Companies(BaseOrganization):
         verbose_name=_("Declarative structure"),
         blank=True,
         null=True,
-        on_delete=models.SET_NULL
+        on_delete=models.SET_NULL,
     )
     timestamp_create = models.DateTimeField(auto_now_add=True, editable=False)
     timestamp_update = models.DateTimeField(auto_now=True, editable=False)
@@ -184,9 +204,15 @@ class Companies(BaseOrganization):
         formattedUrl = settings.SITE + reverse(
             "cerfa_filler:companies-cerfa-pdf", kwargs={"pk": self.uuid}
         )
-        formattedBody = f"Hello,\n\nPlease find below a link to download your tax receipt for your donation.\n\n{formattedUrl}\n\nSincerely"
+        formattedBody = (
+            "Hello,\n\nPlease find below a link to download your tax"
+            f" receipt for your donation.\n\n{formattedUrl}\n\nSincerely"
+        )
         formattedSubject = "Tax receipt for your donation"
-        mailto = f"mailto:{self.email}?subject={formattedSubject}&body={urllib.parse.quote(formattedBody)}"
+        mailto = (
+            f"mailto:{self.email}?subject={formattedSubject}"
+            f"&body={urllib.parse.quote(formattedBody)}"
+        )
         return mailto
 
     def __str__(self):

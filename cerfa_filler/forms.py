@@ -1,6 +1,5 @@
 # forms.py
 from django import forms
-from django.contrib.admin import widgets
 from django.forms import DateInput
 from django.utils.translation import gettext_lazy as _
 
@@ -8,7 +7,6 @@ from .models import Companies
 
 
 class DatePicker(DateInput):
-
     input_type = "date"
 
     def format_value(self, value):
@@ -21,7 +19,9 @@ class DatePicker(DateInput):
 
 class CompaniesForm(forms.ModelForm):
     date_start = forms.DateField(widget=DatePicker(), label=_("Start date"))
-    date_end = forms.DateField(widget=DatePicker(), label=_("End date"), required=False)
+    date_end = forms.DateField(
+        widget=DatePicker(), label=_("End date"), required=False
+    )
 
     class Meta:
         model = Companies

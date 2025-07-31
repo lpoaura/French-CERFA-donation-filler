@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
       <style id="style1">
       @page {
-            size: A4; 
+            size: A4;
             margin: 0mm;
             }
    </style>

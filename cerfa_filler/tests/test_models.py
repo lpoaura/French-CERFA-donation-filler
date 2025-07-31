@@ -1,13 +1,22 @@
-from django.test import TestCase
-from ..models import DeclarativeStructure, CompanyLegalForms, BeneficiaryOrganization, Companies
-from django.utils import timezone
 import urllib.parse
+
 from django.conf import settings
+from django.test import TestCase
 from django.urls import reverse
+
+from ..models import (
+    BeneficiaryOrganization,
+    Companies,
+    CompanyLegalForms,
+    DeclarativeStructure,
+)
+
 
 class DeclarativeStructureTest(TestCase):
     def setUp(self):
-        self.declarative_structure = DeclarativeStructure.objects.create(label="Test Structure")
+        self.declarative_structure = DeclarativeStructure.objects.create(
+            label="Test Structure"
+        )
 
     def test_declarative_structure_creation(self):
         self.assertEqual(self.declarative_structure.label, "Test Structure")
@@ -18,7 +27,9 @@ class DeclarativeStructureTest(TestCase):
 
 class CompanyLegalFormsTest(TestCase):
     def setUp(self):
-        self.legal_form = CompanyLegalForms.objects.create(code="LLC", label="Limited Liability Company")
+        self.legal_form = CompanyLegalForms.objects.create(
+            code="LLC", label="Limited Liability Company"
+        )
 
     def test_company_legal_form_creation(self):
         self.assertEqual(self.legal_form.code, "LLC")
@@ -49,7 +60,9 @@ class BeneficiaryOrganizationTest(TestCase):
 
 class CompaniesTest(TestCase):
     def setUp(self):
-        self.declarative_structure = DeclarativeStructure.objects.create(label="Test Structure")
+        self.declarative_structure = DeclarativeStructure.objects.create(
+            label="Test Structure"
+        )
         self.company = Companies.objects.create(
             label="Test Company",
             repository_code="54321",
@@ -57,7 +70,7 @@ class CompaniesTest(TestCase):
             municipality="Paris",
             declarative_structure=self.declarative_structure,
             cash_donation=100.00,
-            inkind_donation=50.00
+            inkind_donation=50.00,
         )
 
     def test_companies_creation(self):
@@ -75,16 +88,27 @@ class CompaniesTest(TestCase):
         self.assertIsNotNone(self.company.total_donation_as_text)
 
     def test_order_number(self):
-        self.assertEqual(self.company.order_number, f"{self.company.year}-PM-{self.company.order}")
+        self.assertEqual(
+            self.company.order_number,
+            f"{self.company.year}-PM-{self.company.order}",
+        )
 
     def test_mailto_property(self):
         self.company.email = "test@example.com"
-        formattedSubject="Tax receipt for your donation"
+        formattedSubject = "Tax receipt for your donation"
         formattedLink = f"{settings.SITE}{reverse('cerfa_filler:companies-cerfa-pdf', kwargs={'pk': self.company.uuid})}"
-        formattedBody=urllib.parse.quote(f'Hello,\n\nPlease find below a link to download your tax receipt for your donation.\n\n{formattedLink}\n\nSincerely')
-        expected_mailto = f"mailto:test@example.com?subject={formattedSubject}&body={formattedBody}"
+        formattedBody = urllib.parse.quote(
+            f"Hello,\n\nPlease find below a link to download your "
+            f"tax receipt for your donation.\n\n{formattedLink}\n\nSincerely"
+        )
+        expected_mailto = (
+            f"mailto:test@example.com?subject="
+            f"{formattedSubject}&body={formattedBody}"
+        )
         self.assertEqual(self.company.mailto, expected_mailto)
 
     def test_save_method(self):
         self.company.save()
-        self.assertIsNotNone(self.company.order)  # Ensure order is set after save
+        self.assertIsNotNone(
+            self.company.order
+        )  # Ensure order is set after save
