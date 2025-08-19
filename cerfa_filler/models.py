@@ -4,7 +4,9 @@ from uuid import uuid4
 
 from django.conf import settings
 from django.db import models
+from django.template.defaultfilters import date
 from django.urls import reverse
+from django.utils.timezone import localtime as _localtime
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
 from num2words import num2words
@@ -12,6 +14,26 @@ from num2words import num2words
 # Create your models here.
 
 # class PrivateIndividual(models.Model):
+
+
+def localtime(value):
+    """
+    Renders a <time> element with an ISO 8601 datetime and a fallback display value.
+    Example:
+      {{ comment.added|localtime }}
+    Outputs:
+      <time datetime="2024-05-19T10:34:00+02:00" class="local-time">May 19, 2024 at 10:34 AM</time>
+    """
+    if not value:
+        return ""
+
+    localized = _localtime(value)
+
+    # This format is specific to a US-style locale.
+    return date(localized, "F j, Y \\a\\t g:i A")
+
+    # return format_html('<time datetime="{}" class="local-time">{}</time>', iso_format, display_format)
+
 
 LEGAL_STATUSES = {
     "Asso": _("Association"),
@@ -227,6 +249,15 @@ class Companies(BaseOrganization):
             )
             self.order = latest_record.order + 1 if latest_record else 1
         super().save(*args, **kwargs)
+
+    @property
+    def metadata(self) -> Optional[str]:
+        if self.timestamp_update:
+            return _(
+                f"Created on {localtime(self.timestamp_create)}, updated on {localtime(self.timestamp_update)}"
+            )
+        else:
+            return _(f"Created on {localtime(self.timestamp_create)}")
 
     class Meta:
         verbose_name = _("Company")

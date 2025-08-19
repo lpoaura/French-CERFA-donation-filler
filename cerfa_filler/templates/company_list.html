@@ -55,7 +55,7 @@
         </thead>
         <tbody class="table-group-divider">
         {% for company in companies %}
-        <tr>
+        <tr data-bs-toggle="tooltip" data-bs-placement="top" title="{{company.metadata}}">
             {% if perms.cerfa_filler.change_validation %}
                 <th><input type="checkbox" name="selected_companies" value="{{ company.uuid }}"></th>
             {% endif %}

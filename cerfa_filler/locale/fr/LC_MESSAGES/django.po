@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-31 10:08+0000\n"
+"POT-Creation-Date: 2025-08-19 13:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: cerfa_filler/forms.py:23
+#: cerfa_filler/forms.py:21
 msgid "Start date"
 msgstr "Date de début"
 
-#: cerfa_filler/forms.py:24 cerfa_filler/models.py:135
+#: cerfa_filler/forms.py:23 cerfa_filler/models.py:154
 msgid "End date"
 msgstr "Date de fin"
 
@@ -50,118 +50,118 @@ msgstr "Virement bancaire"
 msgid "Other"
 msgstr "Autre"
 
-#: cerfa_filler/models.py:30 cerfa_filler/models.py:42
-#: cerfa_filler/models.py:43 cerfa_filler/models.py:56
+#: cerfa_filler/models.py:31 cerfa_filler/models.py:44
+#: cerfa_filler/models.py:46 cerfa_filler/models.py:60
 #: cerfa_filler/templates/company_list.html:48
 msgid "Label"
 msgstr "Nom"
 
-#: cerfa_filler/models.py:33 cerfa_filler/models.py:144
+#: cerfa_filler/models.py:35 cerfa_filler/models.py:164
 #: cerfa_filler/templates/company_list.html:45
 msgid "Declarative structure"
 msgstr "Structure déclarative"
 
-#: cerfa_filler/models.py:34
+#: cerfa_filler/models.py:36
 msgid "Declarative structures"
 msgstr "Stuctures déclaratives"
 
-#: cerfa_filler/models.py:46
+#: cerfa_filler/models.py:50
 msgid "Legal form"
 msgstr "Forme juridique"
 
-#: cerfa_filler/models.py:47
+#: cerfa_filler/models.py:51
 #, fuzzy
 #| msgid "Legal status"
 msgid "Legal forms"
 msgstr "Formes juridiques"
 
-#: cerfa_filler/models.py:60
+#: cerfa_filler/models.py:64
 msgid "Legal status"
 msgstr "Forme juridique"
 
-#: cerfa_filler/models.py:65
+#: cerfa_filler/models.py:70
 msgid "Repository code"
 msgstr "SIRET"
 
-#: cerfa_filler/models.py:67
+#: cerfa_filler/models.py:74
 msgid "Additional address"
 msgstr "Complément d'adresse"
 
-#: cerfa_filler/models.py:70
+#: cerfa_filler/models.py:79
 msgid "Street number"
 msgstr "Numéro"
 
-#: cerfa_filler/models.py:73
+#: cerfa_filler/models.py:82
 msgid "Street"
 msgstr "Rue"
 
-#: cerfa_filler/models.py:75
+#: cerfa_filler/models.py:85
 msgid "Postal code"
 msgstr "Code postal"
 
-#: cerfa_filler/models.py:76
+#: cerfa_filler/models.py:88
 msgid "Municipality"
 msgstr "Commune"
 
-#: cerfa_filler/models.py:84 cerfa_filler/models.py:106
+#: cerfa_filler/models.py:97 cerfa_filler/models.py:119
 msgid "Object"
 msgstr "Objet"
 
-#: cerfa_filler/models.py:87
+#: cerfa_filler/models.py:100
 msgid "Sign image file"
 msgstr "Image de la signature (PNG requis)"
 
-#: cerfa_filler/models.py:91 cerfa_filler/models.py:92
+#: cerfa_filler/models.py:104 cerfa_filler/models.py:105
 msgid "Beneficiary organization"
 msgstr "Organisme bénéficiaire"
 
-#: cerfa_filler/models.py:100 cerfa_filler/templates/company_list.html:47
+#: cerfa_filler/models.py:113 cerfa_filler/templates/company_list.html:47
 #, fuzzy
 #| msgid "Street number"
 msgid "Order number"
 msgstr "Numéro"
 
-#: cerfa_filler/models.py:111
+#: cerfa_filler/models.py:124
 msgid "In-kind Donation"
 msgstr "Don en nature"
 
-#: cerfa_filler/models.py:119
+#: cerfa_filler/models.py:132
 #, fuzzy
 #| msgid "In-kind Donation"
 msgid "In-kind Donation description"
 msgstr "Don en nature"
 
-#: cerfa_filler/models.py:124
+#: cerfa_filler/models.py:137
 msgid "Cash Donation"
 msgstr "Don en numéraire"
 
-#: cerfa_filler/models.py:129
+#: cerfa_filler/models.py:145
 msgid "Cash payment type"
 msgstr "Type de paiement"
 
-#: cerfa_filler/models.py:132
+#: cerfa_filler/models.py:148
 msgid "Cheque deposit date"
 msgstr "Date de dépôt de chèque"
 
-#: cerfa_filler/models.py:134
+#: cerfa_filler/models.py:151
 #, fuzzy
 #| msgid "Cash Donation"
 msgid "Initial donation date"
 msgstr "Don en numéraire"
 
-#: cerfa_filler/models.py:137
+#: cerfa_filler/models.py:157
 msgid "Validation date"
 msgstr "Date de validation"
 
-#: cerfa_filler/models.py:140 cerfa_filler/templates/company_list.html:50
+#: cerfa_filler/models.py:160 cerfa_filler/templates/company_list.html:50
 msgid "Comment"
 msgstr "Commentaire"
 
-#: cerfa_filler/models.py:208
+#: cerfa_filler/models.py:239
 msgid "Company"
 msgstr "Personne morale"
 
-#: cerfa_filler/models.py:209 cerfa_filler/templates/company_list.html:18
+#: cerfa_filler/models.py:240 cerfa_filler/templates/company_list.html:18
 #: cerfa_filler/templates/home.html:16
 msgid "Companies"
 msgstr "Personnes morales"
