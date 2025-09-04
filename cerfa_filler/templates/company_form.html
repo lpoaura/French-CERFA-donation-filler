@@ -22,4 +22,20 @@
         <a href="{% url 'cerfa_filler:companies-list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 
+    <script>
+        const dateStart = document.getElementById('id_date_start');
+        const dateEnd = document.getElementById('id_date_end');
+
+        if (dateStart.value === '') {
+            dateEnd.disabled = true
+        }
+
+        dateStart.addEventListener('input', function() {
+            if (dateStart.value === '') {
+                dateEnd.disabled = true;
+            } else {
+                dateEnd.disabled = false;
+            }
+        });
+    </script>
     {% endblock %}
