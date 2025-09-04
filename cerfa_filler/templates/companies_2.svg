@@ -27318,7 +27318,7 @@
      id="tspan4216-5-2"
      x="171.99466"
      y="294.0928"
-     style="font-weight:bold;font-size:18.3141px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.get_legal_status_display|default_if_none:''}}</tspan></text><text
+     style="font-weight:bold;font-size:18.3141px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.legal_status.label|default_if_none:''}}</tspan></text><text
    xml:space="preserve"
    style="font-size:18.3141px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#000000;stroke-width:105.76;stroke-linecap:round"
    x="162.68434"
