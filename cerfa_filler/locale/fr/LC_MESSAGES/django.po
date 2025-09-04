@@ -20,11 +20,11 @@ msgstr ""
 
 #: cerfa_filler/forms.py:21
 msgid "Start date"
-msgstr "Date de début"
+msgstr "Date du don ou du début de la donation"
 
 #: cerfa_filler/forms.py:23 cerfa_filler/models.py:176
 msgid "End date"
-msgstr "Date de fin"
+msgstr "Date de fin de la donation"
 
 #: cerfa_filler/models.py:39
 msgid "Association"
@@ -105,7 +105,7 @@ msgstr "Commune"
 
 #: cerfa_filler/models.py:119 cerfa_filler/models.py:141
 msgid "Object"
-msgstr "Objet"
+msgstr "Objet du don"
 
 #: cerfa_filler/models.py:122
 msgid "Sign image file"
@@ -123,17 +123,17 @@ msgstr "Numéro"
 
 #: cerfa_filler/models.py:146
 msgid "In-kind Donation"
-msgstr "Don en nature"
+msgstr "Montant du don en nature"
 
 #: cerfa_filler/models.py:154
 #, fuzzy
-#| msgid "In-kind Donation"
+#| msgid "In-kind Donation description"
 msgid "In-kind Donation description"
-msgstr "Don en nature"
+msgstr "Description du don en nature"
 
 #: cerfa_filler/models.py:159
 msgid "Cash Donation"
-msgstr "Don en numéraire"
+msgstr "Montant du don en numéraire"
 
 #: cerfa_filler/models.py:167
 msgid "Cash payment type"
@@ -147,7 +147,7 @@ msgstr "Date de dépôt de chèque"
 #, fuzzy
 #| msgid "Cash Donation"
 msgid "Initial donation date"
-msgstr "Don en numéraire"
+msgstr "Date du don ou du début de donation"
 
 #: cerfa_filler/models.py:179
 msgid "Validation date"
