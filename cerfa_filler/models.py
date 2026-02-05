@@ -77,7 +77,7 @@ class CompanyLegalForms(models.Model):
 class BaseOrganization(models.Model):
     uuid = models.UUIDField(default=uuid4, unique=True, primary_key=True)
     label = models.CharField(max_length=200, verbose_name=_("Label"))
-    emails = MultiEmailField()
+    emails = MultiEmailField(null=True, blank=True, default=[])
     legal_status = models.ForeignKey(
         CompanyLegalForms,
         verbose_name=_("Legal status"),

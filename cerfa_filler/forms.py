@@ -23,7 +23,7 @@ class CompaniesForm(forms.ModelForm):
     date_end = forms.DateField(
         widget=DatePicker(), label=_("End date"), required=False
     )
-    emails = MultiEmailField()
+    emails = MultiEmailField(required=False)
 
     class Meta:
         model = Companies
