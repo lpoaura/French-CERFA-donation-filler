@@ -8,11 +8,11 @@ def migrate_emails(apps, schema_editor):
     # version than this migration expects. We use the historical version.
     Companies = apps.get_model("cerfa_filler", "Companies")
     for company in Companies.objects.all():
-        company.emails = [company.email,]
+        company.emails = [company.email,] if company.email else []
         company.save()
     BeneficiaryOrganization = apps.get_model("cerfa_filler", "BeneficiaryOrganization")
     for beneficiary in BeneficiaryOrganization.objects.all():
-        beneficiary.emails = [beneficiary.email,]
+        beneficiary.emails = [beneficiary.email,] if beneficiary.email else []
         beneficiary.save()
 
 
