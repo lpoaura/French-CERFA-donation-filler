@@ -471,6 +471,24 @@ xlsx = ["tablib[xlsx]"]
 yaml = ["tablib[yaml]"]
 
 [[package]]
+name = "django-multi-email-field"
+version = "0.8.0"
+description = "Provides a model field and a form field to manage list of e-mails"
+optional = false
+python-versions = ">=3.9"
+groups = ["main"]
+files = [
+    {file = "django_multi_email_field-0.8.0-py3-none-any.whl", hash = "sha256:d9da57226ea7e239b462bffdb121abe830931bd5cc702828b4e757784740b7fd"},
+    {file = "django_multi_email_field-0.8.0.tar.gz", hash = "sha256:b63743ef9027e5522cee5094e8fb972b3be274705080a32bbede2e50b744f777"},
+]
+
+[package.dependencies]
+django = ">=4.2"
+
+[package.extras]
+dev = ["black", "coverage", "pyquery", "ruff"]
+
+[[package]]
 name = "docopt"
 version = "0.6.2"
 description = "Pythonic argument parser, that will make you smile"
@@ -1273,4 +1291,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12"
-content-hash = "02121c181dcedeed0441545f5067847fa9b10ab7d5ef666e8c3a7daac9db743b"
+content-hash = "09d54816d08c92650d7958f49a188a8625dd4a7c005d1bc9f5fc95ded3ab1149"

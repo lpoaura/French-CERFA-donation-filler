@@ -38,8 +38,7 @@ ALLOWED_HOSTS = config(
 SITE = config("SITE")
 SITE_NAME = config("SITE_NAME", default="Bus scolaire de Chazeaux")
 
-# Application definition
-
+# Core dependencies
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -49,8 +48,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_bootstrap5",
     "import_export",
+    "multi_email_field",
 ]
 
+# App modules
 INSTALLED_APPS += [
     "accounts",
     "cerfa_filler",

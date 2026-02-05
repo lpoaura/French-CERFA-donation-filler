@@ -9,11 +9,8 @@ from django.urls import reverse
 from django.utils.timezone import localtime as _localtime
 from django.utils.timezone import now
 from django.utils.translation import gettext_lazy as _
+from multi_email_field.fields import MultiEmailField
 from num2words import num2words
-
-# Create your models here.
-
-# class PrivateIndividual(models.Model):
 
 
 def localtime(value):
@@ -80,7 +77,7 @@ class CompanyLegalForms(models.Model):
 class BaseOrganization(models.Model):
     uuid = models.UUIDField(default=uuid4, unique=True, primary_key=True)
     label = models.CharField(max_length=200, verbose_name=_("Label"))
-    email = models.EmailField(null=True, blank=True)
+    emails = MultiEmailField()
     legal_status = models.ForeignKey(
         CompanyLegalForms,
         verbose_name=_("Legal status"),
@@ -234,7 +231,7 @@ class Companies(BaseOrganization):
         )
         formattedSubject = "Reçu fiscal LPO AuRA"
         mailto = (
-            f"mailto:{self.email}?subject={formattedSubject}"
+            f"mailto:{','.join(self.emails)}?subject={formattedSubject}"
             f"&body={urllib.parse.quote(formattedBody)}"
         )
         return mailto
@@ -268,3 +265,38 @@ class Companies(BaseOrganization):
             ("change_validation", "Can change the validation status"),
             ("send_email", "Can send email"),
         ]
+
+
+# class PrivateIndividual(models.Model):
+#     uuid = models.UUIDField(default=uuid4, unique=True, primary_key=True)
+#     first_name = models.CharField(max_length=200, verbose_name=_("First name"))
+#     last_name = models.CharField(max_length=200, verbose_name=_("Last name"))
+#     emails = MultiEmailField()
+#     legal_status = models.ForeignKey(
+#         CompanyLegalForms,
+#         verbose_name=_("Legal status"),
+#         null=True,
+#         blank=True,
+#         on_delete=models.SET_NULL,
+#     )
+#     repository_code = models.CharField(
+#         max_length=20, verbose_name=_("Repository code")
+#     )
+#     additional_address = models.CharField(
+#         max_length=200,
+#         verbose_name=_("Additional address"),
+#         blank=True,
+#         null=True,
+#     )
+#     street_number = models.CharField(
+#         max_length=20, verbose_name=_("Street number"), blank=True, null=True
+#     )
+#     street = models.CharField(
+#         max_length=200, verbose_name=_("Street"), blank=True, null=True
+#     )
+#     postal_code = models.CharField(
+#         max_length=10, verbose_name=_("Postal code")
+#     )
+#     municipality = models.CharField(
+#         max_length=200, verbose_name=_("Municipality")
+#     )

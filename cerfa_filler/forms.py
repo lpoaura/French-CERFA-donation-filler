@@ -2,6 +2,7 @@
 from django import forms
 from django.forms import DateInput
 from django.utils.translation import gettext_lazy as _
+from multi_email_field.forms import MultiEmailField
 
 from .models import Companies
 
@@ -22,6 +23,7 @@ class CompaniesForm(forms.ModelForm):
     date_end = forms.DateField(
         widget=DatePicker(), label=_("End date"), required=False
     )
+    emails = MultiEmailField()
 
     class Meta:
         model = Companies
@@ -29,7 +31,7 @@ class CompaniesForm(forms.ModelForm):
             "declarative_structure",
             "label",
             "legal_status",
-            "email",
+            "emails",
             "repository_code",
             "street_number",
             "street",
