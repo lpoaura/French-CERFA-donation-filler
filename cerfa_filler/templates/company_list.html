@@ -85,14 +85,14 @@
     </table>
 </form>
 <script>
+    {% comment %}
     const emailLink = (label, email, pdfUrl) => {
-
         const formattedPdfUrl = window.location.origin + pdfUrl
         const formattedSubject = {% blocktranslate %}`Tax receipt for your donation`{%endblocktranslate%};
-        const formattedBody = {% blocktranslate %}`Hello,\nPlease find below a link to download your tax receipt for your donation.\n${formattedPdfUrl}`{%endblocktranslate%};
+        const formattedBody = {% blocktranslate %}`Bonjour,\n\nVeuillez trouver ci-dessous le lien pour récupérer le reçu fiscal suite à votre don à la LPO AuRA.\n\nEn vous remerciant pour votre soutien et votre générosité.\n\n${formattedPdfUrl}\n\nJe reste à votre disposition si nécessaire.\nBien cordialement,`{%endblocktranslate%};
         mailtoLink.href = `mailto:${email}?subject=${formattedSubject}&body=${encodeURIComponent(formattedBody)}`;
         mailtoLink.style.display = 'inline';
-    }
+    } {% endcomment %}
     const toggle= (source) => {
         let checkboxes = document
             .querySelectorAll('input[type="checkbox"]');

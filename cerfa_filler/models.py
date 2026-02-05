@@ -227,10 +227,12 @@ class Companies(BaseOrganization):
             "cerfa_filler:companies-cerfa-pdf", kwargs={"pk": self.uuid}
         )
         formattedBody = (
-            "Hello,\n\nPlease find below a link to download your tax"
-            f" receipt for your donation.\n\n{formattedUrl}\n\nSincerely"
+            "Bonjour,\n\nVeuillez trouver ci-dessous le lien pour récupérer"
+            " le reçu fiscal suite à votre don à la LPO AuRA.\n\nEn vous remerciant"
+            f" pour votre soutien et votre générosité.\n\n{formattedUrl}\n\n"
+            "Je reste à votre disposition si nécessaire.\nBien cordialement,"
         )
-        formattedSubject = "Tax receipt for your donation"
+        formattedSubject = "Reçu fiscal LPO AuRA"
         mailto = (
             f"mailto:{self.email}?subject={formattedSubject}"
             f"&body={urllib.parse.quote(formattedBody)}"
