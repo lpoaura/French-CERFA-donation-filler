@@ -45,6 +45,39 @@ PAYMENT = {
 }
 
 
+class BaseModel(models.Model):
+    timestamp_create = models.DateTimeField(auto_now_add=True, editable=False)
+    timestamp_update = models.DateTimeField(auto_now=True, editable=False)
+    comment = models.CharField(
+        max_length=200, verbose_name=_("Comment"), null=True, blank=True
+    )
+
+    class Meta:
+        abstract = True
+
+
+class EmailBaseModel(models.Model):
+    emails = MultiEmailField(null=True, blank=True, default=[])
+
+    class Meta:
+        abstract = True
+
+    @property
+    def mailto(self):
+        formattedBody = (
+            "Bonjour,\n\nVeuillez trouver ci-dessous le lien pour récupérer"
+            " le reçu fiscal suite à votre don à la LPO AuRA.\n\nEn vous remerciant"
+            f" pour votre soutien et votre générosité.\n\n{self.cerfa_url}\n\n"
+            "Je reste à votre disposition si nécessaire.\nBien cordialement,"
+        )
+        formattedSubject = "Reçu fiscal LPO AuRA"
+        mailto = (
+            f"mailto:{','.join(self.emails)}?subject={formattedSubject}"
+            f"&body={urllib.parse.quote(formattedBody)}"
+        )
+        return mailto
+
+
 class DeclarativeStructure(models.Model):
     label = models.CharField(
         max_length=15, verbose_name=_("Label"), unique=True
@@ -74,20 +107,7 @@ class CompanyLegalForms(models.Model):
         return self.label
 
 
-class BaseOrganization(models.Model):
-    uuid = models.UUIDField(default=uuid4, unique=True, primary_key=True)
-    label = models.CharField(max_length=200, verbose_name=_("Label"))
-    emails = MultiEmailField(null=True, blank=True, default=[])
-    legal_status = models.ForeignKey(
-        CompanyLegalForms,
-        verbose_name=_("Legal status"),
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-    )
-    repository_code = models.CharField(
-        max_length=20, verbose_name=_("Repository code")
-    )
+class AddressBaseModel(models.Model):
     additional_address = models.CharField(
         max_length=200,
         verbose_name=_("Additional address"),
@@ -111,7 +131,26 @@ class BaseOrganization(models.Model):
         abstract = True
 
 
-class BeneficiaryOrganization(BaseOrganization):
+class BaseOrganization(BaseModel, AddressBaseModel):
+    uuid = models.UUIDField(default=uuid4, unique=True, primary_key=True)
+    label = models.CharField(max_length=200, verbose_name=_("Label"))
+    emails = MultiEmailField(null=True, blank=True, default=[])
+    legal_status = models.ForeignKey(
+        CompanyLegalForms,
+        verbose_name=_("Legal status"),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+    )
+    repository_code = models.CharField(
+        max_length=20, verbose_name=_("Repository code")
+    )
+
+    class Meta:
+        abstract = True
+
+
+class BeneficiaryOrganization(BaseOrganization, AddressBaseModel):
     object_description = models.CharField(
         max_length=200, verbose_name=_("Object"), default="", blank=True
     )
@@ -127,29 +166,7 @@ class BeneficiaryOrganization(BaseOrganization):
         return self.label
 
 
-class Companies(BaseOrganization):
-    order = models.IntegerField(
-        verbose_name=_("Order number"),
-        editable=False,
-        blank=True,
-        null=True,
-    )
-    donation_object = models.CharField(
-        max_length=200, verbose_name=_("Object"), null=True, blank=True
-    )
-    inkind_donation = models.DecimalField(
-        max_digits=12,
-        decimal_places=2,
-        verbose_name=_("In-kind Donation"),
-        blank=True,
-        null=True,
-    )
-    inkind_donation_description = models.TextField(
-        max_length=500,
-        blank=True,
-        default="",
-        verbose_name=_("In-kind Donation description"),
-    )
+class CashDonationBaseModel(models.Model):
     cash_donation = models.DecimalField(
         max_digits=12,
         decimal_places=2,
@@ -166,37 +183,45 @@ class Companies(BaseOrganization):
     cheque_deposit_date = models.DateField(
         null=True, blank=True, verbose_name=_("Cheque deposit date")
     )
-    date_start = models.DateField(
-        default=now, verbose_name=_("Initial donation date")
-    )
-    date_end = models.DateField(
-        null=True, blank=True, verbose_name=_("End date")
-    )
-    valid_date = models.DateField(
-        null=True, blank=True, verbose_name=_("Validation date")
-    )
-    comment = models.CharField(
-        max_length=200, verbose_name=_("Comment"), null=True, blank=True
-    )
-    declarative_structure = models.ForeignKey(
-        DeclarativeStructure,
-        verbose_name=_("Declarative structure"),
+
+    class Meta:
+        abstract = True
+
+    @property
+    def cash_donation_as_text(self) -> Optional[str]:
+        if self.cash_donation:
+            return num2words(self.cash_donation, lang="fr", to="currency")
+
+
+class InkindDonationBaseModel(models.Model):
+    inkind_donation = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        verbose_name=_("In-kind Donation"),
         blank=True,
         null=True,
-        on_delete=models.SET_NULL,
     )
-    timestamp_create = models.DateTimeField(auto_now_add=True, editable=False)
-    timestamp_update = models.DateTimeField(auto_now=True, editable=False)
+    inkind_donation_description = models.TextField(
+        max_length=500,
+        blank=True,
+        default="",
+        verbose_name=_("In-kind Donation description"),
+    )
+
+    class Meta:
+        abstract = True
 
     @property
     def inkind_donation_as_text(self) -> Optional[str]:
         if self.inkind_donation:
             return num2words(self.inkind_donation, lang="fr", to="currency")
 
-    @property
-    def cash_donation_as_text(self) -> Optional[str]:
-        if self.cash_donation:
-            return num2words(self.cash_donation, lang="fr", to="currency")
+
+class CashAndInkindDonationBaseModel(
+    CashDonationBaseModel, InkindDonationBaseModel
+):
+    class Meta:
+        abstract = True
 
     @property
     def total_donation_as_text(self):
@@ -210,6 +235,37 @@ class Companies(BaseOrganization):
     def total_donation(self):
         return (self.inkind_donation or 0) + (self.cash_donation or 0)
 
+
+class DonationMetadataBaseModel(models.Model):
+    order = models.IntegerField(
+        verbose_name=_("Order number"),
+        editable=False,
+        blank=True,
+        null=True,
+    )
+    donation_object = models.CharField(
+        max_length=200, verbose_name=_("Object"), null=True, blank=True
+    )
+    date_start = models.DateField(
+        default=now, verbose_name=_("Initial donation date")
+    )
+    date_end = models.DateField(
+        null=True, blank=True, verbose_name=_("End date")
+    )
+    valid_date = models.DateField(
+        null=True, blank=True, verbose_name=_("Validation date")
+    )
+    declarative_structure = models.ForeignKey(
+        DeclarativeStructure,
+        verbose_name=_("Declarative structure"),
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
+
+    class Meta:
+        abstract = True
+
     @property
     def year(self):
         return self.date_start.year
@@ -218,36 +274,26 @@ class Companies(BaseOrganization):
     def order_number(self):
         return f"{self.year}-PM-{self.order}"
 
-    @property
-    def mailto(self):
-        formattedUrl = settings.SITE + reverse(
-            "cerfa_filler:companies-cerfa-pdf", kwargs={"pk": self.uuid}
-        )
-        formattedBody = (
-            "Bonjour,\n\nVeuillez trouver ci-dessous le lien pour récupérer"
-            " le reçu fiscal suite à votre don à la LPO AuRA.\n\nEn vous remerciant"
-            f" pour votre soutien et votre générosité.\n\n{formattedUrl}\n\n"
-            "Je reste à votre disposition si nécessaire.\nBien cordialement,"
-        )
-        formattedSubject = "Reçu fiscal LPO AuRA"
-        mailto = (
-            f"mailto:{','.join(self.emails)}?subject={formattedSubject}"
-            f"&body={urllib.parse.quote(formattedBody)}"
-        )
-        return mailto
-
-    def __str__(self):
-        return f"{self.label} - {self.date_start} - {self.total_donation}"
-
     def save(self, *args, **kwargs):
         if not self.order:
+            current_model = self.__class__
             latest_record = (
-                Companies.objects.filter(date_start__year=self.year)
+                current_model.objects.filter(date_start__year=self.year)
                 .order_by("order")
                 .last()
             )
             self.order = latest_record.order + 1 if latest_record else 1
         super().save(*args, **kwargs)
+
+
+class Companies(
+    BaseOrganization,
+    DonationMetadataBaseModel,
+    AddressBaseModel,
+    CashAndInkindDonationBaseModel,
+):
+    def __str__(self):
+        return f"{self.label} - {self.date_start} - {self.total_donation}"
 
     @property
     def metadata(self) -> Optional[str]:
@@ -266,37 +312,39 @@ class Companies(BaseOrganization):
             ("send_email", "Can send email"),
         ]
 
+    @property
+    def cerfa_url(self):
+        return settings.SITE + reverse(
+            "cerfa_filler:companies-cerfa-pdf", kwargs={"pk": self.uuid}
+        )
 
-# class PrivateIndividual(models.Model):
-#     uuid = models.UUIDField(default=uuid4, unique=True, primary_key=True)
-#     first_name = models.CharField(max_length=200, verbose_name=_("First name"))
-#     last_name = models.CharField(max_length=200, verbose_name=_("Last name"))
-#     emails = MultiEmailField()
-#     legal_status = models.ForeignKey(
-#         CompanyLegalForms,
-#         verbose_name=_("Legal status"),
-#         null=True,
-#         blank=True,
-#         on_delete=models.SET_NULL,
-#     )
-#     repository_code = models.CharField(
-#         max_length=20, verbose_name=_("Repository code")
-#     )
-#     additional_address = models.CharField(
-#         max_length=200,
-#         verbose_name=_("Additional address"),
-#         blank=True,
-#         null=True,
-#     )
-#     street_number = models.CharField(
-#         max_length=20, verbose_name=_("Street number"), blank=True, null=True
-#     )
-#     street = models.CharField(
-#         max_length=200, verbose_name=_("Street"), blank=True, null=True
-#     )
-#     postal_code = models.CharField(
-#         max_length=10, verbose_name=_("Postal code")
-#     )
-#     municipality = models.CharField(
-#         max_length=200, verbose_name=_("Municipality")
-#     )
+
+class PrivateIndividual(
+    BaseModel,
+    AddressBaseModel,
+    CashDonationBaseModel,
+    EmailBaseModel,
+    DonationMetadataBaseModel,
+):
+    uuid = models.UUIDField(default=uuid4, unique=True, primary_key=True)
+    first_name = models.CharField(max_length=200, verbose_name=_("First name"))
+    last_name = models.CharField(max_length=200, verbose_name=_("Last name"))
+
+    class Meta:
+        verbose_name = _("Individual")
+        verbose_name_plural = _("Individuals")
+        permissions = [
+            ("change_validation", "Can change the validation status"),
+            ("send_email", "Can send email"),
+        ]
+
+    @property
+    def full_name(self):
+        return f"{self.last_name} {self.first_name}"
+
+    @property
+    def cerfa_url(self):
+        return settings.SITE + reverse(
+            "cerfa_filler:private-individual-cerfa-pdf",
+            kwargs={"pk": self.uuid},
+        )
