@@ -6,7 +6,7 @@
 
 {% block content %}
 <div class="container">
-    <h2>{% if object %}{% translate 'Edit' %}{% else %}{% translate 'Create' %}{% endif %} Company</h2>
+    <h2>{% if object %}{% translate 'Edit' %}{% else %}{% translate 'Create' %}{% endif %} {% translate 'PrivateDonation' %}</h2>
     <p class="text-muted">{% if object %}{{object.metadata}}{%endif%}</p>
 
     {% bootstrap_messages %}

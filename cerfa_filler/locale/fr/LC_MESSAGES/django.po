@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-11 10:31+0100\n"
+"POT-Creation-Date: 2026-02-11 10:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -267,6 +267,12 @@ msgstr "Liste des personnes morales"
 #| msgid "Individual company"
 msgid "Individuals List"
 msgstr "Entreprise individuelle"
+
+#: cerfa_filler/templates/private_individual_form.html:9
+#, fuzzy
+#| msgid "Cash Donation"
+msgid "PrivateDonation"
+msgstr "Don de particulier"
 
 #: cerfa_filler/templates/private_individual_list.html:18
 #, fuzzy
