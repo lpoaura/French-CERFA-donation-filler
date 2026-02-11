@@ -9,6 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" />
+    <link rel="icon" type="image/x-icon" href="{% static "cerfaFiller.ico" %}">
     <title>{% block title %}<title>{% translate "Cerfa filler" %}</title>{% endblock %}</title>
 </head>
 <style>
@@ -21,7 +22,7 @@ main > .container {
     <header>
         <nav  class="navbar navbar-expand-lg bg-primary  sticky-top" data-bs-theme="light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">{% translate "Cerfa filler" %}</a>
+                <a class="navbar-brand" href="/"><img height="30px" src="{% static "cerfaFiller.svg" %}">&nbsp;{% translate "Cerfa filler" %}</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
