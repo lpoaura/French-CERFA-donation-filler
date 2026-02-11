@@ -40,8 +40,14 @@ LEGAL_STATUSES = {
 PAYMENT = {
     "Cash": _("Cash"),
     "Cheque": _("Cheque"),
+    "CB": _("Bank card"),
     "Bank transfer": _("Bank transfer"),
     "Other": _("Other"),
+}
+
+DONATION_NATURE = {
+    "Cash": _("Nature_donation.Cash"),
+    "Waiver": _("Nature_donation.Waiver_of_fees"),
 }
 
 
@@ -329,6 +335,11 @@ class PrivateIndividual(
     uuid = models.UUIDField(default=uuid4, unique=True, primary_key=True)
     first_name = models.CharField(max_length=200, verbose_name=_("First name"))
     last_name = models.CharField(max_length=200, verbose_name=_("Last name"))
+    donation_nature = models.CharField(
+        choices=DONATION_NATURE,
+        default="Cash",
+        verbose_name=_("Nature donation"),
+    )
 
     class Meta:
         verbose_name = _("Individual")

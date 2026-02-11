@@ -67,6 +67,7 @@ class PrivateIndividualForm(forms.ModelForm):
             "postal_code",
             "municipality",
             "donation_object",
+            "donation_nature",
             "cash_donation",
             "cash_payment_type",
             "date_start",
