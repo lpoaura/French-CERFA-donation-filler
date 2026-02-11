@@ -19,32 +19,48 @@ class DatePicker(DateInput):
 
 class FilterForm(forms.Form):
     year = forms.ChoiceField(
-        choices=[
-            ("", "---------"),
-        ]
-        + [
-            (year["date_start__year"], year["date_start__year"])
-            for year in Companies.objects.order_by("date_start__year")
-            .values("date_start__year")
-            .distinct()
-        ],
+        choices=[],
         required=False,
         label="Sélectionnez une année",
     )
+
     declarative_structure = forms.ModelChoiceField(
         queryset=DeclarativeStructure.objects.all(),
         required=False,
         label="Sélectionnez une structure déclarative",
     )
+
     validation = forms.ChoiceField(
-        choices=[("", "---------"), (True, "Validé"), (False, "Non validé")],
+        choices=[
+            ("", "---------"),
+            ("true", "Validé"),
+            ("false", "Non validé"),
+        ],
         required=False,
         label="Statut de validation",
     )
 
+    def __init__(self, *args, model=None, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        if model is not None:
+            years = (
+                model.objects.order_by("date_start__year")
+                .values("date_start__year")
+                .distinct()
+            )
+
+            self.fields["year"].choices = [("", "---------")] + [
+                (y["date_start__year"], y["date_start__year"])
+                for y in years
+                if y["date_start__year"] is not None
+            ]
+
 
 class CompaniesForm(forms.ModelForm):
-    date_start = forms.DateField(widget=DatePicker(), label="Date de début")
+    date_start = forms.DateField(
+        widget=DatePicker(), label="Date du don ou Début de la donation"
+    )
     date_end = forms.DateField(
         widget=DatePicker(), label="Date de fin", required=False
     )

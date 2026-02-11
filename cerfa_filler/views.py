@@ -50,7 +50,7 @@ class BaseListView(ListView):
         if validation:
             try:
                 queryset = queryset.filter(
-                    valid_date__isnull=not eval(validation)
+                    valid_date__isnull=(validation.lower() == "false")
                 )
             except SyntaxError:
                 pass
@@ -59,9 +59,7 @@ class BaseListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filterForm"] = FilterForm(
-            self.request.GET
-        )  # Passer le formulaire au contexte
+        context["filterForm"] = FilterForm(self.request.GET, model=self.model)
         return context
 
 
