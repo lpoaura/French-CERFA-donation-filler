@@ -13,12 +13,10 @@
     <form method="post">
         {% csrf_token %}
 
-        {% bootstrap_form form %}
+        {% bootstrap_form form layout='horizontal' %}
 
         {% bootstrap_button button_type="submit" content="OK" %}
-        {% comment %}
-        <button type="submit" class="btn btn-success">Save</button>
-        {% endcomment %}
+
         <a href="{% url 'cerfa_filler:companies-list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 

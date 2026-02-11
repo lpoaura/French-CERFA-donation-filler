@@ -7,14 +7,13 @@
 
 
     <div class="container mt-5">
-        <h1 class="">{% translate "Cerfa filler" %}</h1>
         <div class="row">
             <!-- Card 1 -->
             <div class="col-md-6">
                 <div class="card text-center text-bg-info " >
                     <div class="card-body">
-                        <h2 class="card-title">{% translate 'Companies' %}</h2>
-                        <a href="{% url 'cerfa_filler:companies-list' %}" class="btn btn-primary">{% translate 'Companies List' %}</a>
+                        <h2 class="card-title">Personnes morales</h2>
+                        <a href="{% url 'cerfa_filler:companies-list' %}?year={% now "Y" %}" class="btn btn-primary">Accéder aux dons</a>
                     </div>
                 </div>
             </div>
@@ -22,15 +21,11 @@
             <div class="col-md-6">
                 <div class="card text-center text-bg-success">
                     <div class="card-body">
-                        <h2 class="card-title">{% translate 'Individuals' %}</h2>
-                        <a href="{% url 'cerfa_filler:private-individual-list' %}"  class="btn btn-primary">{% translate 'Individuals List' %}</a>
+                        <h2 class="card-title">Particuliers</h2>
+                        <a href="{% url 'cerfa_filler:private-individual-list' %}?year={% now "Y" %}"  class="btn btn-primary">Accéder aux dons</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-                {% comment %} <a href="{% url 'cerfa_filler:companies-create' %}" class="btn btn-success">Add Company</a> {% endcomment %}
-
 {% endblock %}

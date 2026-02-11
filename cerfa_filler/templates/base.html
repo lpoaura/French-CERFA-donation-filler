@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}" />
     <link rel="icon" type="image/x-icon" href="{% static "cerfaFiller.ico" %}">
-    <title>{% block title %}<title>{% translate "Cerfa filler" %}</title>{% endblock %}</title>
+    <title>{% block title %}<title>Gestionnaire de dons</title>{% endblock %}</title>
 </head>
 <style>
 main > .container {
@@ -22,25 +22,27 @@ main > .container {
     <header>
         <nav  class="navbar navbar-expand-lg bg-primary  sticky-top" data-bs-theme="light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/"><img height="30px" src="{% static "cerfaFiller.svg" %}">&nbsp;{% translate "Cerfa filler" %}</a>
+                <a class="navbar-brand" href="/"><img height="30px" src="{% static "cerfaFiller.svg" %}">&nbsp;Gestionnaire de dons</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        {%if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a href="/admin" class="nav-link">✇ Admin</a>
-                        </li>
+                        {% if user.is_authenticated %}
+                            {%if user.is_staff %}
+                            <li class="nav-item">
+                                <a href="/admin" class="nav-link">✇ Ca c'est touche pas à ça&nbsp;!</a>
+                            </li>
+                            {% endif %}
+
                         <li class="nav-item">
                             <form action="{% url 'accounts:logout' %}" method="post">
                                 {% csrf_token %}
-                                <input type="submit" class="nav-link" value="🔒 Logout ({{user.username}})"/>
+                                <input type="submit" class="nav-link" value="🔒 Quitter ({{user.username}})"/>
                             </form>
 
                         </li>
-
                         {%endif%}
                     </ul>
                 </div>
@@ -48,7 +50,9 @@ main > .container {
         </nav>
     </header>
     <main class="flex-shrink-0">
+        <div class="container-fluid">
         {% block content %}{% endblock %}
+        </div>
     </main>
     <footer class="footer mt-auto py-3 bg-body-tertiary">
         <div class="container text-center text-body-secondary">Made with ♥ with <a href="https://www.djangoproject.com/" target="_blank">Django</a> - <a href="https://github.com/lpoaura/French-CERFA-donation-filler" target="_blank"><code>&lt;/&gt;</code></a></div>

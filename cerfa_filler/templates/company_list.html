@@ -2,97 +2,299 @@
 
 {% load django_bootstrap5 i18n %}
 
-{% block title %}Companies List{% endblock %}
+{% block title %}
+  Companies List
+{% endblock %}
 
 {% block content %}
-<div class="m-3">
-<form id="update-form" method="post" action="{% url 'cerfa_filler:update-valid-date' %}">
-        <div class="float-end">
-        {% if perms.cerfa_filler.add_companies %}<a class="btn btn-primary"
-                                                    href="{%url 'cerfa_filler:companies-create' %}">＋ Nouveau</a>{%endif%}
-        {% if perms.cerfa_filler.change_validation %}
-        <button type="submit" form="update-form" class="btn btn-success">✔ Valider</button>
-        {%endif%}
+  <div class="row">
+    <div class="col-12">
+      <div class="m-3">
+        <h2>Personnes morales</h2>
+
+        <!-- Formulaire pour la validation des données en masse -->
+      </div>
     </div>
-    <h2>
-        {%translate 'Companies'%}
-    </h2>
-</div>
-
-
-{% comment %}
-<div class="row">
-  <div class="col">
-    <input type="text" class="form-control" id="filterYear" placeholder="Filter by Year" onkeyup="filterTable()">
   </div>
-  <div class="col">
-    <input type="text" class="form-control" id="filterLabel" placeholder="Filter by Label" onkeyup="filterTable()">
+  <div class="row">
+    <div class="col-2">
+      <!-- Formulaire de filtrage -->
+      <form id="filter-form" method="get" action="{% url 'cerfa_filler:companies-list' %}">
+        {% csrf_token %}
+        {% bootstrap_form filterForm %}
+        {% bootstrap_button button_type='submit' content="Let's Go!" layout='horizontal' %}
+      </form>
+    </div>
+    <div class="col-10">
+      <form id="update-form" method="post" action="{% url 'cerfa_filler:companies-update-valid-date' %}">
+        {% csrf_token %}
+        <div class="float-end">
+          {% if perms.cerfa_filler.add_companies %}
+            <a class="btn btn-primary" href="{% url 'cerfa_filler:companies-create' %}">＋ Nouveau</a>
+          {% endif %}
+          {% if perms.cerfa_filler.change_validation %}
+            <button type="submit" form="update-form" class="btn btn-success">✔ Valider</button>
+          {% endif %}
+        </div>
 
-  </div>
-  <div class="col">
-  <input type="text" class="form-control" id="filterPostalCode" placeholder="Filter by Postal Code" onkeyup="filterTable()">
-</div>
-</div> {% endcomment %}
+        {% comment %} <div class="row">
+          <div class="col">
+            <input type="text" class="form-control" id="filterYear" placeholder="Filter by Year" onkeyup="filterTable()" />
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" id="filterLabel" placeholder="Filter by Label" onkeyup="filterTable()" />
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" id="filterPostalCode" placeholder="Filter by Postal Code" onkeyup="filterTable()" />
+          </div>
+        </div> {% endcomment %}
 
-    {% csrf_token %}
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            {% if perms.cerfa_filler.change_validation %}
-                <th><input type="checkbox" onclick="toggle(this);"></th>
-            {%endif%}
-            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}1{%else%}0{%endif%})">{%translate 'Declarative structure'%}</th>
-            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}2{%else%}1{%endif%})">{%translate 'Year'%}</th>
-            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}3{%else%}2{%endif%})">{%translate 'Order number'%}</th>
-            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}4{%else%}3{%endif%})">{%translate 'Label'%}</th>
-            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}5{%else%}4{%endif%})">{%translate 'Total donation'%}</th>
-            <th>{%translate 'Comment'%}</th>
-            <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}7{%else%}6{%endif%})">{%translate 'Status'%}</th>
-            {% if perms.cerfa_filler.change_companies or perms.cerfa_filler.send_email %}
-            <th>{%translate 'Actions'%}</th>
-            {% endif %}
-        </tr>
-        </thead>
-        <tbody class="table-group-divider">
-        {% for company in companies %}
-        <tr data-bs-toggle="tooltip" data-bs-placement="top" title="{{company.metadata}}">
-            {% if perms.cerfa_filler.change_validation %}
-                <th><input type="checkbox" name="selected_companies" value="{{ company.uuid }}"></th>
-            {% endif %}
-            <td>{{ company.declarative_structure |default_if_none:'-'}}</td>
-            <td>{{ company.year }}</td>
-            <td>{{ company.order_number }}</td>
-            <td>{{ company.label }}</td>
-            <td>{{ company.total_donation }} €</td>
-            <td>{{ company.comment|default_if_none:'' }}</td>
-            <td><span class="text-{% if company.valid_date %}success{%else%}secondary{%endif%}">{% if company.valid_date %}⬤{%else%}◯{%endif%}</span>
-            </td>
-            {% if perms.cerfa_filler.change_companies or perms.cerfa_filler.send_email %}
-            <td>
-                {% if perms.cerfa_filler.change_companies %}<a
-                    href="{% url 'cerfa_filler:companies-update' company.uuid %}"
-                    class="btn btn-sm btn-warning">Edit</a>{%endif%}
-                {% if perms.cerfa_filler.send_email and company.valid_date %} <a
-                    href="{% url 'cerfa_filler:companies-cerfa-pdf' company.uuid %}"
-                    class="btn btn-sm btn-success">Cerfa</a>
-                <a class="btn btn-sm btn-info" href="{{company.mailto}}">Email</a>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              {% if perms.cerfa_filler.change_validation %}
+                <th>
+                  <input type="checkbox" onclick="toggle(this);" />
+                </th>
+              {% endif %}
+              <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
+
+
+
+
+
+
+              1
+
+
+
+
+
+
+                {% else %}
+
+
+
+
+
+
+              0
+
+
+
+
+
+
+                {% endif %})">
+                DT
+              </th>
+              <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}2{% else %}1{% endif %})">
+                Année
+              </th>
+              <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
+
+
+
+
+
+
+              3
+
+
+
+
+
+
+                {% else %}
+
+
+
+
+
+
+              2
+
+
+
+
+
+
+                {% endif %})">
+                Numéro d'ordre
+              </th>
+              <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
+
+
+
+
+
+
+              4
+
+
+
+
+
+
+                {% else %}
+
+
+
+
+
+
+              3
+
+
+
+
+
+
+                {% endif %})">
+                Nom
+              </th>
+              <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
+
+
+
+
+
+
+              5
+
+
+
+
+
+
+                {% else %}
+
+
+
+
+
+
+              4
+
+
+
+
+
+
+                {% endif %})">
+                Total
+              </th>
+              <th>
+                Commentaire
+              </th>
+              <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
+
+
+
+
+
+
+              7
+
+
+
+
+
+
+                {% else %}
+
+
+
+
+
+
+              6
+
+
+
+
+
+
+                {% endif %})">
+                Statut
+              </th>
+              {% if perms.cerfa_filler.change_companies or perms.cerfa_filler.send_email %}
+                <th>
+                  Actions
+                </th>
+              {% endif %}
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            {% for company in companies %}
+              <tr data-bs-toggle="tooltip" data-bs-placement="top" title="{{ company.metadata }}">
+                {% if perms.cerfa_filler.change_validation %}
+                  <th>
+                    <input type="checkbox" name="selected_companies" value="{{ company.uuid }}" />
+                  </th>
                 {% endif %}
-            </td>
-            {% endif %}
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-</form>
+                <td>{{ company.declarative_structure|default_if_none:'-' }}</td>
+                <td>{{ company.year }}</td>
+                <td>{{ company.order_number }}</td>
+                <td>{{ company.label }}</td>
+                <td>{{ company.total_donation }} €</td>
+                <td>{{ company.comment|default_if_none:'' }}</td>
+                <td>
+                  <span class="text-{% if company.valid_date %}
+
+
+
+
+
+
+                  success
+
+
+
+
+
+
+                    {% else %}
+
+
+
+
+
+
+                  secondary
+
+
+
+
+
+
+                    {% endif %}">
+                    {% if company.valid_date %}
+                      ⬤
+                    {% else %}
+                      ◯
+                    {% endif %}
+                  </span>
+                </td>
+                {% if perms.cerfa_filler.change_companies or perms.cerfa_filler.send_email %}
+                  <td>
+                    {% if perms.cerfa_filler.change_companies %}
+                      <a href="{% url 'cerfa_filler:companies-update' company.uuid %}" class="btn btn-sm btn-warning">Edit</a>
+                    {% endif %}
+                    {% if perms.cerfa_filler.send_email and company.valid_date %}
+                      <a href="{% url 'cerfa_filler:companies-cerfa-pdf' company.uuid %}" class="btn btn-sm btn-success">Cerfa</a>
+                      <a class="btn btn-sm btn-info" href="{{ company.mailto }}">Email</a>
+                    {% endif %}
+                  </td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </div>
 <script>
-    {% comment %}
-    const emailLink = (label, email, pdfUrl) => {
-        const formattedPdfUrl = window.location.origin + pdfUrl
-        const formattedSubject = {% blocktranslate %}`Tax receipt for your donation`{%endblocktranslate%};
-        const formattedBody = {% blocktranslate %}`Bonjour,\n\nVeuillez trouver ci-dessous le lien pour récupérer le reçu fiscal suite à votre don à la LPO AuRA.\n\nEn vous remerciant pour votre soutien et votre générosité.\n\n${formattedPdfUrl}\n\nJe reste à votre disposition si nécessaire.\nBien cordialement,`{%endblocktranslate%};
-        mailtoLink.href = `mailto:${email}?subject=${formattedSubject}&body=${encodeURIComponent(formattedBody)}`;
-        mailtoLink.style.display = 'inline';
-    } {% endcomment %}
     const toggle= (source) => {
         let checkboxes = document
             .querySelectorAll('input[type="checkbox"]');
@@ -104,29 +306,6 @@
             )
 
     }
-
-{% comment %}
-    function filterTable() {
-        const yearInput = document.getElementById("filterYear").value.toLowerCase();
-        const labelInput = document.getElementById("filterLabel").value.toLowerCase();
-        const postalCodeInput = document.getElementById("filterPostalCode").value.toLowerCase();
-        const table = document.querySelector(".table tbody");
-        const rows = table.getElementsByTagName("tr");
-
-        for (let i = 0; i < rows.length; i++) {
-            const yearCell = rows[i].getElementsByTagName("td")[0];
-            const labelCell = rows[i].getElementsByTagName("td")[3];
-            const postalCodeCell = rows[i].getElementsByTagName("td")[5];
-
-            const yearText = yearCell ? yearCell.textContent.toLowerCase() : "";
-            const labelText = labelCell ? labelCell.textContent.toLowerCase() : "";
-            const postalCodeText = postalCodeCell ? postalCodeCell.textContent.toLowerCase() : "";
-
-            rows[i].style.display = (yearText.includes(yearInput) &&
-                                    labelText.includes(labelInput) &&
-                                    postalCodeText.includes(postalCodeInput)) ? "" : "none";
-        }
-    } {% endcomment %}
 
     function sortTable(columnIndex) {
         const table = document.querySelector(".table tbody");

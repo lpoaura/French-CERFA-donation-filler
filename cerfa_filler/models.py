@@ -8,7 +8,6 @@ from django.template.defaultfilters import date
 from django.urls import reverse
 from django.utils.timezone import localtime as _localtime
 from django.utils.timezone import now
-from django.utils.translation import gettext_lazy as _
 from multi_email_field.fields import MultiEmailField
 from num2words import num2words
 
@@ -26,28 +25,20 @@ def localtime(value):
 
     localized = _localtime(value)
 
-    # This format is specific to a US-style locale.
     return date(localized, "F j, Y \\a\\t g:i A")
 
-    # return format_html('<time datetime="{}" class="local-time">{}</time>', iso_format, display_format)
-
-
-LEGAL_STATUSES = {
-    "Asso": _("Association"),
-    "Individual": _("Individual company"),
-}
 
 PAYMENT = {
-    "Cash": _("Cash"),
-    "Cheque": _("Cheque"),
-    "CB": _("Bank card"),
-    "Bank transfer": _("Bank transfer"),
-    "Other": _("Other"),
+    "Cash": "Espèce",
+    "Cheque": "Chèque",
+    "CB": "Carte bancaire",
+    "Bank transfer": "Virement",
+    "Other": "Autre",
 }
 
 DONATION_NATURE = {
-    "Cash": _("Nature_donation.Cash"),
-    "Waiver": _("Nature_donation.Waiver_of_fees"),
+    "Cash": "Don en numéraire",
+    "Waiver": "Abandon de frais",
 }
 
 
@@ -55,7 +46,7 @@ class BaseModel(models.Model):
     timestamp_create = models.DateTimeField(auto_now_add=True, editable=False)
     timestamp_update = models.DateTimeField(auto_now=True, editable=False)
     comment = models.CharField(
-        max_length=200, verbose_name=_("Comment"), null=True, blank=True
+        max_length=200, verbose_name="Commentaire", null=True, blank=True
     )
 
     class Meta:
@@ -85,13 +76,11 @@ class EmailBaseModel(models.Model):
 
 
 class DeclarativeStructure(models.Model):
-    label = models.CharField(
-        max_length=15, verbose_name=_("Label"), unique=True
-    )
+    label = models.CharField(max_length=15, verbose_name="Nom", unique=True)
 
     class Meta:
-        verbose_name = _("Declarative structure")
-        verbose_name_plural = _("Declarative structures")
+        verbose_name = "Délégation territoriale"
+        verbose_name_plural = "Délégations territoriales"
         ordering = ("label",)
 
     def __str__(self):
@@ -99,14 +88,12 @@ class DeclarativeStructure(models.Model):
 
 
 class CompanyLegalForms(models.Model):
-    code = models.CharField(max_length=4, verbose_name=_("Label"), unique=True)
-    label = models.CharField(
-        max_length=200, verbose_name=_("Label"), unique=True
-    )
+    code = models.CharField(max_length=4, verbose_name="Code", unique=True)
+    label = models.CharField(max_length=200, verbose_name="Nom", unique=True)
 
     class Meta:
-        verbose_name = _("Legal form")
-        verbose_name_plural = _("Legal forms")
+        verbose_name = "Forme légale"
+        verbose_name_plural = "Formes légales"
         ordering = ("label",)
 
     def __str__(self):
@@ -116,22 +103,18 @@ class CompanyLegalForms(models.Model):
 class AddressBaseModel(models.Model):
     additional_address = models.CharField(
         max_length=200,
-        verbose_name=_("Additional address"),
+        verbose_name="Complément d'addresse",
         blank=True,
         null=True,
     )
     street_number = models.CharField(
-        max_length=20, verbose_name=_("Street number"), blank=True, null=True
+        max_length=20, verbose_name="Numéro de rue", blank=True, null=True
     )
     street = models.CharField(
-        max_length=200, verbose_name=_("Street"), blank=True, null=True
+        max_length=200, verbose_name="Rue", blank=True, null=True
     )
-    postal_code = models.CharField(
-        max_length=10, verbose_name=_("Postal code")
-    )
-    municipality = models.CharField(
-        max_length=200, verbose_name=_("Municipality")
-    )
+    postal_code = models.CharField(max_length=10, verbose_name="Code postal")
+    municipality = models.CharField(max_length=200, verbose_name="Commune")
 
     class Meta:
         abstract = True
@@ -139,18 +122,16 @@ class AddressBaseModel(models.Model):
 
 class BaseOrganization(BaseModel, AddressBaseModel):
     uuid = models.UUIDField(default=uuid4, unique=True, primary_key=True)
-    label = models.CharField(max_length=200, verbose_name=_("Label"))
+    label = models.CharField(max_length=200, verbose_name="Nom")
     emails = MultiEmailField(null=True, blank=True, default=[])
     legal_status = models.ForeignKey(
         CompanyLegalForms,
-        verbose_name=_("Legal status"),
+        verbose_name="Forme juridique",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
     )
-    repository_code = models.CharField(
-        max_length=20, verbose_name=_("Repository code")
-    )
+    repository_code = models.CharField(max_length=20, verbose_name="SIRET")
 
     class Meta:
         abstract = True
@@ -158,15 +139,17 @@ class BaseOrganization(BaseModel, AddressBaseModel):
 
 class BeneficiaryOrganization(BaseOrganization, AddressBaseModel):
     object_description = models.CharField(
-        max_length=200, verbose_name=_("Object"), default="", blank=True
+        max_length=200, verbose_name="Description", default="", blank=True
     )
     sign_file = models.ImageField(
-        verbose_name=_("Sign image file"), null=True, blank=True
+        verbose_name="Image de la signature (PNG requis)",
+        null=True,
+        blank=True,
     )
 
     class Meta:
-        verbose_name = _("Beneficiary organization")
-        verbose_name_plural = _("Beneficiary organization")
+        verbose_name = "Organisme bénéficiaire"
+        verbose_name_plural = "Organismes bénéficiaires"
 
     def __str__(self):
         return self.label
@@ -176,7 +159,7 @@ class CashDonationBaseModel(models.Model):
     cash_donation = models.DecimalField(
         max_digits=12,
         decimal_places=2,
-        verbose_name=_("Cash Donation"),
+        verbose_name="Montant du don en numéraire",
         blank=True,
         null=True,
     )
@@ -184,10 +167,10 @@ class CashDonationBaseModel(models.Model):
         choices=PAYMENT,
         blank=True,
         null=True,
-        verbose_name=_("Cash payment type"),
+        verbose_name="Type de paiement",
     )
     cheque_deposit_date = models.DateField(
-        null=True, blank=True, verbose_name=_("Cheque deposit date")
+        null=True, blank=True, verbose_name="Date de dépôt de chèque"
     )
 
     class Meta:
@@ -203,7 +186,7 @@ class InkindDonationBaseModel(models.Model):
     inkind_donation = models.DecimalField(
         max_digits=12,
         decimal_places=2,
-        verbose_name=_("In-kind Donation"),
+        verbose_name="Valeur du don en nature",
         blank=True,
         null=True,
     )
@@ -211,7 +194,7 @@ class InkindDonationBaseModel(models.Model):
         max_length=500,
         blank=True,
         default="",
-        verbose_name=_("In-kind Donation description"),
+        verbose_name="Description du don en nature",
     )
 
     class Meta:
@@ -244,26 +227,29 @@ class CashAndInkindDonationBaseModel(
 
 class DonationMetadataBaseModel(models.Model):
     order = models.IntegerField(
-        verbose_name=_("Order number"),
+        verbose_name="Numéro d'ordre",
         editable=False,
         blank=True,
         null=True,
     )
     donation_object = models.CharField(
-        max_length=200, verbose_name=_("Object"), null=True, blank=True
+        max_length=200,
+        verbose_name="Objet de la donation",
+        null=True,
+        blank=True,
     )
     date_start = models.DateField(
-        default=now, verbose_name=_("Initial donation date")
+        default=now, verbose_name="Date du don ou du début de donation"
     )
     date_end = models.DateField(
-        null=True, blank=True, verbose_name=_("End date")
+        null=True, blank=True, verbose_name="Date de fin de la donation"
     )
     valid_date = models.DateField(
-        null=True, blank=True, verbose_name=_("Validation date")
+        null=True, blank=True, verbose_name="Validation date"
     )
     declarative_structure = models.ForeignKey(
         DeclarativeStructure,
-        verbose_name=_("Declarative structure"),
+        verbose_name="Délégation territoriale",
         blank=True,
         null=True,
         on_delete=models.SET_NULL,
@@ -304,15 +290,14 @@ class Companies(
     @property
     def metadata(self) -> Optional[str]:
         if self.timestamp_update:
-            return _(
-                f"Created on {localtime(self.timestamp_create)}, updated on {localtime(self.timestamp_update)}"
-            )
+            return f"Créé le {localtime(self.timestamp_create)}, mis à jour le {localtime(self.timestamp_update)}"
+
         else:
-            return _(f"Created on {localtime(self.timestamp_create)}")
+            return f"Créé le {localtime(self.timestamp_create)}"
 
     class Meta:
-        verbose_name = _("Company")
-        verbose_name_plural = _("Companies")
+        verbose_name = "Personne morale"
+        verbose_name_plural = "Personnes morales"
         permissions = [
             ("change_validation", "Can change the validation status"),
             ("send_email", "Can send email"),
@@ -333,17 +318,17 @@ class PrivateIndividual(
     DonationMetadataBaseModel,
 ):
     uuid = models.UUIDField(default=uuid4, unique=True, primary_key=True)
-    first_name = models.CharField(max_length=200, verbose_name=_("First name"))
-    last_name = models.CharField(max_length=200, verbose_name=_("Last name"))
+    first_name = models.CharField(max_length=200, verbose_name="Prénom")
+    last_name = models.CharField(max_length=200, verbose_name="Nom")
     donation_nature = models.CharField(
         choices=DONATION_NATURE,
         default="Cash",
-        verbose_name=_("Nature donation"),
+        verbose_name="Nature du don",
     )
 
     class Meta:
-        verbose_name = _("Individual")
-        verbose_name_plural = _("Individuals")
+        verbose_name = "Particulier"
+        verbose_name_plural = "Particuliers"
         permissions = [
             ("change_validation", "Can change the validation status"),
             ("send_email", "Can send email"),

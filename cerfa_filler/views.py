@@ -20,7 +20,7 @@ from django.views.generic import (
 from pypdf import PdfReader, PdfWriter
 from weasyprint import HTML
 
-from .forms import CompaniesForm, PrivateIndividualForm
+from .forms import CompaniesForm, FilterForm, PrivateIndividualForm
 from .models import BeneficiaryOrganization, Companies, PrivateIndividual
 
 # HOME
@@ -31,6 +31,38 @@ class Home(TemplateView):
 
 
 # COMPANIES
+
+
+class BaseListView(ListView):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        year = self.request.GET.get("year")
+        declarative_structure = self.request.GET.get("declarative_structure")
+        validation = self.request.GET.get("validation")
+        print(validation, type(validation), bool(validation))
+
+        if year:
+            queryset = queryset.filter(date_start__year=year)
+        if declarative_structure:
+            queryset = queryset.filter(
+                declarative_structure=declarative_structure
+            )
+        if validation:
+            try:
+                queryset = queryset.filter(
+                    valid_date__isnull=not eval(validation)
+                )
+            except SyntaxError:
+                pass
+        print(queryset.query)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filterForm"] = FilterForm(
+            self.request.GET
+        )  # Passer le formulaire au contexte
+        return context
 
 
 class CompaniesCerfaToPdf(DetailView):
@@ -93,7 +125,7 @@ class CompaniesCerfaToPdf(DetailView):
 @method_decorator(
     permission_required("cerfa_filler.view_companies"), name="dispatch"
 )
-class CompaniesListView(LoginRequiredMixin, ListView):
+class CompaniesListView(LoginRequiredMixin, BaseListView):
     model = Companies
     template_name = "company_list.html"
     context_object_name = "companies"
@@ -145,7 +177,7 @@ class CompaniesUpdateValidDateView(LoginRequiredMixin, View):
     permission_required("cerfa_filler.view_private_individuals"),
     name="dispatch",
 )
-class PrivateIndividualListView(LoginRequiredMixin, ListView):
+class PrivateIndividualListView(LoginRequiredMixin, BaseListView):
     model = PrivateIndividual
     template_name = "private_individual_list.html"
     context_object_name = "individuals"

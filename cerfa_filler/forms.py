@@ -1,10 +1,9 @@
 # forms.py
 from django import forms
 from django.forms import DateInput
-from django.utils.translation import gettext_lazy as _
 from multi_email_field.forms import MultiEmailField
 
-from .models import Companies, PrivateIndividual
+from .models import Companies, DeclarativeStructure, PrivateIndividual
 
 
 class DatePicker(DateInput):
@@ -18,10 +17,36 @@ class DatePicker(DateInput):
         )
 
 
+class FilterForm(forms.Form):
+    year = forms.ChoiceField(
+        choices=[
+            ("", "---------"),
+        ]
+        + [
+            (year["date_start__year"], year["date_start__year"])
+            for year in Companies.objects.order_by("date_start__year")
+            .values("date_start__year")
+            .distinct()
+        ],
+        required=False,
+        label="Sélectionnez une année",
+    )
+    declarative_structure = forms.ModelChoiceField(
+        queryset=DeclarativeStructure.objects.all(),
+        required=False,
+        label="Sélectionnez une structure déclarative",
+    )
+    validation = forms.ChoiceField(
+        choices=[("", "---------"), (True, "Validé"), (False, "Non validé")],
+        required=False,
+        label="Statut de validation",
+    )
+
+
 class CompaniesForm(forms.ModelForm):
-    date_start = forms.DateField(widget=DatePicker(), label=_("Start date"))
+    date_start = forms.DateField(widget=DatePicker(), label="Date de début")
     date_end = forms.DateField(
-        widget=DatePicker(), label=_("End date"), required=False
+        widget=DatePicker(), label="Date de fin", required=False
     )
     emails = MultiEmailField(required=False)
 
@@ -51,7 +76,7 @@ class CompaniesForm(forms.ModelForm):
 
 
 class PrivateIndividualForm(forms.ModelForm):
-    date_start = forms.DateField(widget=DatePicker(), label=_("Donation date"))
+    date_start = forms.DateField(widget=DatePicker(), label="Date du don")
     emails = MultiEmailField(required=False)
 
     class Meta:

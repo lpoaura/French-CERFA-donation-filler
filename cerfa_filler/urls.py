@@ -39,7 +39,7 @@ urlpatterns = [
     path(
         "companies/update-valid-date/",
         CompaniesUpdateValidDateView.as_view(),
-        name="update-valid-date",
+        name="companies-update-valid-date",
     ),
     # Individuals
     path(
@@ -65,6 +65,6 @@ urlpatterns = [
     path(
         "individuals/update-valid-date/",
         PrivateIndividualUpdateValidDateView.as_view(),
-        name="update-valid-date",
+        name="private-individual-update-valid-date",
     ),
 ]

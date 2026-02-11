@@ -426,14 +426,14 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 name = "django-bootstrap5"
-version = "25.3"
+version = "26.2"
 description = "Bootstrap 5 for Django"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "django_bootstrap5-25.3-py3-none-any.whl", hash = "sha256:3d381a5329a1439ac3237456c28cc8170c62b4c56ad3564d57876ffc3d4c5e78"},
-    {file = "django_bootstrap5-25.3.tar.gz", hash = "sha256:cc36f1a19d3200c0f5628c703320edb5c4e39e19bf17607fadf58ddb11828912"},
+    {file = "django_bootstrap5-26.2-py3-none-any.whl", hash = "sha256:179af37c59f4e9b1070fc650f30961c5d903c2c0ad60280ad5b63ed394f68658"},
+    {file = "django_bootstrap5-26.2.tar.gz", hash = "sha256:12331059c8230ba372ffaad990a706151e1ad8f721a870aa2e862cf6746f0d33"},
 ]
 
 [package.dependencies]
@@ -1291,4 +1291,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12"
-content-hash = "09d54816d08c92650d7958f49a188a8625dd4a7c005d1bc9f5fc95ded3ab1149"
+content-hash = "3bd62dc4617a971bdc58411ed29d186fa8ea395f42f4c998f35b0023d0b242b3"
