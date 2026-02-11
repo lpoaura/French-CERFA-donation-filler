@@ -1,0 +1,249 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-11 10:27+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: cerfa_filler/forms.py:22
+msgid "Start date"
+msgstr ""
+
+#: cerfa_filler/forms.py:24 cerfa_filler/models.py:258
+msgid "End date"
+msgstr ""
+
+#: cerfa_filler/forms.py:54
+msgid "Donation date"
+msgstr ""
+
+#: cerfa_filler/models.py:36
+msgid "Association"
+msgstr ""
+
+#: cerfa_filler/models.py:37
+msgid "Individual company"
+msgstr ""
+
+#: cerfa_filler/models.py:41
+msgid "Cash"
+msgstr ""
+
+#: cerfa_filler/models.py:42
+msgid "Cheque"
+msgstr ""
+
+#: cerfa_filler/models.py:43
+msgid "Bank card"
+msgstr ""
+
+#: cerfa_filler/models.py:44
+msgid "Bank transfer"
+msgstr ""
+
+#: cerfa_filler/models.py:45
+msgid "Other"
+msgstr ""
+
+#: cerfa_filler/models.py:49
+msgid "Nature_donation.Cash"
+msgstr ""
+
+#: cerfa_filler/models.py:50
+msgid "Nature_donation.Waiver_of_fees"
+msgstr ""
+
+#: cerfa_filler/models.py:57 cerfa_filler/templates/company_list.html:50
+#: cerfa_filler/templates/private_individual_list.html:50
+msgid "Comment"
+msgstr ""
+
+#: cerfa_filler/models.py:88 cerfa_filler/models.py:101
+#: cerfa_filler/models.py:103 cerfa_filler/models.py:141
+#: cerfa_filler/templates/company_list.html:48
+msgid "Label"
+msgstr ""
+
+#: cerfa_filler/models.py:92 cerfa_filler/models.py:265
+#: cerfa_filler/templates/company_list.html:45
+#: cerfa_filler/templates/private_individual_list.html:45
+msgid "Declarative structure"
+msgstr ""
+
+#: cerfa_filler/models.py:93
+msgid "Declarative structures"
+msgstr ""
+
+#: cerfa_filler/models.py:107
+msgid "Legal form"
+msgstr ""
+
+#: cerfa_filler/models.py:108
+msgid "Legal forms"
+msgstr ""
+
+#: cerfa_filler/models.py:118
+msgid "Additional address"
+msgstr ""
+
+#: cerfa_filler/models.py:123
+msgid "Street number"
+msgstr ""
+
+#: cerfa_filler/models.py:126
+msgid "Street"
+msgstr ""
+
+#: cerfa_filler/models.py:129
+msgid "Postal code"
+msgstr ""
+
+#: cerfa_filler/models.py:132
+msgid "Municipality"
+msgstr ""
+
+#: cerfa_filler/models.py:145
+msgid "Legal status"
+msgstr ""
+
+#: cerfa_filler/models.py:151
+msgid "Repository code"
+msgstr ""
+
+#: cerfa_filler/models.py:160 cerfa_filler/models.py:252
+msgid "Object"
+msgstr ""
+
+#: cerfa_filler/models.py:163
+msgid "Sign image file"
+msgstr ""
+
+#: cerfa_filler/models.py:167 cerfa_filler/models.py:168
+msgid "Beneficiary organization"
+msgstr ""
+
+#: cerfa_filler/models.py:178
+msgid "Cash Donation"
+msgstr ""
+
+#: cerfa_filler/models.py:186
+msgid "Cash payment type"
+msgstr ""
+
+#: cerfa_filler/models.py:189
+msgid "Cheque deposit date"
+msgstr ""
+
+#: cerfa_filler/models.py:205
+msgid "In-kind Donation"
+msgstr ""
+
+#: cerfa_filler/models.py:213
+msgid "In-kind Donation description"
+msgstr ""
+
+#: cerfa_filler/models.py:246 cerfa_filler/templates/company_list.html:47
+#: cerfa_filler/templates/private_individual_list.html:47
+msgid "Order number"
+msgstr ""
+
+#: cerfa_filler/models.py:255
+msgid "Initial donation date"
+msgstr ""
+
+#: cerfa_filler/models.py:261
+msgid "Validation date"
+msgstr ""
+
+#: cerfa_filler/models.py:313
+msgid "Company"
+msgstr ""
+
+#: cerfa_filler/models.py:314 cerfa_filler/templates/company_list.html:18
+#: cerfa_filler/templates/home.html:16
+msgid "Companies"
+msgstr ""
+
+#: cerfa_filler/models.py:335
+msgid "First name"
+msgstr ""
+
+#: cerfa_filler/models.py:336
+msgid "Last name"
+msgstr ""
+
+#: cerfa_filler/models.py:340
+msgid "Nature donation"
+msgstr ""
+
+#: cerfa_filler/models.py:344
+msgid "Individual"
+msgstr ""
+
+#: cerfa_filler/models.py:345 cerfa_filler/templates/home.html:25
+msgid "Individuals"
+msgstr ""
+
+#: cerfa_filler/templates/base.html:12 cerfa_filler/templates/base.html:24
+#: cerfa_filler/templates/home.html:10
+msgid "Cerfa filler"
+msgstr ""
+
+#: cerfa_filler/templates/company_form.html:9
+#: cerfa_filler/templates/private_individual_form.html:9
+msgid "Edit"
+msgstr ""
+
+#: cerfa_filler/templates/company_form.html:9
+#: cerfa_filler/templates/private_individual_form.html:9
+msgid "Create"
+msgstr ""
+
+#: cerfa_filler/templates/company_list.html:46
+#: cerfa_filler/templates/private_individual_list.html:46
+msgid "Year"
+msgstr ""
+
+#: cerfa_filler/templates/company_list.html:49
+#: cerfa_filler/templates/private_individual_list.html:49
+msgid "Total donation"
+msgstr ""
+
+#: cerfa_filler/templates/company_list.html:51
+#: cerfa_filler/templates/private_individual_list.html:51
+msgid "Status"
+msgstr ""
+
+#: cerfa_filler/templates/company_list.html:53
+#: cerfa_filler/templates/private_individual_list.html:53
+msgid "Actions"
+msgstr ""
+
+#: cerfa_filler/templates/home.html:17
+msgid "Companies List"
+msgstr ""
+
+#: cerfa_filler/templates/home.html:26
+msgid "Individuals List"
+msgstr ""
+
+#: cerfa_filler/templates/private_individual_list.html:18
+msgid "individuals"
+msgstr ""
+
+#: cerfa_filler/templates/private_individual_list.html:48
+msgid "Name"
+msgstr ""

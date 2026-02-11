@@ -4,7 +4,7 @@ from django.forms import DateInput
 from django.utils.translation import gettext_lazy as _
 from multi_email_field.forms import MultiEmailField
 
-from .models import Companies
+from .models import Companies, PrivateIndividual
 
 
 class DatePicker(DateInput):
@@ -46,5 +46,30 @@ class CompaniesForm(forms.ModelForm):
             "cheque_deposit_date",
             "date_start",
             "date_end",
+            "comment",
+        ]
+
+
+class PrivateIndividualForm(forms.ModelForm):
+    date_start = forms.DateField(widget=DatePicker(), label=_("Donation date"))
+    emails = MultiEmailField(required=False)
+
+    class Meta:
+        model = PrivateIndividual
+        fields = [
+            "declarative_structure",
+            "first_name",
+            "last_name",
+            "emails",
+            "street_number",
+            "street",
+            "additional_address",
+            "postal_code",
+            "municipality",
+            "donation_object",
+            "donation_nature",
+            "cash_donation",
+            "cash_payment_type",
+            "date_start",
             "comment",
         ]

@@ -7,6 +7,7 @@ from .models import (
     Companies,
     CompanyLegalForms,
     DeclarativeStructure,
+    PrivateIndividual,
 )
 
 # Register your models here.
@@ -22,6 +23,11 @@ class CompaniesResource(resources.ModelResource):
         model = Companies
 
 
+class PrivateIndividualResource(resources.ModelResource):
+    class Meta:
+        model = PrivateIndividual
+
+
 admin.site.register(BeneficiaryOrganization, admin.ModelAdmin)
 admin.site.register(DeclarativeStructure, admin.ModelAdmin)
 
@@ -34,3 +40,8 @@ class CompaniesAdmin(ImportExportModelAdmin):
 @admin.register(CompanyLegalForms)
 class CompanyLegalFormsAdmin(ImportExportModelAdmin):
     resource_classes = [CompanyLegalFormsResource]
+
+
+@admin.register(PrivateIndividual)
+class PrivateIndividualAdmin(ImportExportModelAdmin):
+    resource_classes = [PrivateIndividualResource]

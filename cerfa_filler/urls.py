@@ -1,24 +1,23 @@
 from django.urls import path
 
 from .views import (
-    CompaniesCerfa,
     CompaniesCerfaToPdf,
     CompaniesCreateView,
     CompaniesListView,
     CompaniesUpdateValidDateView,
     CompaniesUpdateView,
     Home,
+    PrivateIndividualCerfaToPdf,
+    PrivateIndividualCreateView,
+    PrivateIndividualListView,
+    PrivateIndividualUpdateValidDateView,
+    PrivateIndividualUpdateView,
 )
 
 app_name = "cerfa_filler"
 
 urlpatterns = [
     path("", Home.as_view(), name="home"),
-    path(
-        "companies/cerfa/<uuid:pk>",
-        CompaniesCerfa.as_view(),
-        name="companies-cerfa",
-    ),
     path(
         "companies/cerfa/pdf/<uuid:pk>",
         CompaniesCerfaToPdf.as_view(),
@@ -40,6 +39,32 @@ urlpatterns = [
     path(
         "companies/update-valid-date/",
         CompaniesUpdateValidDateView.as_view(),
+        name="update-valid-date",
+    ),
+    # Individuals
+    path(
+        "individuals/cerfa/pdf/<uuid:pk>",
+        PrivateIndividualCerfaToPdf.as_view(),
+        name="private-individual-cerfa-pdf",
+    ),
+    path(
+        "individuals/list/",
+        PrivateIndividualListView.as_view(),
+        name="private-individual-list",
+    ),
+    path(
+        "individuals/create/",
+        PrivateIndividualCreateView.as_view(),
+        name="private-individual-create",
+    ),
+    path(
+        "individuals/update/<uuid:pk>/",
+        PrivateIndividualUpdateView.as_view(),
+        name="private-individual-update",
+    ),
+    path(
+        "individuals/update-valid-date/",
+        PrivateIndividualUpdateValidDateView.as_view(),
         name="update-valid-date",
     ),
 ]
