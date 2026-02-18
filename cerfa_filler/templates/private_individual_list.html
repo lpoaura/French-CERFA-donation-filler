@@ -26,7 +26,7 @@
       </form>
     </div>
     <div class="col-10">
-      <form id="update-form" method="post" action="{% url 'cerfa_filler:companies-update-valid-date' %}">
+      <form id="update-form" method="post" action="{% url 'cerfa_filler:private-individual-update-valid-date' %}">
         {% csrf_token %}
         <div class="float-end">
           {% if perms.cerfa_filler.add_individuals %}
