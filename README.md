@@ -1,4 +1,6 @@
-# Cerfa filler django app
+# Cerfa filler django app
+
+Originally inspired by [Zero-Waste-Paris/fill-cerfa-11580](https://github.com/Zero-Waste-Paris/fill-cerfa-11580), but extensively reworked to make it a standalone web app.
 
 ## HowTo
 
