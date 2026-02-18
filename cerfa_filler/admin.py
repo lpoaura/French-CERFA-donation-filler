@@ -35,6 +35,8 @@ admin.site.register(DeclarativeStructure, admin.ModelAdmin)
 @admin.register(Companies)
 class CompaniesAdmin(ImportExportModelAdmin):
     resource_classes = [CompaniesResource]
+    list_display = ("label", "date_start", "total_donation", "valid_date")
+    # list_filter=['donation_nature']
 
 
 @admin.register(CompanyLegalForms)
@@ -45,3 +47,11 @@ class CompanyLegalFormsAdmin(ImportExportModelAdmin):
 @admin.register(PrivateIndividual)
 class PrivateIndividualAdmin(ImportExportModelAdmin):
     resource_classes = [PrivateIndividualResource]
+    list_display = (
+        "full_name",
+        "date_start",
+        "cash_donation",
+        "valid_date",
+        "donation_nature",
+    )
+    list_filter = ["donation_nature"]

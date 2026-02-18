@@ -245,6 +245,16 @@ class PrivateIndividualListView(LoginRequiredMixin, BaseListView):
         )
         return context
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        donation_nature = self.request.GET.get("donation_nature")
+        if donation_nature:
+            print("donation kind", donation_nature)
+            queryset = queryset.filter(donation_nature=donation_nature)
+        print(queryset.query)
+        return queryset
+
 
 @method_decorator(
     permission_required("cerfa_filler.create_private_individuals"),

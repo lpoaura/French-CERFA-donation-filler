@@ -3,7 +3,12 @@ from django import forms
 from django.forms import DateInput
 from multi_email_field.forms import MultiEmailField
 
-from .models import Companies, DeclarativeStructure, PrivateIndividual
+from .models import (
+    DONATION_NATURE,
+    Companies,
+    DeclarativeStructure,
+    PrivateIndividual,
+)
 
 
 class DatePicker(DateInput):
@@ -58,7 +63,17 @@ class BaseFilterForm(forms.Form):
 
 
 class IndividualFilterForm(BaseFilterForm):
-    pass
+    donation_nature = forms.ChoiceField(
+        choices=[
+            ("", "---------"),
+        ]
+        + [
+            (key, DONATION_NATURE[key])
+            for item, key in enumerate(DONATION_NATURE)
+        ],
+        required=False,
+        label="Nature du don",
+    )
 
 
 class CompaniesFilterForm(BaseFilterForm):

@@ -35,8 +35,9 @@ ALLOWED_HOSTS = config(
     "ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.split(",")]
 )
 
-SITE = config("SITE")
-SITE_NAME = config("SITE_NAME", default="Bus scolaire de Chazeaux")
+SITE_URL = config("SITE_URL", default="http://localhost:8000")
+
+SITE_NAME = config("SITE_NAME", default="cerfaFiller")
 
 # Core dependencies
 INSTALLED_APPS = [
@@ -73,7 +74,7 @@ ROOT_URLCONF = "settings.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],  # new
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -97,6 +98,10 @@ DATABASES = {
     )
 }
 
+
+AUTH_USER_MODEL = "accounts.CustomUser"
+
+AUTHENTICATION_BACKENDS = ["accounts.backends.EmailBackend"]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -142,7 +147,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 IMPORT_EXPORT_FORMATS = [XLSX, CSV]
 
-LOGIN_URL = "accounts:login"
+LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "cerfa_filler:home"
 LOGOUT_REDIRECT_URL = LOGIN_URL
 
@@ -154,14 +159,18 @@ CSRF_TRUSTED_ORIGINS = config(
 )
 
 
+# EMAIL
+
 EMAIL_HOST = config("EMAIL_HOST", default="localhost")
 EMAIL_USE_SSL = config("EMAIL_USE_SSL", default=False, cast=bool)
+EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=False, cast=bool)
 EMAIL_PORT = config("EMAIL_PORT", default=587, cast=int)
-EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="emaileuser")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="emailpassword")
-EMAIL_SUBJECT_PREFIX = config("EMAIL_SUBJECT_PREFIX", default=SITE_NAME)
+EMAIL_HOST_USER = config("EMAIL_HOST_USER", default="dbchiro")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
+EMAIL_SUBJECT_PREFIX = config("EMAIL_SUBJECT_PREFIX", default="dbChiroWeb")
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default=EMAIL_HOST_USER)
 SERVER_EMAIL = config("SERVER_EMAIL", default=EMAIL_HOST_USER)
+
 PDF_EMAILS = config("PDF_EMAILS", default=EMAIL_HOST_USER, cast=Csv())
 
 

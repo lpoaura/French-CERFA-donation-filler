@@ -96,7 +96,7 @@ class CompaniesTest(TestCase):
     def test_mailto_property(self):
         self.company.email = "test@example.com"
         formattedSubject = "Tax receipt for your donation"
-        formattedLink = f"{settings.SITE}{reverse('cerfa_filler:companies-cerfa-pdf', kwargs={'pk': self.company.uuid})}"
+        formattedLink = f"{settings.SITE_URL}{reverse('cerfa_filler:companies-cerfa-pdf', kwargs={'pk': self.company.uuid})}"
         formattedBody = urllib.parse.quote(
             f"Hello,\n\nPlease find below a link to download your "
             f"tax receipt for your donation.\n\n{formattedLink}\n\nSincerely"

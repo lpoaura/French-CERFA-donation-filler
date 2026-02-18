@@ -305,7 +305,7 @@ class Companies(
 
     @property
     def cerfa_url(self):
-        return settings.SITE + reverse(
+        return settings.SITE_URL + reverse(
             "cerfa_filler:companies-cerfa-pdf", kwargs={"pk": self.uuid}
         )
 
@@ -340,7 +340,10 @@ class PrivateIndividual(
 
     @property
     def cerfa_url(self):
-        return settings.SITE + reverse(
+        return settings.SITE_URL + reverse(
             "cerfa_filler:private-individual-cerfa-pdf",
             kwargs={"pk": self.uuid},
         )
+
+    def __str__(self):
+        return f"{self.full_name}"
