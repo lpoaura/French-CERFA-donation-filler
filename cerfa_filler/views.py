@@ -288,7 +288,7 @@ class PrivateIndividualUpdateValidDateView(LoginRequiredMixin, View):
 
 
 class PrivateIndividualCerfaToPdf(DetailView):
-    template_name = "companies_cerfa.svg"
+    template_name = "individuals_cerfa.svg"
     model = PrivateIndividual
 
     def get(self, request, *args, **kwargs):
@@ -297,7 +297,7 @@ class PrivateIndividualCerfaToPdf(DetailView):
 
         # Generate PDF files from SVG templates
         pdfs = []
-        for template in ("companies_1.svg", "companies_2.svg"):
+        for template in ("individuals_1.svg", "individuals_2.svg"):
             svg_content = render_to_string(template, context)
             pdf_bytes = HTML(string=svg_content).write_pdf(
                 margin_top=0, margin_right=0, margin_bottom=0, margin_left=0
