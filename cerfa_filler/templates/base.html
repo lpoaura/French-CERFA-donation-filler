@@ -35,13 +35,15 @@ main > .container {
                                 <a href="/admin" class="nav-link">✇ Ca c'est touche pas à ça&nbsp;!</a>
                             </li>
                             {% endif %}
+                        <li>
+                            <a class="nav-link" href="{% url 'accounts:profile' %}">👤 {{user.username}}</a>
 
+                        </li>
                         <li class="nav-item">
                             <form action="{% url 'logout' %}" method="post">
                                 {% csrf_token %}
-                                <input type="submit" class="nav-link" value="🔒 Quitter ({{user.username}})"/>
+                                <input type="submit" class="nav-link" value="🔒 Quitter"/>
                             </form>
-
                         </li>
                         {%endif%}
                     </ul>

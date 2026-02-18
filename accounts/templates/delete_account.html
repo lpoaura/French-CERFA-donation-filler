@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-5">
+        <div class="card border-danger shadow-sm">
+          <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">Suppression du compte</h4>
+          </div>
+
+          <div class="card-body text-center">
+            <p class="mb-4">
+              Cette action est <strong>définitive</strong>. Voulez-vous vraiment supprimer votre compte&nbsp;?
+            </p>
+
+            <form method="post">
+              {% csrf_token %}
+
+              <button type="submit" class="btn btn-danger">Oui, supprimer mon compte</button>
+
+              <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">Annuler</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card shadow-sm">
+          <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Mon Profil</h4>
+          </div>
+
+          <div class="card-body">
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item">
+                <strong>Nom d'utilisateur :</strong>
+                {{ request.user.username }}
+              </li>
+
+              <li class="list-group-item">
+                <strong>Email :</strong>
+                {{ request.user.email }}
+              </li>
+
+              <li class="list-group-item">
+                <strong>Prénom :</strong>
+                {{ request.user.first_name|default:'-' }}
+              </li>
+
+              <li class="list-group-item">
+                <strong>Nom :</strong>
+                {{ request.user.last_name|default:'-' }}
+              </li>
+
+              <li class="list-group-item">
+                <strong>Date d'inscription :</strong>
+                {{ request.user.date_joined|date:'d/m/Y' }}
+              </li>
+            </ul>
+
+            <div class="d-grid gap-2">
+              <a href="{% url 'password_change' %}" class="btn btn-warning">Modifier mon mot de passe</a>
+
+              <a href="{% url 'accounts:delete_account' %}" class="btn btn-danger">Supprimer mon compte</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
