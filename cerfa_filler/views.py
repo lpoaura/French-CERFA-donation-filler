@@ -3,6 +3,7 @@ import io
 
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import FieldError
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
@@ -20,7 +21,13 @@ from django.views.generic import (
 from pypdf import PdfReader, PdfWriter
 from weasyprint import HTML
 
-from .forms import CompaniesForm, FilterForm, PrivateIndividualForm
+from .forms import (
+    BaseFilterForm,
+    CompaniesFilterForm,
+    CompaniesForm,
+    IndividualFilterForm,
+    PrivateIndividualForm,
+)
 from .models import BeneficiaryOrganization, Companies, PrivateIndividual
 
 # HOME
@@ -39,7 +46,6 @@ class BaseListView(ListView):
         year = self.request.GET.get("year")
         declarative_structure = self.request.GET.get("declarative_structure")
         validation = self.request.GET.get("validation")
-        print(validation, type(validation), bool(validation))
 
         if year:
             queryset = queryset.filter(date_start__year=year)
@@ -54,12 +60,13 @@ class BaseListView(ListView):
                 )
             except SyntaxError:
                 pass
-        print(queryset.query)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filterForm"] = FilterForm(self.request.GET, model=self.model)
+        context["filterForm"] = BaseFilterForm(
+            self.request.GET, model=self.model
+        )
         return context
 
 
@@ -128,6 +135,32 @@ class CompaniesListView(LoginRequiredMixin, BaseListView):
     template_name = "company_list.html"
     context_object_name = "companies"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filterForm"] = CompaniesFilterForm(
+            self.request.GET, model=self.model
+        )
+        return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        donation_kind = self.request.GET.get("donation_kind")
+        if donation_kind:
+            print("donation kind", donation_kind)
+            try:
+                if donation_kind == "cash":
+                    queryset = queryset.filter(
+                        cash_donation__isnull=False, cash_donation__gt=0
+                    )
+                if donation_kind == "nature":
+                    queryset = queryset.filter(
+                        inkind_donation__isnull=False, inkind_donation__gt=0
+                    )
+            except FieldError:
+                pass
+        return queryset
+
 
 @method_decorator(
     permission_required("cerfa_filler.create_companies"), name="dispatch"
@@ -179,6 +212,13 @@ class PrivateIndividualListView(LoginRequiredMixin, BaseListView):
     model = PrivateIndividual
     template_name = "private_individual_list.html"
     context_object_name = "individuals"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filterForm"] = IndividualFilterForm(
+            self.request.GET, model=self.model
+        )
+        return context
 
 
 @method_decorator(

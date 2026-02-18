@@ -17,7 +17,7 @@ class DatePicker(DateInput):
         )
 
 
-class FilterForm(forms.Form):
+class BaseFilterForm(forms.Form):
     year = forms.ChoiceField(
         choices=[],
         required=False,
@@ -55,6 +55,22 @@ class FilterForm(forms.Form):
                 for y in years
                 if y["date_start__year"] is not None
             ]
+
+
+class IndividualFilterForm(BaseFilterForm):
+    pass
+
+
+class CompaniesFilterForm(BaseFilterForm):
+    donation_kind = forms.ChoiceField(
+        choices=[
+            ("", "---------"),
+            ("cash", "Numéraire"),
+            ("nature", "En nature"),
+        ],
+        required=False,
+        label="Type de donation",
+    )
 
 
 class CompaniesForm(forms.ModelForm):

@@ -59,169 +59,52 @@
               {% endif %}
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
 
-
-
-
-
-
-              1
-
-
-
-
-
+                  1
 
                 {% else %}
 
+                  0
 
-
-
-
-
-              0
-
-
-
-
-
-
-                {% endif %})">
-                DT
-              </th>
-              <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}2{% else %}1{% endif %})">
-                Année
-              </th>
+                {% endif %})">DT</th>
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
 
-
-
-
-
-
-              3
-
-
-
-
-
+                  2
 
                 {% else %}
 
+                  1
 
-
-
-
-
-              2
-
-
-
-
-
-
-                {% endif %})">
-                Numéro d'ordre
-              </th>
+                {% endif %})">Numéro d'ordre</th>
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
 
-
-
-
-
-
-              4
-
-
-
-
-
+                  3
 
                 {% else %}
 
+                  2
 
-
-
-
-
-              3
-
-
-
-
-
-
-                {% endif %})">
-                Nom
-              </th>
+                {% endif %})">Nom</th>
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
 
-
-
-
-
-
-              5
-
-
-
-
-
+                  4
 
                 {% else %}
 
+                  3
 
-
-
-
-
-              4
-
-
-
-
-
-
-                {% endif %})">
-                Total
-              </th>
-              <th>
-                Commentaire
-              </th>
+                {% endif %})">Total</th>
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
 
-
-
-
-
-
-              7
-
-
-
-
-
+                  5
 
                 {% else %}
 
+                  4
 
-
-
-
-
-              6
-
-
-
-
-
-
-                {% endif %})">
-                Statut
-              </th>
+                {% endif %})">Commentaire</th>
+              <th>Statut</th>
               {% if perms.cerfa_filler.change_companies or perms.cerfa_filler.send_email %}
-                <th>
-                  Actions
-                </th>
+                <th>Actions</th>
               {% endif %}
             </tr>
           </thead>
@@ -234,41 +117,12 @@
                   </th>
                 {% endif %}
                 <td>{{ company.declarative_structure|default_if_none:'-' }}</td>
-                <td>{{ company.year }}</td>
-                <td>{{ company.order_number }}</td>
+                <td data="{{ company.order }}">{{ company.order_number }}</td>
                 <td>{{ company.label }}</td>
-                <td>{{ company.total_donation }} €</td>
+                <td data="{{ company.total_donation }}">{{ company.total_donation }} €</td>
                 <td>{{ company.comment|default_if_none:'' }}</td>
                 <td>
-                  <span class="text-{% if company.valid_date %}
-
-
-
-
-
-
-                  success
-
-
-
-
-
-
-                    {% else %}
-
-
-
-
-
-
-                  secondary
-
-
-
-
-
-
-                    {% endif %}">
+                  <span class="text-{% if company.valid_date %}success{% else %}default{% endif %}">
                     {% if company.valid_date %}
                       ⬤
                     {% else %}
@@ -294,31 +148,28 @@
       </form>
     </div>
   </div>
-<script>
-    const toggle= (source) => {
-        let checkboxes = document
-            .querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach((i) => {
-            if(i != source) {
-                i.checked = source.checked
-            }
+  <script>
+    const toggle = (source) => {
+      let checkboxes = document.querySelectorAll('input[type="checkbox"]')
+      checkboxes.forEach((i) => {
+        if (i != source) {
+          i.checked = source.checked
         }
-            )
-
+      })
     }
 
     function sortTable(columnIndex) {
-        const table = document.querySelector(".table tbody");
-        const rows = Array.from(table.rows);
-        const sortedRows = rows.sort((a, b) => {
-            const aText = a.cells[columnIndex].textContent.trim();
-            const bText = b.cells[columnIndex].textContent.trim();
-            return aText.localeCompare(bText);
-        });
-
-        // Clear the table and append sorted rows
-        table.innerHTML = "";
-        sortedRows.forEach(row => table.appendChild(row));
+      const table = document.querySelector('.table tbody')
+      const rows = Array.from(table.rows)
+      const sortedRows = rows.sort((a, b) => {
+        const isNumeric = a.cells[columnIndex].getAttribute('data') && b.cells[columnIndex].getAttribute('data')
+        aValue = a.cells[columnIndex].getAttribute('data') || a.cells[columnIndex].textContent.trim()
+        bValue = b.cells[columnIndex].getAttribute('data') || b.cells[columnIndex].textContent.trim()
+        return aValue.localeCompare(bValue, undefined, { numeric: isNumeric })
+      })
+      // Clear the table and append sorted rows
+      table.innerHTML = ''
+      sortedRows.forEach((row) => table.appendChild(row))
     }
-</script>
+  </script>
 {% endblock %}

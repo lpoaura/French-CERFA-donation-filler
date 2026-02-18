@@ -50,49 +50,42 @@
                 {% else %}
                   0
                 {% endif %})">
-                {% translate 'Declarative structure' %}
+                DT
               </th>
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
                   2
                 {% else %}
                   1
                 {% endif %})">
-                {% translate 'Year' %}
+                Numéro d'ordre
               </th>
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
                   3
                 {% else %}
                   2
                 {% endif %})">
-                {% translate 'Order number' %}
+                Nom
               </th>
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
                   4
                 {% else %}
                   3
                 {% endif %})">
-                {% translate 'Name' %}
-              </th>
-              <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
-                  5
-                {% else %}
-                  4
-                {% endif %})">
-                {% translate 'Total donation' %}
+                Total
               </th>
               <th>
-                {% translate 'Comment' %}
+                Commentaire
               </th>
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
-                  7
-                {% else %}
                   6
+                {% else %}
+                  5
                 {% endif %})">
-                {% translate 'Status' %}
+                Statut
               </th>
               {% if perms.cerfa_filler.change_individuals or perms.cerfa_filler.send_email %}
                 <th>
-                  {% translate 'Actions' %}
+                  Actions
                 </th>
               {% endif %}
             </tr>
@@ -106,17 +99,12 @@
                   </th>
                 {% endif %}
                 <td>{{ individu.declarative_structure|default_if_none:'-' }}</td>
-                <td>{{ individu.year }}</td>
-                <td>{{ individu.order_number }}</td>
+                <td data="{{individu.order}}">{{ individu.order_number }}</td>
                 <td>{{ individu.full_name }}</td>
-                <td>{{ individu.cash_donation }} €</td>
+                <td data="{{individu.cash_donation}}">{{ individu.cash_donation }} €</td>
                 <td>{{ individu.comment|default_if_none:'' }}</td>
                 <td>
-                  <span class="text-{% if individu.valid_date %}
-                      success
-                    {% else %}
-                      secondary
-                    {% endif %}">
+                  <span class="text-{% if individu.valid_date %}success{% else %}default{% endif %}">
                     {% if individu.valid_date %}
                       ⬤
                     {% else %}
@@ -156,11 +144,11 @@
       const table = document.querySelector('.table tbody')
       const rows = Array.from(table.rows)
       const sortedRows = rows.sort((a, b) => {
-        const aText = a.cells[columnIndex].textContent.trim()
-        const bText = b.cells[columnIndex].textContent.trim()
-        return aText.localeCompare(bText)
+        const isNumeric = a.cells[columnIndex].getAttribute('data') && b.cells[columnIndex].getAttribute('data')
+        aValue = a.cells[columnIndex].getAttribute('data') || a.cells[columnIndex].textContent.trim()
+        bValue = b.cells[columnIndex].getAttribute('data') || b.cells[columnIndex].textContent.trim()
+        return aValue.localeCompare(bValue, undefined, { numeric: isNumeric })
       })
-
       // Clear the table and append sorted rows
       table.innerHTML = ''
       sortedRows.forEach((row) => table.appendChild(row))
