@@ -1,5 +1,6 @@
 import base64
 import io
+from datetime import datetime
 
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -35,6 +36,30 @@ from .models import BeneficiaryOrganization, Companies, PrivateIndividual
 
 class Home(TemplateView):
     template_name = "home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        company_max_year = (
+            Companies.objects.values("date_start__year")
+            .distinct()
+            .order_by("-date_start")
+            .first()
+        )
+        context["company_max_year"] = company_max_year.get(
+            "date_start__year", datetime.now().year
+        )
+
+        individual_max_year = (
+            PrivateIndividual.objects.values("date_start__year")
+            .distinct()
+            .order_by("-date_start")
+            .first()
+        )
+        context["individual_max_year"] = individual_max_year.get(
+            "date_start__year", datetime.now().year
+        )
+        return context
 
 
 # COMPANIES

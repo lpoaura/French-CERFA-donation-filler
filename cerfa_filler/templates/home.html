@@ -13,7 +13,7 @@
                 <div class="card text-center text-bg-info " >
                     <div class="card-body">
                         <h2 class="card-title">Personnes morales</h2>
-                        <a href="{% url 'cerfa_filler:companies-list' %}?year={% now "Y" %}" class="btn btn-primary">Accéder aux dons</a>
+                        <a href="{% url 'cerfa_filler:companies-list' %}?year={{company_max_year}}" class="btn btn-primary">Accéder aux dons</a>
                     </div>
                 </div>
             </div>
@@ -22,7 +22,7 @@
                 <div class="card text-center text-bg-success">
                     <div class="card-body">
                         <h2 class="card-title">Particuliers</h2>
-                        <a href="{% url 'cerfa_filler:private-individual-list' %}?year={% now "Y" %}"  class="btn btn-primary">Accéder aux dons</a>
+                        <a href="{% url 'cerfa_filler:private-individual-list' %}?year={{individual_max_year}}"  class="btn btn-primary">Accéder aux dons</a>
                     </div>
                 </div>
             </div>
