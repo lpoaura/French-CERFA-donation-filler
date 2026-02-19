@@ -118,7 +118,9 @@
                     {% endif %}
                     {% if perms.cerfa_filler.send_email and individu.valid_date %}
                       <a href="{% url 'cerfa_filler:private-individual-cerfa-pdf' individu.uuid %}" class="btn btn-sm btn-success">Cerfa</a>
-                      <a class="btn btn-sm btn-info" href="{{ individu.mailto }}">Email</a>
+                      {% if individu.mailto %}
+                        <a class="btn btn-sm btn-info" href="{{ individu.mailto }}">Email</a>
+                      {% endif %}
                     {% endif %}
                   </td>
                 {% endif %}

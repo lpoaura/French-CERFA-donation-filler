@@ -54,25 +54,26 @@ class BaseModel(models.Model):
 
 
 class EmailBaseModel(models.Model):
-    emails = MultiEmailField(null=True, blank=True, default=[])
+    emails = MultiEmailField(null=True, blank=True)
 
     class Meta:
         abstract = True
 
     @property
     def mailto(self):
-        formattedBody = (
-            "Bonjour,\n\nVeuillez trouver ci-dessous le lien pour récupérer"
-            " le reçu fiscal suite à votre don à la LPO AuRA.\n\nEn vous remerciant"
-            f" pour votre soutien et votre générosité.\n\n{self.cerfa_url}\n\n"
-            "Je reste à votre disposition si nécessaire.\nBien cordialement,"
-        )
-        formattedSubject = "Reçu fiscal LPO AuRA"
-        mailto = (
-            f"mailto:{','.join(self.emails)}?subject={formattedSubject}"
-            f"&body={urllib.parse.quote(formattedBody)}"
-        )
-        return mailto
+        if self.emails:
+            formattedBody = (
+                "Bonjour,\n\nVeuillez trouver ci-dessous le lien pour récupérer"
+                " le reçu fiscal suite à votre don à la LPO AuRA.\n\nEn vous remerciant"
+                f" pour votre soutien et votre générosité.\n\n{self.cerfa_url}\n\n"
+                "Je reste à votre disposition si nécessaire.\nBien cordialement,"
+            )
+            formattedSubject = "Reçu fiscal LPO AuRA"
+            mailto = (
+                f"mailto:{','.join(self.emails)}?subject={formattedSubject}"
+                f"&body={urllib.parse.quote(formattedBody)}"
+            )
+            return mailto
 
 
 class DeclarativeStructure(models.Model):
@@ -123,7 +124,7 @@ class AddressBaseModel(models.Model):
 class BaseOrganization(BaseModel, AddressBaseModel):
     uuid = models.UUIDField(default=uuid4, unique=True, primary_key=True)
     label = models.CharField(max_length=200, verbose_name="Nom")
-    emails = MultiEmailField(null=True, blank=True, default=[])
+    emails = MultiEmailField(null=True, blank=True)
     legal_status = models.ForeignKey(
         CompanyLegalForms,
         verbose_name="Forme juridique",

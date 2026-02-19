@@ -137,7 +137,9 @@
                     {% endif %}
                     {% if perms.cerfa_filler.send_email and company.valid_date %}
                       <a href="{% url 'cerfa_filler:companies-cerfa-pdf' company.uuid %}" class="btn btn-sm btn-success">Cerfa</a>
-                      <a class="btn btn-sm btn-info" href="{{ company.mailto }}">Email</a>
+                      {% if company.mailto %}
+                        <a class="btn btn-sm btn-info" href="{{ company.mailto }}">Email</a>
+                      {% endif %}
                     {% endif %}
                   </td>
                 {% endif %}
