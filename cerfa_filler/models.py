@@ -282,6 +282,7 @@ class Companies(
     BaseOrganization,
     DonationMetadataBaseModel,
     AddressBaseModel,
+    EmailBaseModel,
     CashAndInkindDonationBaseModel,
 ):
     def __str__(self):
