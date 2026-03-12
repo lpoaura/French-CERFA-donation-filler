@@ -110,7 +110,7 @@
           </thead>
           <tbody class="table-group-divider">
             {% for company in companies %}
-              <tr data-bs-toggle="tooltip" data-bs-placement="top" title="{{ company.metadata }}">
+              <tr class="{% if not company.tax_receipt%}table-warning{%endif%}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ company.metadata }}">
                 {% if perms.cerfa_filler.change_validation %}
                   <th>
                     <input type="checkbox" name="selected_companies" value="{{ company.uuid }}" />
@@ -135,7 +135,7 @@
                     {% if perms.cerfa_filler.change_companies %}
                       <a href="{% url 'cerfa_filler:companies-update' company.uuid %}" class="btn btn-sm btn-warning">Edit</a>
                     {% endif %}
-                    {% if perms.cerfa_filler.send_email and company.valid_date %}
+                    {% if perms.cerfa_filler.send_email and company.valid_date and company.tax_receipt %}
                       <a href="{% url 'cerfa_filler:companies-cerfa-pdf' company.uuid %}" class="btn btn-sm btn-success">Cerfa</a>
                       {% if company.mailto %}
                         <a class="btn btn-sm btn-info" href="{{ company.mailto }}">Email</a>

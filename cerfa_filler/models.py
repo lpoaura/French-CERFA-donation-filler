@@ -42,6 +42,17 @@ DONATION_NATURE = {
 }
 
 
+class CerfaBaseModel(models.Model):
+    tax_receipt = models.BooleanField(
+        verbose_name="Reçu fiscal",
+        help_text="Souhaite recevoir un reçu fiscal",
+        default=True,
+    )
+
+    class Meta:
+        abstract = True
+
+
 class BaseModel(models.Model):
     timestamp_create = models.DateTimeField(auto_now_add=True, editable=False)
     timestamp_update = models.DateTimeField(auto_now=True, editable=False)
@@ -281,6 +292,7 @@ class DonationMetadataBaseModel(models.Model):
 
 class Companies(
     BaseOrganization,
+    CerfaBaseModel,
     DonationMetadataBaseModel,
     AddressBaseModel,
     EmailBaseModel,
@@ -314,6 +326,7 @@ class Companies(
 
 class PrivateIndividual(
     BaseModel,
+    CerfaBaseModel,
     AddressBaseModel,
     CashDonationBaseModel,
     EmailBaseModel,

@@ -101,6 +101,7 @@ class CompaniesForm(forms.ModelForm):
         model = Companies
         fields = [
             "declarative_structure",
+            "tax_receipt",
             "label",
             "legal_status",
             "emails",
@@ -130,6 +131,7 @@ class PrivateIndividualForm(forms.ModelForm):
         model = PrivateIndividual
         fields = [
             "declarative_structure",
+            "tax_receipt",
             "first_name",
             "last_name",
             "emails",

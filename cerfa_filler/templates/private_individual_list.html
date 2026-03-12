@@ -38,7 +38,7 @@
 
         <table class="table table-striped">
           <thead>
-            <tr>
+            <tr >
               {% if perms.cerfa_filler.change_validation %}
                 <th>
                   <input type="checkbox" onclick="toggle(this);" />
@@ -91,7 +91,7 @@
           </thead>
           <tbody class="table-group-divider">
             {% for individu in individuals %}
-              <tr data-bs-toggle="tooltip" data-bs-placement="top" title="{{ individu.metadata }}">
+              <tr class="{% if not individu.tax_receipt%}table-warning{%endif%}" data-bs-toggle="tooltip" data-bs-placement="top" title="{{ individu.metadata }}">
                 {% if perms.cerfa_filler.change_validation %}
                   <th>
                     <input type="checkbox" name="selected_individuals" value="{{ individu.uuid }}" />
@@ -116,7 +116,7 @@
                     {% if perms.cerfa_filler.change_individuals %}
                       <a href="{% url 'cerfa_filler:private-individual-update' individu.uuid %}" class="btn btn-sm btn-warning">Edit</a>
                     {% endif %}
-                    {% if perms.cerfa_filler.send_email and individu.valid_date %}
+                    {% if perms.cerfa_filler.send_email and individu.valid_date and individu.tax_receipt %}
                       <a href="{% url 'cerfa_filler:private-individual-cerfa-pdf' individu.uuid %}" class="btn btn-sm btn-success">Cerfa</a>
                       {% if individu.mailto %}
                         <a class="btn btn-sm btn-info" href="{{ individu.mailto }}">Email</a>
