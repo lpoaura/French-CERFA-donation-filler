@@ -58,50 +58,30 @@
                 </th>
               {% endif %}
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
-
                   1
-
                 {% else %}
-
                   0
-
                 {% endif %})">DT</th>
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
-
                   2
-
                 {% else %}
-
                   1
-
                 {% endif %})">Numéro d'ordre</th>
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
-
                   3
-
                 {% else %}
-
                   2
-
                 {% endif %})">Nom</th>
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
-
                   4
-
                 {% else %}
-
                   3
-
                 {% endif %})">Total</th>
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
-
                   5
-
                 {% else %}
-
                   4
-
-                {% endif %})">Commentaire</th>
+                {% endif %})">Date du don</th>
               <th>Statut</th>
               {% if perms.cerfa_filler.change_companies or perms.cerfa_filler.send_email %}
                 <th>Actions</th>
@@ -120,7 +100,7 @@
                 <td data="{{ company.order }}">{{ company.order_number }}</td>
                 <td>{{ company.label }}</td>
                 <td data="{{ company.total_donation }}">{{ company.total_donation }} €</td>
-                <td>{{ company.comment|default_if_none:'' }}</td>
+                <td>{{ company.date_start }}</td>
                 <td>
                   <span class="text-{% if company.valid_date %}success{% else %}default{% endif %}">
                     {% if company.valid_date %}

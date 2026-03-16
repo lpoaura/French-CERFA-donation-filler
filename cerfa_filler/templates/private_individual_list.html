@@ -73,7 +73,7 @@
                 Total
               </th>
               <th>
-                Commentaire
+                Date du don
               </th>
               <th onclick="sortTable({% if perms.cerfa_filler.change_validation %}
                   6
@@ -101,7 +101,7 @@
                 <td data="{{individu.order}}">{{ individu.order_number }}</td>
                 <td>{{ individu.full_name }}</td>
                 <td data="{{individu.cash_donation}}">{{ individu.cash_donation }} €</td>
-                <td>{{ individu.comment|default_if_none:'' }}</td>
+                <td>{{ individu.date_start }}</td>
                 <td>
                   <span class="text-{% if individu.valid_date %}success{% else %}default{% endif %}">
                     {% if individu.valid_date %}
