@@ -1,6 +1,7 @@
 import base64
 import io
 from datetime import datetime
+from urllib.parse import urlencode
 
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -66,11 +67,40 @@ class Home(TemplateView):
 
 
 class BaseListView(ListView):
+    ignore_params = ("page",)
+    session_key = "cerfaFiller:list:filters"
+
+    def get_filter_querystring(self):
+        # Return encoded querystring of filter params (exclude ignored)
+        qs_dict = {
+            k: v
+            for k, v in self.request.GET.items()
+            if k not in self.ignore_params
+        }
+        return urlencode(qs_dict, doseq=True)
+
+    def get(self, request, *args, **kwargs):
+        # If there are GET params, save them
+        if request.GET:
+            qs = self.get_filter_querystring()
+            if qs:
+                request.session[self.session_key] = qs
+                request.session.modified = True
+        # If no GET params but session has saved filters, restore via redirect
+        elif self.session_key in request.session:
+            qs = request.session.get(self.session_key)
+            if qs:
+                return redirect(f"{request.path}?{qs}")
+        return super().get(request, *args, **kwargs)
+
     def get_queryset(self):
         queryset = super().get_queryset()
-        year = self.request.GET.get("year")
-        declarative_structure = self.request.GET.get("declarative_structure")
-        validation = self.request.GET.get("validation")
+        params = self.request.GET
+
+        # get parameters
+        year = params.get("year")
+        declarative_structure = params.get("declarative_structure")
+        validation = params.get("validation")
 
         if year:
             queryset = queryset.filter(date_start__year=year)
@@ -230,7 +260,7 @@ class CompaniesUpdateValidDateView(LoginRequiredMixin, View):
 
 
 @method_decorator(
-    permission_required("cerfa_filler.view_private_individuals"),
+    permission_required("cerfa_filler.view_privateindividual"),
     name="dispatch",
 )
 class PrivateIndividualListView(LoginRequiredMixin, BaseListView):
@@ -257,7 +287,7 @@ class PrivateIndividualListView(LoginRequiredMixin, BaseListView):
 
 
 @method_decorator(
-    permission_required("cerfa_filler.create_private_individuals"),
+    permission_required("cerfa_filler.create_privateindividual"),
     name="dispatch",
 )
 class PrivateIndividualCreateView(LoginRequiredMixin, CreateView):
@@ -268,7 +298,7 @@ class PrivateIndividualCreateView(LoginRequiredMixin, CreateView):
 
 
 @method_decorator(
-    permission_required("cerfa_filler.change_private_individuals"),
+    permission_required("cerfa_filler.change_privateindividual"),
     name="dispatch",
 )
 class PrivateIndividualUpdateView(LoginRequiredMixin, UpdateView):
