@@ -259,7 +259,7 @@ class DonationMetadataBaseModel(models.Model):
     declarative_structure = models.ForeignKey(
         DeclarativeStructure,
         verbose_name="Délégation territoriale",
-        on_delete=models.SET_NULL,
+        on_delete=models.DO_NOTHING,
     )
 
     class Meta:
