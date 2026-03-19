@@ -287,7 +287,7 @@ class PrivateIndividualListView(LoginRequiredMixin, BaseListView):
 
 
 @method_decorator(
-    permission_required("cerfa_filler.create_privateindividual"),
+    permission_required("cerfa_filler.add_privateindividual"),
     name="dispatch",
 )
 class PrivateIndividualCreateView(LoginRequiredMixin, CreateView):
