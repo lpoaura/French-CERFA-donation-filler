@@ -28,7 +28,7 @@
       <form id="update-form" method="post" action="{% url 'cerfa_filler:private-individual-update-valid-date' %}">
         {% csrf_token %}
         <div class="float-end">
-          {% if perms.cerfa_filler.add_individuals %}
+          {% if perms.cerfa_filler.add_privateindividual %}
             <a class="btn btn-primary" href="{% url 'cerfa_filler:private-individual-create' %}">＋ Nouveau</a>
           {% endif %}
           {% if perms.cerfa_filler.change_validation %}

@@ -116,7 +116,6 @@ class CompaniesForm(forms.ModelForm):
             "cash_payment_type",
             "inkind_donation",
             "inkind_donation_description",
-            "cheque_deposit_date",
             "date_start",
             "date_end",
             "comment",

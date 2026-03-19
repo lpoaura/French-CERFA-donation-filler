@@ -181,9 +181,6 @@ class CashDonationBaseModel(models.Model):
         null=True,
         verbose_name="Type de paiement",
     )
-    cheque_deposit_date = models.DateField(
-        null=True, blank=True, verbose_name="Date de dépôt de chèque"
-    )
 
     class Meta:
         abstract = True
@@ -262,8 +259,6 @@ class DonationMetadataBaseModel(models.Model):
     declarative_structure = models.ForeignKey(
         DeclarativeStructure,
         verbose_name="Délégation territoriale",
-        blank=True,
-        null=True,
         on_delete=models.SET_NULL,
     )
 

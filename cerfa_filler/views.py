@@ -218,7 +218,7 @@ class CompaniesListView(LoginRequiredMixin, BaseListView):
 
 
 @method_decorator(
-    permission_required("cerfa_filler.create_companies"), name="dispatch"
+    permission_required("cerfa_filler.add_companies"), name="dispatch"
 )
 class CompaniesCreateView(LoginRequiredMixin, CreateView):
     model = Companies
