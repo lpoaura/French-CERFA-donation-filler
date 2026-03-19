@@ -271,7 +271,7 @@ class DonationMetadataBaseModel(models.Model):
 
     @property
     def order_number(self):
-        return f"{self.year}-PM-{self.order}"
+        return f"{self.year}-{self.order}"
 
     def save(self, *args, **kwargs):
         if not self.order:
@@ -295,6 +295,10 @@ class Companies(
 ):
     def __str__(self):
         return f"{self.label} - {self.date_start} - {self.total_donation}"
+
+    @property
+    def order_number(self):
+        return f"{self.year}-PM-{self.order}"
 
     @property
     def metadata(self) -> Optional[str]:
@@ -354,6 +358,10 @@ class PrivateIndividual(
             "cerfa_filler:private-individual-cerfa-pdf",
             kwargs={"pk": self.uuid},
         )
+
+    @property
+    def order_number(self):
+        return f"{self.year}-PP-{self.order}"
 
     def __str__(self):
         return f"{self.full_name}"
