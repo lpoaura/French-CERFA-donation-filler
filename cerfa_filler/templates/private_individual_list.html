@@ -82,7 +82,7 @@
                 {% endif %})">
                 Statut
               </th>
-              {% if perms.cerfa_filler.change_individuals or perms.cerfa_filler.send_email %}
+              {% if perms.cerfa_filler.change_privateindividual or perms.cerfa_filler.send_email %}
                 <th>
                   Actions
                 </th>
@@ -111,9 +111,9 @@
                     {% endif %}
                   </span>
                 </td>
-                {% if perms.cerfa_filler.change_individuals or perms.cerfa_filler.send_email %}
+                {% if perms.cerfa_filler.change_privateindividual or perms.cerfa_filler.send_email %}
                   <td>
-                    {% if perms.cerfa_filler.change_individuals %}
+                    {% if perms.cerfa_filler.change_privateindividual %}
                       <a href="{% url 'cerfa_filler:private-individual-update' individu.uuid %}" class="btn btn-sm btn-warning">Edit</a>
                     {% endif %}
                     {% if perms.cerfa_filler.send_email and individu.valid_date and individu.tax_receipt %}
