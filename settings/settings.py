@@ -77,6 +77,9 @@ TEMPLATES = [
         "DIRS": [BASE_DIR / "templates"],  # new
         "APP_DIRS": True,
         "OPTIONS": {
+            "libraries": {
+                "svg_text": "cerfa_filler.templatetags.svg_text",
+            },
             "context_processors": [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",

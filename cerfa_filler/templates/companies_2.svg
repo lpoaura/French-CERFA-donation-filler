@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-      <style id="style1">
-      @page {
-            size: A4;
-            margin: 0mm;
-            }
-   </style>
+<!-- {% load svg_text %} -->
+<style id="style1">
+  @page {
+    size: A4;
+    margin: 0mm;
+  }
+</style>
 <svg
    width="210mm"
    height="297mm"
@@ -12,7 +13,7 @@
    version="1.1"
    id="svg4470"
    sodipodi:docname="companies_2.svg"
-   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
    xml:space="preserve"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -29,10 +30,10 @@
    inkscape:pagecheckerboard="0"
    inkscape:deskcolor="#d1d1d1"
    inkscape:zoom="0.7071068"
-   inkscape:cx="395.27268"
-   inkscape:cy="654.78086"
-   inkscape:window-width="1920"
-   inkscape:window-height="1043"
+   inkscape:cx="-219.9102"
+   inkscape:cy="665.38746"
+   inkscape:window-width="2560"
+   inkscape:window-height="1411"
    inkscape:window-x="0"
    inkscape:window-y="0"
    inkscape:window-maximized="1"
@@ -40,6 +41,11 @@
    showgrid="false"
    inkscape:document-units="mm" /><defs
    id="defs187"><rect
+     x="38.183765"
+     y="517.60215"
+     width="718.42047"
+     height="62.225396"
+     id="rect2" /><rect
      x="38.366758"
      y="535.40647"
      width="720.51213"
@@ -23645,9 +23651,11 @@
      y="859.07983"
      style="font-weight:bold;font-size:14.6513px;text-align:start;text-anchor:start;stroke-width:105.76">{{ object.valid_date|default_if_none:'' }}</tspan></text><text
    xml:space="preserve"
-   id="text1"
-   style="font-weight:bold;font-size:14.6667px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';writing-mode:lr-tb;direction:ltr;white-space:pre;shape-inside:url(#rect1);fill:#333333;stroke-width:2;stroke-linecap:round"
-   transform="translate(2.4746686e-6,-8.4852792)"><tspan
-     x="38.367188"
-     y="548.75112"
-     id="tspan2">{{ object.inkind_donation_description|default_if_none:'-'}}</tspan></text></svg>
+   id="text2"
+   style="font-size:14.6667px;writing-mode:lr-tb;direction:ltr;display:inline;fill:#000000"
+   transform="translate(1.4142135,8.4852807)">{% for line in object.inkind_donation_description|svg_wrap:"700,14.6667,3" %}<tspan
+     x="38.183594"
+     {% if forloop.first %}y="530.94643"{% else %}dy="17"{% endif %}
+     id="tspan9-{{ forloop.counter }}"><tspan
+       style="font-weight:bold"
+       id="tspan1-{{ forloop.counter }}">{{ line }}</tspan></tspan>{% endfor %}</text></svg>
