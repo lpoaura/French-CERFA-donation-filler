@@ -19,6 +19,7 @@
 **/compose*
 **/Dockerfile*
 **/node_modules
+**/staticfiles
 **/npm-debug.log
 **/obj
 **/secrets.dev.yaml
