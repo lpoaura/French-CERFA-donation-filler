@@ -1,18 +1,15 @@
 #!/bin/bash
 
-
-shopt -s dotglob nullglob
+set -Eeuo pipefail
 
 cd /app
 
-python3 -m manage migrate
-python3 -m manage loaddata legal_forms.json group.json
-
-if [ $DEBUG = true ]
-then
-    echo "Starting dev mode"
-    python -m manage runserver 0.0.0.0:8000
-else
-    echo "Starting prod mode"
-    gunicorn -b 0.0.0.0:8000 -t ${GUNICORN_TIMEOUT:-180} settings.wsgi
+if [[ "${RUN_MIGRATIONS:-true}" == "true" ]]; then
+    python -m manage migrate --noinput
 fi
+
+if [[ "${LOAD_INITIAL_DATA:-false}" == "true" ]]; then
+    python -m manage loaddata legal_forms.json group.json
+fi
+
+exec "$@"

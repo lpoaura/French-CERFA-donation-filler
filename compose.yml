@@ -1,10 +1,48 @@
 services:
   cerfafiller:
-    image: cerfafiller
-    env_file:
-      .env
+    image: cerfafiller:${IMAGE_TAG:-latest}
     build:
       context: .
       dockerfile: ./Dockerfile
+    env_file:
+      - .env
+    environment:
+      DEBUG: "false"
+      RUN_MIGRATIONS: "${RUN_MIGRATIONS:-true}"
+      LOAD_INITIAL_DATA: "${LOAD_INITIAL_DATA:-false}"
+      SECURE_SSL_REDIRECT: "${SECURE_SSL_REDIRECT:-true}"
+      SESSION_COOKIE_SECURE: "${SESSION_COOKIE_SECURE:-true}"
+      SECURE_HSTS_SECONDS: "${SECURE_HSTS_SECONDS:-31536000}"
+      GUNICORN_CMD_ARGS: "${GUNICORN_CMD_ARGS:---bind=0.0.0.0:8000 --workers=2 --threads=2 --timeout=180 --access-logfile=- --error-logfile=-}"
     ports:
-      - 8000:8000
+      - "${BIND_ADDRESS:-127.0.0.1}:${PORT:-8000}:8000"
+    volumes:
+      - cerfafiller_media:/app/media
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:size=256m,mode=1777
+    restart: unless-stopped
+    stop_grace_period: 30s
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import socket; socket.create_connection(('127.0.0.1', 8000), 5).close()"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
+
+volumes:
+  cerfafiller_media:
