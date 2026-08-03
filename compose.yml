@@ -8,6 +8,7 @@ services:
       - .env
     environment:
       DEBUG: "false"
+      XDG_CACHE_HOME: /tmp/.cache
       RUN_MIGRATIONS: "${RUN_MIGRATIONS:-true}"
       LOAD_INITIAL_DATA: "${LOAD_INITIAL_DATA:-false}"
       SECURE_SSL_REDIRECT: "${SECURE_SSL_REDIRECT:-true}"
